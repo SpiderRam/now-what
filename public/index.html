@@ -45,7 +45,7 @@
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button id="searchSubmit" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <button class="searchSubmit"  type="submit">Search</button>
       </form>
     </div>
   </nav>
@@ -80,10 +80,14 @@
         <div class="card" id="cardThree">
           <div class="card-body">
             <h5 class="card-title">Courses</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+            <div id='udemySearch'>
+              <h4>Expand my skillset!</h4>  
+              <p>Teach me about... <span class="searchTerm">{{ query }}</span></p>
+              <form class="form-inline my-2 my-lg-0" id="udemyForm" v-on:click="clearForm">
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search" v-on:input="logSearch">
+                  <button class="searchSubmit" class="btn btn-outline-success my-2 my-sm-0" type="submit" v-on:click="queryUdemy">Search</button>
+                </form>
+            </div>
           </div>
         </div>
       </div>
@@ -91,10 +95,14 @@
         <div class="card" id="cardFour">
           <div class="card-body">
             <h5 class="card-title">Videos</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+            <div id='youTubeSearch'>
+                <h4>Show me how it's done!</h4>
+                <p>Give me tutorials about... <span class="searchTerm"></span></p>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" v-on:input="logSearch">
+                    <button class="searchSubmit" class="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button>
+                  </form>
+              </div>
           </div>
         </div>
       </div>

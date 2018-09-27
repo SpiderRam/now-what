@@ -19,13 +19,15 @@ nav {
     background-image: url("../images/trianglify.png");
 }
 
-#searchSubmit {
+.searchSubmit {
     color: midnightblue;
     background-color: transparent;
     border: 1px solid midnightblue;
+    padding: .375rem .75rem;
+    border-radius: .25rem;
 }
 
-#searchSubmit:hover {
+.searchSubmit:hover {
     background-image: url("../images/button-blue.png");
     color: white;
     border: 1px solid white;
@@ -38,4 +40,25 @@ nav {
 .card {
     margin-top: 30px;
     background-image: url("../images/trianglify.png");
+    font-size: 20px;
+}
+
+.card-title {
+    font-family: 'Aldrich', sans-serif;
+    font-size: 40px;
+    text-shadow: 2px 2px 5px steelblue;
+}
+
+h4 {
+    text-shadow: 1px 1px 3px steelblue;
+}
+
+p {
+    margin-bottom: 0px;
+}
+
+.searchTerm {
+    font-family: 'Aldrich', sans-serif;
+    font-size: 40px;
+    text-shadow: 2px 2px 5px steelblue;
 }
