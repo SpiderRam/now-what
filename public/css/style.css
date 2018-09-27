@@ -1,0 +1,41 @@
+.jumbotron {
+    background-image: url("../images/blue-tech.jpg");
+    margin-bottom: 0px;
+    background-size: cover;
+}
+
+#title {
+    color: white;
+    font-size: 80px;
+    font-family: 'Aldrich', sans-serif;
+}
+
+#subtitle {
+    color: white;
+    text-shadow: 2px 2px 5px steelblue;
+}
+
+nav {
+    background-image: url("../images/trianglify.png");
+}
+
+#searchSubmit {
+    color: midnightblue;
+    background-color: transparent;
+    border: 1px solid midnightblue;
+}
+
+#searchSubmit:hover {
+    background-image: url("../images/button-blue.png");
+    color: white;
+    border: 1px solid white;
+}
+
+.container {
+    margin-bottom: 100px;
+}
+
+.card {
+    margin-top: 30px;
+    background-image: url("../images/trianglify.png");
+}
