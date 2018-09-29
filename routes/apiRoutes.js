@@ -3,11 +3,9 @@ module.exports = function(app) {
   var request = require("request");
   
   app.get("/udemy/:udemyQuery", function(req, res){
-    //console.log("udemy request sent", req.body);
     var udemyQuery = req.params.udemyQuery;
     console.log(udemyQuery);
     request ({
-      // url: "https://www.udemy.com/api-2.0/courses/?page=2&page_size=12",
       url: "https://www.udemy.com/api-2.0/courses/?search=" + udemyQuery + "&page=2&page_size=12",
         headers: {
           "Accept": "application/json, text/plain, */*",
@@ -16,7 +14,6 @@ module.exports = function(app) {
         }
     },function(err, raw, body){
       res.json(body);
-      // console.log(body);
     });
   });
 

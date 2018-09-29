@@ -63,7 +63,18 @@
     <div class="card">
       <h5 class="card-header" id="searchTerm">{{ searchInput }} Results: </h5>
       <div class="card-body">
-        <div id="searchResults"></div>
+        <div id="searchResults">
+            <template v-for="result in udemyResults.results">
+              <div style="margin-top: 10px;">
+                <div>{{ result.title }} {{ result.price }}</div>
+              </div>
+            </template>
+            <template v-for="result in youtubeResults">
+                <div style="margin-top: 10px;">
+                  <div>{{JSON.stringify(result)}}</div>
+                </div>
+              </template>
+        </div>
       </div>
     </div>
 
