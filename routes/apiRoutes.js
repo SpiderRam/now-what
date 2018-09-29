@@ -16,7 +16,7 @@ module.exports = function(app) {
   app.get("/youtube", function(req, res){
 
     request ({
-      url: "https://www.googleapis.com/youtube/v3/search?part=snippet&q=dogs&type=video&key=" + process.env.YOU_TUBE_API,
+      url: "https://www.googleapis.com/youtube/v3/search?part=snippet&q=dogs=&type=video&key=" + process.env.YOU_TUBE_API,
         
         
     },function(err, raw, body){
