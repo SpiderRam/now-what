@@ -6,115 +6,77 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Now What?</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>	
-  <link type="text/css" href="../css/style.css" rel="stylesheet" media="screen"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link type="text/css" href="../css/style.css" rel="stylesheet" media="screen">
   <link href="https://fonts.googleapis.com/css?family=Aldrich" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
 <body>
+  <div id="vueContainer">
 
-  <div class="jumbotron jumbotron-fluid">
-    <div class="container">
-      <div id="title">Now What?</div>
-      <p id="subtitle" class="lead">Your hub for skill building, jobs, and research in your quest to enter the world of web development.</p>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <div id="title">Now What?</div>
+        <p id="subtitle" class="lead">Your hub for skill building, jobs, and research in your quest to enter the world
+          of web development.</p>
 
-    </div>
-  </div>
-
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Articles</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Courses</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Jobs</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Videos</a>
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="searchSubmit"  type="submit">Search</button>
-      </form>
-    </div>
-  </nav>
-
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <div class="card" id="cardOne">
-          <div class="card-body">
-            <h5 class="card-title">Trending Articles</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card" id="cardTwo">
-          <div class="card-body">
-            <h5 class="card-title">Jobs</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col">
-        <div class="card" id="cardThree">
-          <div class="card-body">
-            <h5 class="card-title">Courses</h5>
-            <div id='udemySearch'>
-              <h4>Expand my skillset!</h4>  
-              <p>Teach me about... <span class="searchTerm">{{ query }}</span></p>
-              <form class="form-inline my-2 my-lg-0" id="udemyForm" v-on:click="clearForm">
-                  <input class="form-control mr-sm-2" type="search" placeholder="Search" v-on:input="logSearch">
-                  <button class="searchSubmit" class="btn btn-outline-success my-2 my-sm-0" type="submit" v-on:click="queryUdemy">Search</button>
-                </form>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Articles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Courses</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Jobs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Videos</a>
+          </li>
+        </ul>
+        <div class="input-group mr-sm-2">
+            <div class="input-group-prepend">
+              <select v-model="selectedCategory" id="selectSearch">
+                <template v-for="category in categories">
+                  <option>{{ category }}</option>
+                </template>
+              </select>
             </div>
+            <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2" aria-label="Text input with dropdown button">
+            <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
           </div>
-        </div>
       </div>
-      <div class="col">
-        <div class="card" id="cardFour">
-          <div class="card-body">
-            <h5 class="card-title">Videos</h5>
-            <div id='youTubeSearch'>
-                <h4>Show me how it's done!</h4>
-                <p>Give me tutorials about... <span class="searchTerm"></span></p>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" v-on:input="logSearch">
-                    <button class="searchSubmit" class="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button>
-                  </form>
-              </div>
-          </div>
-        </div>
+    </nav>
+
+    <div class="card">
+      <h5 class="card-header" id="searchTerm">{{ searchInput }} Results: </h5>
+      <div class="card-body">
+        <div id="searchResults"></div>
       </div>
     </div>
+
   </div>
 
 </body>
 
 <script type="text/javascript" src="./js/home.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+  crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+  crossorigin="anonymous"></script>
+
 </html>

@@ -8,9 +8,11 @@ module.exports = function(app) {
     console.log(udemyQuery);
     request ({
       // url: "https://www.udemy.com/api-2.0/courses/?page=2&page_size=12",
-      url: "https://www.udemy.com/api-2.0/courses/??search=" + udemyQuery + "&page=2&page_size=12",
+      url: "https://www.udemy.com/api-2.0/courses/?search=" + udemyQuery + "&page=2&page_size=12",
         headers: {
-          "Authorization":process.env.UDEMY_API_KEY
+          "Accept": "application/json, text/plain, */*",
+          "Authorization":process.env.UDEMY_API_KEY,
+          "Content-Type": "application/json;charset=utf-8"
         }
     },function(err, raw, body){
       res.json(body);
@@ -18,14 +20,14 @@ module.exports = function(app) {
     });
   });
 
-  app.get("/youtube", function(req, res){
+  app.get("/youtube/:youTubeQuery", function(req, res){
+    var youTubeQuery = req.params.youTubeQuery;
+    console.log(youTubeQuery);
     request ({
-      url: "https://www.googleapis.com/youtube/v3/search?part=snippet&q=dogs&type=video&key=" + process.env.YOU_TUBE_API,
-        
+        url: "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + youTubeQuery + "&type=video&key=" + process.env.YOU_TUBE_API,
         
     },function(err, raw, body){
       res.json(body)
-      console.log(body);
     });
   });
 
