@@ -65,15 +65,23 @@
       <div class="card-body">
         <div id="searchResults">
             <template v-for="result in udemyResults.results">
-              <div style="margin-top: 10px;">
-                <div>{{ result.title }} {{ result.price }}</div>
-              </div>
+              <ul>
+                <li>
+                  <img v-bind:src="result.image_125_H"/>
+                  <a target="_blank" v-bind:href="'https://www.udemy.com' + result.url">{{ result.title }}</a>
+                </li>
+              </ul>
             </template>
-            <template v-for="result in youtubeResults">
-                <div style="margin-top: 10px;">
-                  <div>{{JSON.stringify(result)}}</div>
-                </div>
-              </template>
+            <!-- https://www.youtube.com/watch?v=9qqFH60isFc -->
+            <!-- response.items[0].id.videoId -->
+            <template v-for="result in youtubeResults.items">
+              <ul>
+                <li>
+                  <!-- <img v-bind:src="result.image_125_H"/> -->
+                  <a target="_blank" v-bind:href="'https://www.youtube.com/watch?v=' + result.id.videoId">{{ result.snippet.title }}</a>
+                </li>
+              </ul>
+            </template>
         </div>
       </div>
     </div>

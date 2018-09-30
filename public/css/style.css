@@ -45,6 +45,7 @@ nav {
 .card {
     margin: 0 auto;
     background-image: url("../images/trianglify.png");
+    background-size: cover;
     font-size: 20px;
     width: 80%;
 }
@@ -68,4 +69,18 @@ p {
     font-size: 50px;
     text-shadow: 2px 2px 5px steelblue;
     text-align: center;
+}
+
+#searchResults ul {
+    list-style: none;
+}
+
+#searchResults li {
+    padding-bottom: 5px;
+    border-bottom: 2px solid navy;
+}
+
+#searchResults li a {
+    color: black;
+    margin-left: 10px;
 }

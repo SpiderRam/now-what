@@ -24,7 +24,9 @@ module.exports = function(app) {
         url: "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + youTubeQuery + "&type=video&key=" + process.env.YOU_TUBE_API,
         
     },function(err, raw, body){
-      res.json(body)
+      console.log("YouTube results");
+      console.log(JSON.parse(body));      
+      res.json(body);
     });
   });
 
