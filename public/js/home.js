@@ -7,6 +7,7 @@ var index = new Vue({
     youtubeResults: [],
     jobResults: [],
     eventResults: [],
+    udemyLinks: [],
     searchInput: ""
   },
   methods: {
@@ -56,24 +57,6 @@ var index = new Vue({
         }
         else if (this.selectedCategory === "Videos") {
             return "/youtube/" + this.searchInput;
-        }
-      },
-      renderResults: function() {
-        if (this.selectedCategory === "Events") {
-            console.log("Render Events");
-        } 
-        else if (this.selectedCategory === "Jobs") {
-            console.log("Render Jobs");
-        } 
-        else if (this.selectedCategory === "Courses") {
-            console.log("Render Courses"); 
-            for (i = 0; i < response.length; i++) {
-                course = response.result[i];
-                console.log(course.title);
-            }  
-        }
-        else if (this.selectedCategory === "Videos") {
-            console.log("Render Videos");
         }
       }
   }
