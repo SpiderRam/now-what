@@ -49,8 +49,7 @@ module.exports = function(app) {
   app.get("/meetup", function(req, res){
 
     request ({
-     url: " https://api.meetup.com/find/upcoming_events?photo-host=public&page=20&sig_id=258526652&sig=aa5ae5778fef4315ae6798518cb7015456251623"
-        
+     url: " https://api.meetup.com/find/upcoming_events?photo-host=public&page=20&sig_id=258526652&sig=" + process.env.MEET_UP_KEY,
         
     },function(err, raw, body){
       console.log(JSON.parse(body).events[0].name);
