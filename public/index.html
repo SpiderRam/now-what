@@ -77,7 +77,7 @@
             <template v-for="result in youtubeResults.items">
               <ul>
                 <li>
-                  <!-- <img v-bind:src="result.image_125_H"/> -->
+                  <img v-bind:src="result.snippet.thumbnails.default.url"/>
                   <a target="_blank" v-bind:href="'https://www.youtube.com/watch?v=' + result.id.videoId">{{ result.snippet.title }}</a>
                 </li>
               </ul>
