@@ -1,3 +1,26 @@
+.modal-header {
+    background-image: url("../images/blue-tech-opaque.jpg");
+    font-family: 'Aldrich', sans-serif;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    color: white;
+    border-bottom: 1px solid black;
+}
+
+.modal-footer {
+    background-image: url("../images/blue-tech-opaque.jpg");
+    border-top: 1px solid black;
+}
+
+#modal-button {
+    padding: .375rem .75rem;
+    border-radius: .25rem;
+    font-family: 'Aldrich', sans-serif;
+    background-color: white;
+    color: steelblue;
+    text-shadow: 1px 1px 2px navy;
+    border: 1px solid navy;
+}
+
 #vueContainer {
     padding-bottom: 100px;
 }
@@ -106,7 +129,7 @@ p {
 .saveResultButton {
     float: right;
     color: midnightblue;
-    background-color: transparent;
+    opacity: 0.5;
     border: 1px solid midnightblue;
     padding: .375rem .75rem;
     border-radius: .25rem;
@@ -115,6 +138,7 @@ p {
 
 .saveResultButton:hover {
     background-image: url("../images/button-blue.png");
+    opacity: 1;
     color: white;
     border: 1px solid white;
 }
