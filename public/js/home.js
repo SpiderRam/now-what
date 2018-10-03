@@ -1,3 +1,5 @@
+
+
 var index = new Vue({
   el: "#vueContainer",
   data: {
@@ -28,6 +30,9 @@ var index = new Vue({
         this.youtubeResults = [];
         this.jobResults = [];
         this.eventResults = [];
+    },
+    modalToggle: function() {
+        $("#login-modal").modal("toggle");
     }
   },
   computed: {
@@ -47,7 +52,7 @@ var index = new Vue({
       },
       searchURL: function() {
         if (this.selectedCategory === "Events") {
-            console.log("Find Events");
+            return "/meetup/" + this.searchInput;
         } 
         else if (this.selectedCategory === "Jobs") {
             console.log("Find Jobs");

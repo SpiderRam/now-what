@@ -15,8 +15,26 @@
 }
 
 #subtitle {
+    display: inline-block;
     color: white;
     text-shadow: 2px 2px 5px steelblue;
+}
+
+#loginButton {
+    display: inline-block;
+    margin-left: 10px;
+    padding: .375rem .75rem;
+    border-radius: .25rem;
+    font-family: 'Aldrich', sans-serif;
+    color: steelblue;
+    text-shadow: 1px 1px 2px navy;
+    border: 1px solid navy;
+}
+
+#loginButton:hover {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
 }
 
 nav {

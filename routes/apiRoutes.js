@@ -29,7 +29,7 @@ module.exports = function(app) {
   });
   
 
-  app.get("/meetup", function(req, res){
+  app.get("/meetup/:meetupQuery", function(req, res){
 
     request ({
      url: " https://api.meetup.com/find/upcoming_events?photo-host=public&page=20&sig_id=258526652&sig=" + process.env.MEET_UP_KEY,
