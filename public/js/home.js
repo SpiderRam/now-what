@@ -5,6 +5,7 @@ var index = new Vue({
   data: {
     selectedCategory: "Events",
     categories: ["Events", "Jobs", "Courses", "Videos"],
+    seen: true,
     udemyResults: [],
     youtubeResults: [],
     jobResults: [],

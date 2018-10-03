@@ -102,3 +102,19 @@ p {
     color: black;
     margin-left: 10px;
 }
+
+.saveResultButton {
+    float: right;
+    color: midnightblue;
+    background-color: transparent;
+    border: 1px solid midnightblue;
+    padding: .375rem .75rem;
+    border-radius: .25rem;
+    margin-top: 10px;
+}
+
+.saveResultButton:hover {
+    background-image: url("../images/button-blue.png");
+    color: white;
+    border: 1px solid white;
+}
