@@ -5,6 +5,18 @@ module.exports = function(app) {
   var request = require("request");
   var indeed = require('indeed-scraper');
 
+  app.post("/add-new-user", function(req, res) {
+    console.log(req.body);
+    db.User.create(req.body)
+        .then(function(dbUser) {
+            console.log(dbUser._id)
+        }).then(function(dbUser) {
+            res.json(dbUser);
+        }).catch(function(err) {
+            res.json(err);
+    });
+  });
+
   app.get("/udemy/:udemyQuery", function(req, res){
     var udemyQuery = req.params.udemyQuery;
     console.log(udemyQuery);
@@ -35,23 +47,12 @@ module.exports = function(app) {
     });
   });
 
-    
-  
-
   app.get("/meetup", function(req, res){
    
-    // var url = "https://api.meetup.com/find/upcoming_events?photo-host=public&topic_category=tech&page=20&sig_id=258526652&radius=50&sig=" + process.env.MEET_UP_KEY;
-    // console.log(url);
     request ({
       url: "https://api.meetup.com/find/upcoming_events?&photo-host=public&topic_category=34&page=5&radius=50&key=" + process.env.MEET_UP_KEY
-
-    //  url: " https://api.meetup.com/find/upcoming_events?photo-host=public&topic_category=tech&page=20&sig_id=258526652&radius=50&sig=" + process.env.MEET_UP_KEY,
-      //  url: "https://api.meetup.com/find/upcoming_events?&sign=true&photo-host=public&topic_category=tech&page=20&radius=50&key=" + process.env.MEET_UP_KEY,
     },function(err, raw, body){
-      // console.log(JSON.parse(body))
-      // console.log(JSON.parse(body).events[0].name);
-      // console.log(JSON.parse(body).events[0].link);
-      var cleanMeetup = []
+      var cleanMeetup = [];
        for(var i=0; i<JSON.parse(body).events.length; i++){
          var singleMeetup = {
            title: JSON.parse(body).events[i].name,
@@ -69,12 +70,11 @@ module.exports = function(app) {
 
 
       res.json(cleanMeetup);
-      // console.log(body);
-    })
-  })
+    });
+  });
+  
   app.get("/indeed", function(req, res){
     var jobsArr = [];
-
     const queryOptions = {
       query: 'Web Developer',
       city: 'Richmond, VA',
@@ -87,28 +87,9 @@ module.exports = function(app) {
     };
     var jobsArr = [];
     indeed.query(queryOptions).then(data => {
-      
-    
-        // // console.log(res); // An array of Job objects
-        // for (let i = 0; i < res.length; i++) {
-        //   jobsArr.push = res[i];
-          
-        // }
-      
-        // console.log(jobsArr);
-        // res.json(jobsArr);
-
         res.json(data);
     });
 
 
   });
 };
-//         url: "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + youTubeQuery + "&type=video&key=" + process.env.YOU_TUBE_API,
-        
-//     },function(err, raw, body){
-//       res.json(body)
-//     });
-//   });
-
-// };

@@ -20,43 +20,39 @@ var UserSchema = new Schema({
     },
     notebook: [
         {
-        name: {
-            type: String,
-            required: true,
-            unique: true
-        },
-        course: [
-            {
-            type: Array,
-            required: false,
-            unique: true,
-            notes: []
-            }
-        ],
-        event: [
-            {
-            type: Array,
-            required: false,
-            unique: true,
-            notes: []
-            }
-        ],
-        video: [
-            {
-            type: Array,
-            required: false,
-            unique: true,
-            notes: []
-            }
-        ],
-        job: [
-            {
-            type: Array,
-            required: false,
-            unique: true,
-            notes: []
-            }
-        ]
+            name: {
+                type: String,
+                required: true,
+                unique: true
+            },
+            course: [{
+                type: Array,
+                required: false,
+                unique: true,
+                notes: []
+                }
+            ],
+            event: [{
+                type: Array,
+                required: false,
+                unique: true,
+                notes: []
+                }
+            ],
+            video: [{
+                type: Array,
+                required: false,
+                unique: true,
+                notes: []
+                }
+            ],
+            job: [{
+                type: Array,
+                required: false,
+                unique: true,
+                notes: []
+                }
+            ]
         }
     ]
 });

@@ -1,4 +1,34 @@
-
+var modal = new Vue({
+    el: "#login-modal",
+    data: {
+        newUserObject: {
+            email: "",
+            username: "",
+            password: ""
+        },
+        returningUserObject: {
+            email: "",
+            password: ""
+        }
+    },
+    methods: {
+        addNewUser: function() {
+            console.log("addNewUser called");
+            console.log(this.newUserObject);
+            $.ajax({
+                type:"POST",
+                url:"/add-new-user",
+                data: this.newUserObject
+            }).then(function(response){
+                console.log(response);
+            }); 
+        },
+        returningUser: function() {
+            console.log("returningUser called");
+            console.log(this.returningUserObject);
+        }
+    }
+});
 
 var index = new Vue({
   el: "#vueContainer",
@@ -40,6 +70,15 @@ var index = new Vue({
         $.post("/udemy", course).then(function(res){
             console.log(res);
         });
+    },
+    getEvents: function() {
+        console.log("Getting events...");
+        $.ajax({
+            type: "GET",
+            url: "/meetup"
+          }).then(function(response) {
+            console.log(response);
+          });
     }
   },
   computed: {

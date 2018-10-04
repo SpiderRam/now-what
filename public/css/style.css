@@ -21,6 +21,10 @@
     border: 1px solid navy;
 }
 
+#signIn, #signUp {
+    margin-top: 10px;
+}
+
 #vueContainer {
     padding-bottom: 100px;
 }
@@ -78,6 +82,21 @@ nav {
     color: white;
     border: 1px solid white;
 }
+
+.gridWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-bottom: 200px; */
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 70%;
+    grid-gap: 25px;
+}
+  
 
 .container {
     margin-bottom: 100px;
