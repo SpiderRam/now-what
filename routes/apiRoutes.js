@@ -1,3 +1,5 @@
+const db = require("../models");
+
 module.exports = function(app) {
 
   var request = require("request");
@@ -15,6 +17,10 @@ module.exports = function(app) {
     },function(err, raw, body){
       res.json(body);
     });
+  });
+
+  app.post("/udemy", function(req, res) {
+    console.log(req.body);
   });
 
   app.get("/youtube/:youTubeQuery", function(req, res){

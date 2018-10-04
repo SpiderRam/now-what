@@ -34,6 +34,12 @@ var index = new Vue({
     },
     modalToggle: function() {
         $("#login-modal").modal("toggle");
+    },
+    saveCourse: function(course) {
+        console.log(course);
+        $.post("/udemy", course).then(function(res){
+            console.log(res);
+        });
     }
   },
   computed: {

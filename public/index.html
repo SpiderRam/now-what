@@ -87,7 +87,7 @@
                 <li>
                   <img v-bind:src="result.image_125_H"/>
                   <a target="_blank" v-bind:href="'https://www.udemy.com' + result.url">{{ result.title }}</a>
-                  <button class="saveResultButton">Save</button>
+                  <button @click="saveCourse(result)" class="saveResultButton">Save</button>
                 </li>
               </ul>
             </template>
