@@ -1,8 +1,41 @@
+var modal = new Vue({
+    el: "#login-modal",
+    data: {
+        newUserObject: {
+            email: "",
+            username: "",
+            password: ""
+        },
+        returningUserObject: {
+            email: "",
+            password: ""
+        }
+    },
+    methods: {
+        addNewUser: function() {
+            console.log("addNewUser called");
+            console.log(this.newUserObject);
+            $.ajax({
+                type:"POST",
+                url:"/add-new-user",
+                data: this.newUserObject
+            }).then(function(response){
+                console.log(response);
+            }); 
+        },
+        returningUser: function() {
+            console.log("returningUser called");
+            console.log(this.returningUserObject);
+        }
+    }
+});
+
 var index = new Vue({
   el: "#vueContainer",
   data: {
     selectedCategory: "Events",
     categories: ["Events", "Jobs", "Courses", "Videos"],
+    seen: true,
     udemyResults: [],
     youtubeResults: [],
     jobResults: [],
@@ -28,6 +61,24 @@ var index = new Vue({
         this.youtubeResults = [];
         this.jobResults = [];
         this.eventResults = [];
+    },
+    modalToggle: function() {
+        $("#login-modal").modal("toggle");
+    },
+    saveCourse: function(course) {
+        console.log(course);
+        $.post("/udemy", course).then(function(res){
+            console.log(res);
+        });
+    },
+    getEvents: function() {
+        console.log("Getting events...");
+        $.ajax({
+            type: "GET",
+            url: "/meetup"
+          }).then(function(response) {
+            console.log(response);
+          });
     }
   },
   computed: {
@@ -47,7 +98,7 @@ var index = new Vue({
       },
       searchURL: function() {
         if (this.selectedCategory === "Events") {
-            console.log("Find Events");
+            return "/meetup/" + this.searchInput;
         } 
         else if (this.selectedCategory === "Jobs") {
             console.log("Find Jobs");

@@ -16,6 +16,44 @@
 </head>
 
 <body>
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="login-modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Welcome, please log in:</h5>
+        </div>
+        <div class="modal-body">
+          <h3>Sign up (new users)</h3>
+					
+					<label for="createEmail">Email address</label>
+					<input type="email" class="form-control" id="createEmail" aria-describedby="emailHelp" placeholder="Site is not secure, fake it" v-model="newUserObject.email">
+			
+					<label for="createUsername">Username</label>
+					<input type="text" class="form-control" id="createUsername" aria-describedby="emailHelp" placeholder="Choose a username" v-model="newUserObject.username">
+			
+					<label for="createPassword">Password</label>
+					<input type="text" class="form-control" id="createPassword" aria-describedby="emailHelp" placeholder="Enter password" v-model="newUserObject.password">
+			
+          <button type="button" id="signUp" class="btn btn-primary" v-on:click="addNewUser">Sign up</button>	
+          
+          <h3>Log In (existing users)</h3>
+
+					<label for="enterEmail">Email address</label>
+					<input type="email" class="form-control" id="enterEmail" aria-describedby="emailHelp" placeholder="Site is not secure, fake it" v-model="returningUserObject.email">
+			
+					<label for="enterPassword">Password</label>
+					<input type="text" class="form-control" id="enterPassword" aria-describedby="emailHelp" placeholder="Enter Password" v-model="returningUserObject.password">
+	
+					<button type="button" id="signIn" class="btn btn-primary" v-on:click="returningUser">Sign in</button>	
+        </div>
+        <div class="modal-footer">
+          <button id="modal-button" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="vueContainer">
 
     <div class="jumbotron jumbotron-fluid">
@@ -23,7 +61,7 @@
         <div id="title">Now What?</div>
         <p id="subtitle" class="lead">Your hub for skill building, jobs, and research in your quest to enter the world
           of web development.</p>
-
+        <button id="loginButton" v-on:click="modalToggle">Log In</button>
       </div>
     </div>
 
@@ -45,6 +83,9 @@
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Videos</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" @click="getEvents">Events</a>
+          </li>
         </ul>
         <div class="input-group mr-sm-2">
             <div class="input-group-prepend">
@@ -60,6 +101,17 @@
       </div>
     </nav>
 
+    <!-- <div class="gridWrapper">
+      <div class="grid">
+        <template>
+          <div class="grid-item">
+            <img src="#"/>
+            <p v-for="target in targets"></p>
+          </div>
+        </template>
+      </div>
+    </div>     -->
+
     <div class="card">
       <h5 class="card-header" id="searchTerm">{{ searchInput }} Results: </h5>
       <div class="card-body">
@@ -69,16 +121,16 @@
                 <li>
                   <img v-bind:src="result.image_125_H"/>
                   <a target="_blank" v-bind:href="'https://www.udemy.com' + result.url">{{ result.title }}</a>
+                  <button @click="saveCourse(result)" class="saveResultButton">Save</button>
                 </li>
               </ul>
             </template>
-            <!-- https://www.youtube.com/watch?v=9qqFH60isFc -->
-            <!-- response.items[0].id.videoId -->
             <template v-for="result in youtubeResults.items">
               <ul>
                 <li>
                   <img v-bind:src="result.snippet.thumbnails.default.url"/>
                   <a target="_blank" v-bind:href="'https://www.youtube.com/watch?v=' + result.id.videoId">{{ result.snippet.title }}</a>
+                  <button class="saveResultButton">Save</button>
                 </li>
               </ul>
             </template>

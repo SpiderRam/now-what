@@ -1,3 +1,30 @@
+.modal-header {
+    background-image: url("../images/blue-tech-opaque.jpg");
+    font-family: 'Aldrich', sans-serif;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    color: white;
+    border-bottom: 1px solid black;
+}
+
+.modal-footer {
+    background-image: url("../images/blue-tech-opaque.jpg");
+    border-top: 1px solid black;
+}
+
+#modal-button {
+    padding: .375rem .75rem;
+    border-radius: .25rem;
+    font-family: 'Aldrich', sans-serif;
+    background-color: white;
+    color: steelblue;
+    text-shadow: 1px 1px 2px navy;
+    border: 1px solid navy;
+}
+
+#signIn, #signUp {
+    margin-top: 10px;
+}
+
 #vueContainer {
     padding-bottom: 100px;
 }
@@ -15,8 +42,26 @@
 }
 
 #subtitle {
+    display: inline-block;
     color: white;
     text-shadow: 2px 2px 5px steelblue;
+}
+
+#loginButton {
+    display: inline-block;
+    margin-left: 10px;
+    padding: .375rem .75rem;
+    border-radius: .25rem;
+    font-family: 'Aldrich', sans-serif;
+    color: steelblue;
+    text-shadow: 1px 1px 2px navy;
+    border: 1px solid navy;
+}
+
+#loginButton:hover {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
 }
 
 nav {
@@ -37,6 +82,21 @@ nav {
     color: white;
     border: 1px solid white;
 }
+
+.gridWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-bottom: 200px; */
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 70%;
+    grid-gap: 25px;
+}
+  
 
 .container {
     margin-bottom: 100px;
@@ -83,4 +143,21 @@ p {
 #searchResults li a {
     color: black;
     margin-left: 10px;
+}
+
+.saveResultButton {
+    float: right;
+    color: midnightblue;
+    opacity: 0.5;
+    border: 1px solid midnightblue;
+    padding: .375rem .75rem;
+    border-radius: .25rem;
+    margin-top: 10px;
+}
+
+.saveResultButton:hover {
+    background-image: url("../images/button-blue.png");
+    opacity: 1;
+    color: white;
+    border: 1px solid white;
 }
