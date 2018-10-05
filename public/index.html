@@ -103,10 +103,10 @@
 
     <!-- <div class="gridWrapper">
       <div class="grid">
-        <template>
+        <template v-for="target in targets">
           <div class="grid-item">
-            <img src="#"/>
-            <p v-for="target in targets"></p>
+            <img v-bind:src='target.image'>
+            <p>{{ target.category }}</p>
           </div>
         </template>
       </div>
