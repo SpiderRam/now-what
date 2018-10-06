@@ -31,7 +31,7 @@
 
 .jumbotron {
     background-image: url("../images/blue-tech.jpg");
-    margin-bottom: 0px;
+    margin-bottom: 100px;
     background-size: cover;
 }
 
@@ -84,7 +84,7 @@ nav {
 }
 
 .gridWrapper {
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
@@ -118,6 +118,11 @@ nav {
     font-family: 'Aldrich', sans-serif;
     font-size: 40px;
     text-shadow: 2px 2px 5px steelblue;
+    text-align: center;
+}
+
+#backButton {
+    float: left;
 }
 
 h4 {
@@ -128,11 +133,8 @@ p {
     margin-bottom: 0px;
 }
 
-#searchTerm {
-    font-family: 'Aldrich', sans-serif;
-    font-size: 50px;
-    text-shadow: 2px 2px 5px steelblue;
-    text-align: center;
+#cardHeader {
+    
 }
 
 #searchResults ul {

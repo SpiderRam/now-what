@@ -56,31 +56,38 @@ var index = new Vue({
     eventResults: [],
     udemyLinks: [],
     searchInput: "",
+    activeDetails: {},
     targets: [
         {
-            category: "Home",
-            image: "../images/icon-home.png"
+            category: "Notebooks",
+            image: "../images/icon-home.png",
+            clicked: false
         },
         {
             category: "Events",
-            image: "../images/icon-events.png"
+            image: "../images/icon-events.png",
+            clicked: false
         },
         {
             category: "Courses",
-            image: "../images/icon-courses.png"
+            image: "../images/icon-courses.png",
+            clicked: false
         },
         {
             category: "Jobs",
-            image: "../images/icon-jobs.png"
+            image: "../images/icon-jobs.png",
+            clicked: false
         },
         {
             category: "Videos",
-            image: "../images/icon-videos.png"
+            image: "../images/icon-videos.png",
+            clicked: false
         },
         {
             category: "Articles",
-            image: "../images/icon-articles.png"
-        },
+            image: "../images/icon-articles.png",
+            clicked: false
+        }
     ]
   },
   methods: {
@@ -90,9 +97,8 @@ var index = new Vue({
         type: "GET",
         url: self.searchURL
       }).then(function(response) {
-        //   self.searchInput = "";
         console.log(JSON.parse(response));
-        self.resetResults();
+        // self.resetResults();
         self[self.resultKey] = JSON.parse(response);
       });
     },
@@ -101,6 +107,7 @@ var index = new Vue({
         this.youtubeResults = [];
         this.jobResults = [];
         this.eventResults = [];
+        this.activeDetails = {};
     },
     modalToggle: function() {
         $("#login-modal").modal("toggle");
@@ -123,30 +130,30 @@ var index = new Vue({
   },
   computed: {
       resultKey: function() {
-        if (this.selectedCategory === "Events") {
+        if (this.activeDetails.category === "Events") {
             return "eventResults";
         } 
-        else if (this.selectedCategory === "Jobs") {
+        else if (this.activeDetails.category === "Jobs") {
             return "jobResults";
         } 
-        else if (this.selectedCategory === "Courses") {
+        else if (this.activeDetails.category === "Courses") {
             return "udemyResults";
         }
-        else if (this.selectedCategory === "Videos") {
+        else if (this.activeDetails.category === "Videos") {
             return "youtubeResults";
         }
       },
       searchURL: function() {
-        if (this.selectedCategory === "Events") {
+        if (this.activeDetails.category === "Events") {
             return "/meetup/" + this.searchInput;
         } 
-        else if (this.selectedCategory === "Jobs") {
+        else if (this.activeDetails.category === "Jobs") {
             console.log("Find Jobs");
         } 
-        else if (this.selectedCategory === "Courses") {
+        else if (this.activeDetails.category === "Courses") {
             return "/udemy/" + this.searchInput;
         }
-        else if (this.selectedCategory === "Videos") {
+        else if (this.activeDetails.category === "Videos") {
             return "/youtube/" + this.searchInput;
         }
       }
