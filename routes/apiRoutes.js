@@ -11,7 +11,11 @@ module.exports = function(app) {
         .then(function(dbUser) {
             console.log(dbUser._id)
         }).then(function(dbUser) {
-            res.json(dbUser);
+            const user = {
+              email: dbUser.email,
+              username: dbUser.username
+            };
+            res.json(user);
         }).catch(function(err) {
             res.json(err);
     });
@@ -92,4 +96,20 @@ module.exports = function(app) {
 
 
   });
+
+  app.post("/add-notebook/:username", function(req, res) {
+    var username = req.params.username;
+    console.log(req.body);
+    db.Notebook.create(req.body)
+        .then(function(dbNotebook) {
+            console.log(dbNotebook.name)
+            return db.User.findOneAndUpdate({username: username}, { $push: { notebook: dbNotebook._id } }, { new: true });
+        }).then(function(dbNotebook) {
+            res.json(dbNotebook);
+        }).catch(function(err) {
+            res.json(err);
+    });
+  });
+
 };
+

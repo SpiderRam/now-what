@@ -18,50 +18,16 @@ var UserSchema = new Schema({
         type: String,
         required: true,
         unique: true
-    }
+    },
+    notebook:[
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Notebook"
+        }
+    ]
 });
 
 var User = mongoose.model("User", UserSchema);
 
 module.exports = User;
 
-// type: Array,
-//             default: undefined,
-//             data: [{
-//                 name: {
-//                     type: String,
-//                     // strict: false,  
-//                     // index: { sparse: true },
-//                     required: false              
-//                 },
-//                 course: [{
-//                     type: Array,
-//                     required: false,
-//                     unique: false,
-//                     notes: []
-//                     }
-//                 ],
-//                 event: [{
-//                     type: Array,
-//                     required: false,
-//                     unique: false,
-//                     notes: []
-//                     }
-//                 ],
-//                 video: [{
-//                     type: Array,
-//                     required: false,
-//                     unique: false,
-//                     notes: []
-//                     }
-//                 ],
-//                 job: [{
-//                     type: Array,
-//                     required: false,
-//                     unique: false,
-//                     notes: []
-//                     }
-//                 ]
-//             }
-//         ]
-    

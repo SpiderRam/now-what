@@ -1,5 +1,4 @@
-var userId;
-var usernameText;
+var user;
 
 var modal = new Vue({
     el: "#login-modal",
@@ -25,11 +24,21 @@ var modal = new Vue({
                 data: this.newUserObject
             }).then(function(response){
                 console.log("RESPONSE FROM BACKEND: ", response);
+                sessionStorage.user = response;
             }); 
         },
         returningUser: function() {
             console.log("returningUser called");
             console.log(this.returningUserObject);
+        },
+        addNotebook: function() {
+            console.log("addNotebook called");
+            $.ajax({
+                type:"POST",
+                url:"/add-notebook" + user.username,
+            }).then(function(response){
+                console.log("RESPONSE FROM BACKEND: ", response);
+            }); 
         }
     }
 });
