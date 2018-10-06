@@ -67,7 +67,8 @@ var index = new Vue({
         {
             category: "Courses",
             image: "../images.icon-courses.png"
-        },{
+        },
+        {
             category: "Jobs",
             image: "../images.icon-jobs.png"
         },

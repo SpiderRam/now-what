@@ -12,6 +12,30 @@ var NotebookSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: "Event"
         }
+    ],
+    video:[
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Video"
+        }
+    ],
+    course:[
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Course"
+        }
+    ],
+    job:[
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Job"
+        }
+    ],
+    article:[
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Article"
+        }
     ]
 });
 
