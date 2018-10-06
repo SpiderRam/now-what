@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
+    type: mongoose.Schema.Types.Mixed,
     username: {
         type: String,
         required: true,
@@ -18,41 +19,10 @@ var UserSchema = new Schema({
         required: true,
         unique: true
     },
-    notebook: [
+    notebook:[
         {
-            name: {
-                type: String,
-                required: true,
-                unique: true
-            },
-            course: [{
-                type: Array,
-                required: false,
-                unique: true,
-                notes: []
-                }
-            ],
-            event: [{
-                type: Array,
-                required: false,
-                unique: true,
-                notes: []
-                }
-            ],
-            video: [{
-                type: Array,
-                required: false,
-                unique: true,
-                notes: []
-                }
-            ],
-            job: [{
-                type: Array,
-                required: false,
-                unique: true,
-                notes: []
-                }
-            ]
+            type: Schema.Types.ObjectId,
+            ref: "Notebook"
         }
     ]
 });

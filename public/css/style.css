@@ -87,7 +87,7 @@ nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* margin-bottom: 200px; */
+    margin-bottom: 20px;
 }
 
 .grid {
@@ -96,7 +96,11 @@ nav {
     width: 70%;
     grid-gap: 25px;
 }
-  
+ 
+.grid-item {
+    background-image: url("../images/trianglify.png");
+    display: inline-flex;
+}
 
 .container {
     margin-bottom: 100px;

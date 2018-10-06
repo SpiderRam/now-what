@@ -1,3 +1,5 @@
+var user;
+
 var modal = new Vue({
     el: "#login-modal",
     data: {
@@ -15,17 +17,28 @@ var modal = new Vue({
         addNewUser: function() {
             console.log("addNewUser called");
             console.log(this.newUserObject);
+
             $.ajax({
                 type:"POST",
                 url:"/add-new-user",
                 data: this.newUserObject
             }).then(function(response){
-                console.log(response);
+                console.log("RESPONSE FROM BACKEND: ", response);
+                sessionStorage.user = response;
             }); 
         },
         returningUser: function() {
             console.log("returningUser called");
             console.log(this.returningUserObject);
+        },
+        addNotebook: function() {
+            console.log("addNotebook called");
+            $.ajax({
+                type:"POST",
+                url:"/add-notebook" + user.username,
+            }).then(function(response){
+                console.log("RESPONSE FROM BACKEND: ", response);
+            }); 
         }
     }
 });
@@ -41,7 +54,33 @@ var index = new Vue({
     jobResults: [],
     eventResults: [],
     udemyLinks: [],
-    searchInput: ""
+    searchInput: "",
+    targets: [
+        {
+            category: "Home",
+            image: "../images/icon-home.png"
+        },
+        {
+            category: "Events",
+            image: "../images/icon-events.png"
+        },
+        {
+            category: "Courses",
+            image: "../images/icon-courses.png"
+        },
+        {
+            category: "Jobs",
+            image: "../images/icon-jobs.png"
+        },
+        {
+            category: "Videos",
+            image: "../images/icon-videos.png"
+        },
+        {
+            category: "Articles",
+            image: "../images/icon-articles.png"
+        },
+    ]
   },
   methods: {
     handleSearch: function() {

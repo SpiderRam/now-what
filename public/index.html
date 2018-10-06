@@ -101,16 +101,16 @@
       </div>
     </nav>
 
-    <!-- <div class="gridWrapper">
+    <div class="gridWrapper">
       <div class="grid">
-        <template>
+        <template v-for="target in targets">
           <div class="grid-item">
-            <img src="#"/>
-            <p v-for="target in targets"></p>
+            <img :src="target.image">
+            <p>{{ target.category }}</p>
           </div>
         </template>
       </div>
-    </div>     -->
+    </div>    
 
     <div class="card">
       <h5 class="card-header" id="searchTerm">{{ searchInput }} Results: </h5>
