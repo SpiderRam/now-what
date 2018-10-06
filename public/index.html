@@ -65,41 +65,7 @@
       </div>
     </div>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Articles</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Courses</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Jobs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Videos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" @click="getEvents">Events</a>
-          </li>
-        </ul>
-        <div class="input-group mr-sm-2">
-            <div class="input-group-prepend">
-              <select v-model="selectedCategory" id="selectSearch">
-                <template v-for="category in categories">
-                  <option>{{ category }}</option>
-                </template>
-              </select>
-            </div>
-            <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2" aria-label="Text input with dropdown button">
-            <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
-          </div>
-      </div>
-    </nav>
+    
 
     <div v-if="!activeDetails.category" class="gridWrapper" style="display: flex">
       <div class="grid">
