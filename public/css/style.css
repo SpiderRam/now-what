@@ -33,6 +33,7 @@
     background-image: url("../images/blue-tech.jpg");
     margin-bottom: 100px;
     background-size: cover;
+    padding-bottom: 10px;
 }
 
 #title {
@@ -84,7 +85,6 @@ nav {
 }
 
 .gridWrapper {
-    /* display: flex; */
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
@@ -100,6 +100,15 @@ nav {
 .grid-item {
     background-image: url("../images/trianglify.png");
     display: inline-flex;
+    font-family: 'Aldrich', sans-serif;
+    font-size: 40px;
+    color: midnightblue;
+    padding-right: 10px;
+}
+
+.grid-item p {
+    align-self: center;
+    margin-left: auto;
 }
 
 .container {
