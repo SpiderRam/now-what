@@ -100,10 +100,16 @@ nav {
 .grid-item {
     background-image: url("../images/trianglify.png");
     display: inline-flex;
+    box-shadow: 5px 10px 8px steelblue;
     font-family: 'Aldrich', sans-serif;
     font-size: 40px;
     color: midnightblue;
+    border: 1px solid navy;
     padding-right: 10px;
+}
+
+.grid-item:hover {
+    box-shadow: 5px 10px 18px mediumblue;
 }
 
 .grid-item p {
