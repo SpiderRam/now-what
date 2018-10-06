@@ -13,7 +13,7 @@ module.exports = function(app) {
             return dbUser;
         }).then(function(dbUser) {
             const user = {
-              email: dbUser.email,
+              id: dbUser._id,
               username: dbUser.username
             };
             console.log(user);
@@ -22,6 +22,16 @@ module.exports = function(app) {
             res.json(err);
     });
   });
+
+  app.post("/returning-user", function (req, res) {
+    console.log("Request: " + JSON.stringify(req.body));
+    db.User.find( 
+        { email: req.body.email, password: req.body.password }
+    ).then(function(data) {
+      console.log(data);
+        res.json(data);
+    });
+});
 
   app.get("/udemy/:udemyQuery", function(req, res){
     var udemyQuery = req.params.udemyQuery;

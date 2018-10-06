@@ -86,7 +86,6 @@ nav {
 
 .gridWrapper {
     justify-content: center;
-    align-items: center;
     margin-bottom: 20px;
 }
 
@@ -97,6 +96,7 @@ nav {
     grid-gap: 25px;
 }
  
+/* Icons courtesy of: https://www.iconfinder.com/Bres */
 .grid-item {
     background-image: url("../images/trianglify.png");
     display: inline-flex;
@@ -142,8 +142,8 @@ p {
     margin-bottom: 0px;
 }
 
-#cardHeader {
-    
+.input-group-prepend {
+    margin-bottom: 10px;
 }
 
 #searchResults ul {
