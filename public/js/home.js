@@ -1,4 +1,5 @@
-var user;
+var userEmail;
+var usernameText;
 
 var modal = new Vue({
     el: "#login-modal",
@@ -23,8 +24,8 @@ var modal = new Vue({
                 url:"/add-new-user",
                 data: this.newUserObject
             }).then(function(response){
-                console.log("RESPONSE FROM BACKEND: ", response);
-                sessionStorage.user = response;
+                sessionStorage.usernameText = response.username;
+                sessionStorage.userEmail = response.email;
             }); 
         },
         returningUser: function() {

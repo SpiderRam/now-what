@@ -20,7 +20,11 @@ var CourseSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: "Note"
         }
-    ]
+    ],
+    saved: {
+        type: Boolean,
+        default: false
+    }
 });
 
 var Course = mongoose.model("Course", CourseSchema);

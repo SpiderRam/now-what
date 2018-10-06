@@ -9,12 +9,14 @@ module.exports = function(app) {
     console.log(req.body);
     db.User.create(req.body)
         .then(function(dbUser) {
-            console.log(dbUser._id)
+            console.log(dbUser._id);
+            return dbUser;
         }).then(function(dbUser) {
             const user = {
               email: dbUser.email,
               username: dbUser.username
             };
+            console.log(user);
             res.json(user);
         }).catch(function(err) {
             res.json(err);
