@@ -58,27 +58,27 @@ var index = new Vue({
     targets: [
         {
             category: "Home",
-            image: "../images.icon-home.png"
+            image: "../images/icon-home.png"
         },
         {
             category: "Events",
-            image: "../images.icon-events.png"
+            image: "../images/icon-events.png"
         },
         {
             category: "Courses",
-            image: "../images.icon-courses.png"
+            image: "../images/icon-courses.png"
         },
         {
             category: "Jobs",
-            image: "../images.icon-jobs.png"
+            image: "../images/icon-jobs.png"
         },
         {
             category: "Videos",
-            image: "../images.icon-videos.png"
+            image: "../images/icon-videos.png"
         },
         {
             category: "Articles",
-            image: "../images.icon-articles.png"
+            image: "../images/icon-articles.png"
         },
     ]
   },
