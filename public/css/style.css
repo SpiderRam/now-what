@@ -33,6 +33,7 @@
     background-image: url("../images/blue-tech.jpg");
     margin-bottom: 100px;
     background-size: cover;
+    padding-bottom: 10px;
 }
 
 #title {
@@ -84,9 +85,7 @@ nav {
 }
 
 .gridWrapper {
-    /* display: flex; */
     justify-content: center;
-    align-items: center;
     margin-bottom: 20px;
 }
 
@@ -97,9 +96,25 @@ nav {
     grid-gap: 25px;
 }
  
+/* Icons courtesy of: https://www.iconfinder.com/Bres */
 .grid-item {
     background-image: url("../images/trianglify.png");
     display: inline-flex;
+    box-shadow: 5px 10px 8px steelblue;
+    font-family: 'Aldrich', sans-serif;
+    font-size: 40px;
+    color: midnightblue;
+    border: 1px solid navy;
+    padding-right: 10px;
+}
+
+.grid-item:hover {
+    box-shadow: 5px 10px 18px mediumblue;
+}
+
+.grid-item p {
+    align-self: center;
+    margin-left: auto;
 }
 
 .container {
@@ -133,8 +148,8 @@ p {
     margin-bottom: 0px;
 }
 
-#cardHeader {
-    
+.input-group-prepend {
+    margin-bottom: 10px;
 }
 
 #searchResults ul {

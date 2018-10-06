@@ -1,4 +1,4 @@
-var userEmail;
+var userId;
 var usernameText;
 
 var modal = new Vue({
@@ -16,21 +16,33 @@ var modal = new Vue({
     },
     methods: {
         addNewUser: function() {
-            console.log("addNewUser called");
-            console.log(this.newUserObject);
-
+            
             $.ajax({
                 type:"POST",
                 url:"/add-new-user",
                 data: this.newUserObject
             }).then(function(response){
                 sessionStorage.usernameText = response.username;
-                sessionStorage.userEmail = response.email;
+                sessionStorage.userId = response.id;
             }); 
         },
         returningUser: function() {
-            console.log("returningUser called");
-            console.log(this.returningUserObject);
+
+            if (this.returningUserObject.email.length > 0 && this.returningUserObject.password.length > 0) {
+                $.ajax({
+                    type:"POST",
+                    url:"/returning-user",
+                    data: this.returningUserObject
+                }).then(function(response){
+                    sessionStorage.usernameText = response[0].username;
+                    sessionStorage.userId = response[0]._id;
+                    console.log( sessionStorage.usernameText, sessionStorage.userId);
+                }); 
+            } else {
+                alert("Please fill in all fields");
+                document.getElementById("main").style.display="block";
+                document.getElementById("selectNextAction").style.display="none";
+            }
         },
         addNotebook: function() {
             console.log("addNotebook called");
@@ -56,6 +68,7 @@ var index = new Vue({
     eventResults: [],
     udemyLinks: [],
     searchInput: "",
+    inputValue: "",
     activeDetails: {},
     targets: [
         {
@@ -98,7 +111,6 @@ var index = new Vue({
         url: self.searchURL
       }).then(function(response) {
         console.log(JSON.parse(response));
-        // self.resetResults();
         self[self.resultKey] = JSON.parse(response);
       });
     },
