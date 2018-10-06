@@ -65,75 +65,60 @@
       </div>
     </div>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Articles</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Courses</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Jobs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Videos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" @click="getEvents">Events</a>
-          </li>
-        </ul>
-        <div class="input-group mr-sm-2">
-            <div class="input-group-prepend">
-              <select v-model="selectedCategory" id="selectSearch">
-                <template v-for="category in categories">
-                  <option>{{ category }}</option>
-                </template>
-              </select>
-            </div>
-            <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2" aria-label="Text input with dropdown button">
-            <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
-          </div>
-      </div>
-    </nav>
+    
 
-    <div class="gridWrapper">
+    <div v-if="!activeDetails.category" class="gridWrapper" style="display: flex">
       <div class="grid">
         <template v-for="target in targets">
-          <div class="grid-item">
+          <div class="grid-item" @click="activeDetails = target">
             <img :src="target.image">
             <p>{{ target.category }}</p>
           </div>
         </template>
       </div>
-    </div>    
+    </div>
 
-    <div class="card">
-      <h5 class="card-header" id="searchTerm">{{ searchInput }} Results: </h5>
+    <div class="card" v-else>
+      <div class="card-header" >
+          <div v-if="!!activeDetails.category" class="btn" @click="resetResults" id="backButton">
+              ⬅︎ Back
+          </div>
+        <img :src="activeDetails.image" style="width: 50px" style="height: 50px">
+        {{ activeDetails.category }} 
+        </div>
       <div class="card-body">
+        
+        <div id="udemyCard" v-if="activeDetails.category == 'Courses'">
+            <div class="input-group-prepend">
+              <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2">
+              <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
+            </div>
+        </div>
+
+        <div id="youTubeCard" v-if="activeDetails.category == 'Videos'">
+            <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2">
+            <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
+        </div>
+
         <div id="searchResults">
-            <template v-for="result in udemyResults.results">
-              <ul>
-                <li>
-                  <img v-bind:src="result.image_125_H"/>
-                  <a target="_blank" v-bind:href="'https://www.udemy.com' + result.url">{{ result.title }}</a>
-                  <button @click="saveCourse(result)" class="saveResultButton">Save</button>
-                </li>
-              </ul>
-            </template>
-            <template v-for="result in youtubeResults.items">
-              <ul>
-                <li>
-                  <img v-bind:src="result.snippet.thumbnails.default.url"/>
-                  <a target="_blank" v-bind:href="'https://www.youtube.com/watch?v=' + result.id.videoId">{{ result.snippet.title }}</a>
-                  <button class="saveResultButton">Save</button>
-                </li>
-              </ul>
-            </template>
+          <template v-for="result in udemyResults.results">
+            <ul>
+              <li>
+                <img v-bind:src="result.image_125_H"/>
+                <a target="_blank" v-bind:href="'https://www.udemy.com' + result.url">{{ result.title }}</a>
+                <button @click="saveCourse(result)" class="saveResultButton">Save</button>
+              </li>
+            </ul>
+          </template>
+          <template v-for="result in youtubeResults.items">
+            <ul>
+              <li>
+                <img v-bind:src="result.snippet.thumbnails.default.url"/>
+                <a target="_blank" v-bind:href="'https://www.youtube.com/watch?v=' + result.id.videoId">{{ result.snippet.title }}</a>
+                <button class="saveResultButton">Save</button>
+              </li>
+            </ul>
+          </template>
         </div>
       </div>
     </div>
