@@ -40,8 +40,6 @@ var modal = new Vue({
                 }); 
             } else {
                 alert("Please fill in all fields");
-                document.getElementById("main").style.display="block";
-                document.getElementById("selectNextAction").style.display="none";
             }
         },
         addNotebook: function() {
@@ -70,6 +68,7 @@ var index = new Vue({
     searchInput: "",
     inputValue: "",
     activeDetails: {},
+    newNotebookName: "",
     targets: [
         {
             category: "Notebooks",
@@ -138,6 +137,19 @@ var index = new Vue({
           }).then(function(response) {
             console.log(response);
           });
+    },
+    renderNotebookList: function() {
+
+    },
+    addNotebook: function() {
+        console.log("addNotebook called");
+        $.ajax({
+            type:"POST",
+            url:"/add-notebook/" + sessionStorage.userId,
+            data: {name: this.newNotebookName}
+        }).then(function(response){
+            console.log("RESPONSE FROM BACKEND: ", response);
+        }); 
     }
   },
   computed: {

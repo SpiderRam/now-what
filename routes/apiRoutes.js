@@ -109,13 +109,13 @@ module.exports = function(app) {
 
   });
 
-  app.post("/add-notebook/:username", function(req, res) {
-    var username = req.params.username;
+  app.post("/add-notebook/:userId", function(req, res) {
+    var userId = req.params.userId;
     console.log(req.body);
     db.Notebook.create(req.body)
         .then(function(dbNotebook) {
             console.log(dbNotebook.name)
-            return db.User.findOneAndUpdate({username: username}, { $push: { notebook: dbNotebook._id } }, { new: true });
+            return db.User.findOneAndUpdate({_id: userId}, { $push: { notebook: dbNotebook._id } }, { new: true });
         }).then(function(dbNotebook) {
             res.json(dbNotebook);
         }).catch(function(err) {
@@ -124,4 +124,3 @@ module.exports = function(app) {
   });
 
 };
-

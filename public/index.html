@@ -85,12 +85,20 @@
           </div>
         <img :src="activeDetails.image" style="width: 50px" style="height: 50px">
         {{ activeDetails.category }} 
-        </div>
+      </div>
+      
       <div class="card-body">
+
+        <div id="notebookCard" v-if="activeDetails.category == 'Notebooks'">
+          <div class="input-group-prepend">
+            <input v-model="newNotebookName" type="text" id="notebookNameTextField" class="form-control mr-sm-2">
+            <button @click="addNotebook" class="searchSubmit" type="submit">Add</button>
+          </div>
+        </div>
         
         <div id="udemyCard" v-if="activeDetails.category == 'Courses'">
             <div class="input-group-prepend">
-              <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2">
+              <input v-model="searchInput" type="text" id="udemySearchForm" class="form-control mr-sm-2">
               <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
             </div>
         </div>
