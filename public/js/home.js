@@ -41,15 +41,6 @@ var modal = new Vue({
             } else {
                 alert("Please fill in all fields");
             }
-        },
-        addNotebook: function() {
-            console.log("addNotebook called");
-            $.ajax({
-                type:"POST",
-                url:"/add-notebook" + user.username,
-            }).then(function(response){
-                console.log("RESPONSE FROM BACKEND: ", response);
-            }); 
         }
     }
 });
@@ -60,6 +51,7 @@ var index = new Vue({
     selectedCategory: "Events",
     categories: ["Events", "Jobs", "Courses", "Videos"],
     seen: true,
+    notebookResults: [],
     udemyResults: [],
     youtubeResults: [],
     jobResults: [],
@@ -139,7 +131,15 @@ var index = new Vue({
           });
     },
     renderNotebookList: function() {
-
+        var self = this;
+        $.ajax({
+            type:"GET",
+            url:"/render-notebooks/" + sessionStorage.userId
+        }).then(function(response) {
+            console.log(response);
+            self[self.resultKey] = response;
+            console.log(self.notebookResults);
+        });
     },
     addNotebook: function() {
         console.log("addNotebook called");
@@ -166,6 +166,9 @@ var index = new Vue({
         else if (this.activeDetails.category === "Videos") {
             return "youtubeResults";
         }
+        else if (this.activeDetails.category === "Notebooks") {
+            return "notebookResults";
+        }
       },
       searchURL: function() {
         if (this.activeDetails.category === "Events") {
@@ -181,6 +184,11 @@ var index = new Vue({
             return "/youtube/" + this.searchInput;
         }
       }
+  },
+  watch: {
+    notebookResults() {
+      renderNotebookList()
+    }
   }
 });
 

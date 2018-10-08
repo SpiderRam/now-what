@@ -80,11 +80,6 @@ module.exports = function(app) {
          cleanMeetup.push(singleMeetup);
 
        }
-      
-
-
-
-
       res.json(cleanMeetup);
     });
   });
@@ -105,8 +100,18 @@ module.exports = function(app) {
     indeed.query(queryOptions).then(data => {
         res.json(data);
     });
+  });
 
-
+  app.get("/render-notebooks/:userId", function(req, res) {
+    db.User.findById(req.params.userId)
+      .populate("notebook")
+      .then(function(dbUser) {
+        res.json(dbUser.notebook);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  
   });
 
   app.post("/add-notebook/:userId", function(req, res) {

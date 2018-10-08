@@ -91,9 +91,18 @@
 
         <div id="notebookCard" v-if="activeDetails.category == 'Notebooks'">
           <div class="input-group-prepend">
+            <label for="notebookNameTextField">Add New Notebook:</label>
             <input v-model="newNotebookName" type="text" id="notebookNameTextField" class="form-control mr-sm-2">
             <button @click="addNotebook" class="searchSubmit" type="submit">Add</button>
           </div>
+          <template v-for="result in notebookResults">
+            <ul>
+              <li>
+                <img src="./images/icon-home.png"/>
+                <p>{{ result.name }}</p>
+              </li>
+            </ul>
+          </template>
         </div>
         
         <div id="udemyCard" v-if="activeDetails.category == 'Courses'">
@@ -109,6 +118,14 @@
         </div>
 
         <div id="searchResults">
+          <template v-for="result in notebookResults">
+            <ul>
+              <li>
+                <img src="./images/icon-home.png"/>
+                <p>{{ result.name }}</p>
+              </li>
+            </ul>
+          </template>
           <template v-for="result in udemyResults.results">
             <ul>
               <li>

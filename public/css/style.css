@@ -109,7 +109,7 @@ nav {
 }
 
 .grid-item:hover {
-    box-shadow: 5px 10px 18px mediumblue;
+    box-shadow: 5px 10px 18px dodgerblue;
 }
 
 .grid-item p {
@@ -138,6 +138,10 @@ nav {
 
 #backButton {
     float: left;
+}
+
+#notebookNameTextField {
+    width: 70%;
 }
 
 h4 {
