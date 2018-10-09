@@ -1,5 +1,6 @@
-var userEmail;
+var userId;
 var usernameText;
+var notebooksList;
 
 var modal = new Vue({
     el: "#login-modal",
@@ -16,30 +17,31 @@ var modal = new Vue({
     },
     methods: {
         addNewUser: function() {
-            console.log("addNewUser called");
-            console.log(this.newUserObject);
-
+            
             $.ajax({
                 type:"POST",
                 url:"/add-new-user",
                 data: this.newUserObject
             }).then(function(response){
                 sessionStorage.usernameText = response.username;
-                sessionStorage.userEmail = response.email;
+                sessionStorage.userId = response.id;
             }); 
         },
         returningUser: function() {
-            console.log("returningUser called");
-            console.log(this.returningUserObject);
-        },
-        addNotebook: function() {
-            console.log("addNotebook called");
-            $.ajax({
-                type:"POST",
-                url:"/add-notebook" + user.username,
-            }).then(function(response){
-                console.log("RESPONSE FROM BACKEND: ", response);
-            }); 
+
+            if (this.returningUserObject.email.length > 0 && this.returningUserObject.password.length > 0) {
+                $.ajax({
+                    type:"POST",
+                    url:"/returning-user",
+                    data: this.returningUserObject
+                }).then(function(response){
+                    sessionStorage.usernameText = response[0].username;
+                    sessionStorage.userId = response[0]._id;
+                    console.log( sessionStorage.usernameText, sessionStorage.userId);
+                }); 
+            } else {
+                alert("Please fill in all fields");
+            }
         }
     }
 });
@@ -50,43 +52,43 @@ var index = new Vue({
     selectedCategory: "Events",
     categories: ["Events", "Jobs", "Courses", "Videos"],
     seen: true,
+    notebookResults: [],
     udemyResults: [],
     youtubeResults: [],
     jobResults: [],
     eventResults: [],
     udemyLinks: [],
     searchInput: "",
+    inputValue: "",
     activeDetails: {},
+    newNotebookName: "",
+    saveToNotebookName: "",
+    blankTextFieldVal: "",
+    searchTextFieldVal: "Search",
     targets: [
         {
             category: "Notebooks",
             image: "../images/icon-home.png",
-            clicked: false
         },
         {
             category: "Events",
             image: "../images/icon-events.png",
-            clicked: false
         },
         {
             category: "Courses",
             image: "../images/icon-courses.png",
-            clicked: false
         },
         {
             category: "Jobs",
             image: "../images/icon-jobs.png",
-            clicked: false
         },
         {
             category: "Videos",
             image: "../images/icon-videos.png",
-            clicked: false
         },
         {
             category: "Articles",
             image: "../images/icon-articles.png",
-            clicked: false
         }
     ]
   },
@@ -97,9 +99,10 @@ var index = new Vue({
         type: "GET",
         url: self.searchURL
       }).then(function(response) {
-        console.log(JSON.parse(response));
-        // self.resetResults();
+        // console.log(JSON.parse(response));
         self[self.resultKey] = JSON.parse(response);
+        console.log(self[self.resultKey]);
+        this.searchTextFieldVal = "Search";
       });
     },
     resetResults: function() {
@@ -108,14 +111,32 @@ var index = new Vue({
         this.jobResults = [];
         this.eventResults = [];
         this.activeDetails = {};
+        this.saveToNotebookName = "";
     },
     modalToggle: function() {
         $("#login-modal").modal("toggle");
     },
-    saveCourse: function(course) {
-        console.log(course);
-        $.post("/udemy", course).then(function(res){
-            console.log(res);
+    saveUdemyCourse: function(result) {
+        var self = this;
+
+        var courseObject = {
+            courseData: {
+                title: result.title,
+                link: "https://www.udemy.com" + result.url,
+                image: result.image_125_H
+            },
+            notebook: this.saveToNotebookName
+        };
+
+        console.log(courseObject);
+
+        $.ajax({
+            type: "POST",
+            url: "/save-course",
+            data: courseObject
+        }).then(function(response) {
+            console.log(JSON.stringify(response));
+            
         });
     },
     getEvents: function() {
@@ -126,6 +147,30 @@ var index = new Vue({
           }).then(function(response) {
             console.log(response);
           });
+    },
+    getNotebookList: function() {
+        var self = this;
+        $.ajax({
+            type:"GET",
+            url:"/render-notebooks/" + sessionStorage.userId
+        }).then(function(response) {
+            notebooksList = response;
+            self.renderNotebookList(notebooksList);
+        });
+    },
+    addNotebook: function() {
+        var self = this;
+        $.ajax({
+            type:"POST",
+            url:"/add-notebook/" + sessionStorage.userId,
+            data: {name: this.newNotebookName}
+        }).then(function(response){
+            self.getNotebookList();
+        }); 
+    },
+    renderNotebookList: function(notebooksList) {
+        var self = this;
+        self[self.resultKey] = notebooksList;
     }
   },
   computed: {
@@ -142,6 +187,9 @@ var index = new Vue({
         else if (this.activeDetails.category === "Videos") {
             return "youtubeResults";
         }
+        else if (this.activeDetails.category === "Notebooks") {
+            return "notebookResults";
+        }
       },
       searchURL: function() {
         if (this.activeDetails.category === "Events") {
@@ -156,6 +204,32 @@ var index = new Vue({
         else if (this.activeDetails.category === "Videos") {
             return "/youtube/" + this.searchInput;
         }
+      },
+      renderTarget: function() {
+        if (this.activeDetails.category === "Events") {
+            console.log("Render Events");
+        } 
+        else if (this.activeDetails.category === "Jobs") {
+            console.log("Render Jobs");
+        } 
+        else if (this.activeDetails.category === "Courses") {
+            console.log("Render Courses");
+        }
+        else if (this.activeDetails.category === "Videos") {
+            console.log("Render Videos");
+        }
+        else if (this.activeDetails.category === "Notebooks") {
+            console.log("Render Notebooks");
+            // this.activeDetails = target;
+            this.getNotebookList();
+        }
+      },
+  },
+  watch: {
+      activeDetails: function(val, oldVal) {
+          if (val.category ===  "Notebooks") {
+              this.getNotebookList();
+          }
       }
   }
 });

@@ -13,7 +13,7 @@ module.exports = function(app) {
             return dbUser;
         }).then(function(dbUser) {
             const user = {
-              email: dbUser.email,
+              id: dbUser._id,
               username: dbUser.username
             };
             console.log(user);
@@ -22,6 +22,16 @@ module.exports = function(app) {
             res.json(err);
     });
   });
+
+  app.post("/returning-user", function (req, res) {
+    console.log("Request: " + JSON.stringify(req.body));
+    db.User.find( 
+        { email: req.body.email, password: req.body.password }
+    ).then(function(data) {
+      console.log(data);
+        res.json(data);
+    });
+});
 
   app.get("/udemy/:udemyQuery", function(req, res){
     var udemyQuery = req.params.udemyQuery;
@@ -53,6 +63,20 @@ module.exports = function(app) {
     });
   });
 
+  app.post("/save-course", function(req, res) {
+    db.Course.create(req.body.courseData)
+    .then(function(dbCourse) {
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { course: dbCourse._id } }, { new: true });
+    })
+    .then(function(dbNotebook) {
+      res.json(dbNotebook)
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+
+  });
+
   app.get("/meetup", function(req, res){
    
     request ({
@@ -70,11 +94,6 @@ module.exports = function(app) {
          cleanMeetup.push(singleMeetup);
 
        }
-      
-
-
-
-
       res.json(cleanMeetup);
     });
   });
@@ -95,17 +114,27 @@ module.exports = function(app) {
     indeed.query(queryOptions).then(data => {
         res.json(data);
     });
-
-
   });
 
-  app.post("/add-notebook/:username", function(req, res) {
-    var username = req.params.username;
+  app.get("/render-notebooks/:userId", function(req, res) {
+    db.User.findById(req.params.userId)
+      .populate("notebook")
+      .then(function(dbUser) {
+        res.json(dbUser.notebook);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  
+  });
+
+  app.post("/add-notebook/:userId", function(req, res) {
+    var userId = req.params.userId;
     console.log(req.body);
     db.Notebook.create(req.body)
         .then(function(dbNotebook) {
             console.log(dbNotebook.name)
-            return db.User.findOneAndUpdate({username: username}, { $push: { notebook: dbNotebook._id } }, { new: true });
+            return db.User.findOneAndUpdate({_id: userId}, { $push: { notebook: dbNotebook._id } }, { new: true });
         }).then(function(dbNotebook) {
             res.json(dbNotebook);
         }).catch(function(err) {
@@ -114,4 +143,3 @@ module.exports = function(app) {
   });
 
 };
-
