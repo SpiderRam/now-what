@@ -160,6 +160,27 @@ p {
     list-style: none;
 }
 
+#notebookCard ul {
+    list-style: none;
+}
+
+#notebookCard li {
+    display: inline-flex;
+}
+
+#notebookCard li p {
+    color: midnightblue;
+    text-decoration: underline;
+    align-self: center;
+    font-size: 30px;
+    margin-left: 20px;   
+}
+
+.notebookIcon {
+    width: 50px;
+    height: 50px;
+}
+
 #searchResults li {
     padding-bottom: 5px;
     border-bottom: 2px solid navy;

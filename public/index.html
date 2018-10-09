@@ -70,7 +70,7 @@
     <div v-if="!activeDetails.category" class="gridWrapper" style="display: flex">
       <div class="grid">
         <template v-for="target in targets">
-          <div class="grid-item" @click="activeDetails = target">
+          <div class="grid-item" @click="activeDetails = target, renderTarget">
             <img :src="target.image">
             <p>{{ target.category }}</p>
           </div>
@@ -98,7 +98,7 @@
           <template v-for="result in notebookResults">
             <ul>
               <li>
-                <img src="./images/icon-home.png"/>
+                <img class="notebookIcon" src="./images/icon-home.png"/>
                 <p>{{ result.name }}</p>
               </li>
             </ul>
@@ -108,30 +108,24 @@
         <div id="udemyCard" v-if="activeDetails.category == 'Courses'">
             <div class="input-group-prepend">
               <input v-model="searchInput" type="text" id="udemySearchForm" class="form-control mr-sm-2">
-              <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
+              <button @click="handleSearch" class="searchSubmit" type="submit" >Search</button>
             </div>
         </div>
 
         <div id="youTubeCard" v-if="activeDetails.category == 'Videos'">
-            <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2">
-            <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
+            <div class="input-group-prepend">
+              <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2">
+              <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
+            </div>
         </div>
 
         <div id="searchResults">
-          <template v-for="result in notebookResults">
-            <ul>
-              <li>
-                <img src="./images/icon-home.png"/>
-                <p>{{ result.name }}</p>
-              </li>
-            </ul>
-          </template>
           <template v-for="result in udemyResults.results">
             <ul>
               <li>
                 <img v-bind:src="result.image_125_H"/>
                 <a target="_blank" v-bind:href="'https://www.udemy.com' + result.url">{{ result.title }}</a>
-                <button @click="saveCourse(result)" class="saveResultButton">Save</button>
+                <button @click="saveUdemyCourse(result)" class="saveResultButton" :id="result.id">Save</button>
               </li>
             </ul>
           </template>
