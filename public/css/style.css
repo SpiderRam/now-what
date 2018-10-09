@@ -51,8 +51,8 @@
 #loginButton {
     display: inline-block;
     margin-left: 10px;
-    padding: .375rem .75rem;
-    border-radius: .25rem;
+    padding: 20px 10px;;
+    border-radius: 50%;
     font-family: 'Aldrich', sans-serif;
     color: steelblue;
     text-shadow: 1px 1px 2px navy;

@@ -1,6 +1,5 @@
 var userId;
 var usernameText;
-var notebooksList;
 
 var modal = new Vue({
     el: "#login-modal",
@@ -63,6 +62,8 @@ var index = new Vue({
     activeDetails: {},
     newNotebookName: "",
     saveToNotebookName: "",
+    notebooksList: [],
+    activeNotebook: {},
     blankTextFieldVal: "",
     searchTextFieldVal: "Search",
     targets: [
@@ -102,7 +103,6 @@ var index = new Vue({
         // console.log(JSON.parse(response));
         self[self.resultKey] = JSON.parse(response);
         console.log(self[self.resultKey]);
-        this.searchTextFieldVal = "Search";
       });
     },
     resetResults: function() {
@@ -154,9 +154,14 @@ var index = new Vue({
             type:"GET",
             url:"/render-notebooks/" + sessionStorage.userId
         }).then(function(response) {
-            notebooksList = response;
-            self.renderNotebookList(notebooksList);
+            self.notebooksList = response;
+            self.renderNotebookList(self.notebooksList);
         });
+    },
+    renderNotebookList: function(notebooksList) {
+        var self = this;
+        self[self.resultKey] = self.notebooksList;
+        console.log(self.notebooksList);
     },
     addNotebook: function() {
         var self = this;
@@ -168,9 +173,18 @@ var index = new Vue({
             self.getNotebookList();
         }); 
     },
-    renderNotebookList: function(notebooksList) {
+    getNotebookContents: function() {
         var self = this;
-        self[self.resultKey] = notebooksList;
+        $.ajax({
+            type:"GET",
+            url:"/render-notebook-contents/" 
+        }).then(function(response) {
+            console.log("Retrieving notebook contents");
+        });
+    },
+    renderNotebookContents: function() {
+        var self = this;
+        console.log("Rendering notebook contents");
     }
   },
   computed: {

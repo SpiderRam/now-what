@@ -99,30 +99,43 @@
             <ul>
               <li>
                 <img class="notebookIcon" src="./images/icon-home.png"/>
-                <p>{{ result.name }}</p>
+                <p v-bind:id="result._id">{{ result.name }}</p>
               </li>
             </ul>
           </template>
+          
         </div>
+
+        <!-- <template v-if="!activeNotebook.id" v-for="result in notebookResults">
+            <ul>
+              <li>
+                <img class="notebookIcon" src="./images/icon-home.png"/>
+                <p v-for="notebook in notebooksList" v-bind:id="result._id" @click="activeNotebook = notebook, renderNotebookContents">{{ result.name }}</p>
+              </li>
+            </ul>
+          </template>
+          <template v-else>
+            <div>{{ notebook }}</div>
+          </template> -->
         
         <div id="udemyCard" v-if="activeDetails.category == 'Courses'">
             <div class="input-group-prepend">
-                <input v-model="searchInput" type="text" id="udemySearchForm" class="form-control mr-sm-2" v-bind:placeholder="searchTextFieldVal">
+                <input v-model="searchInput" type="text" id="udemySearchForm" class="form-control mr-sm-2">
                 <button @click="handleSearch" class="searchSubmit" type="submit" >Search</button>
             </div>
             <div class="input-group-prepend">
-              <input v-model="saveToNotebookName" type="text" id="saveCourseNotebookName" class="form-control mr-sm-2" placeholder="Enter name of the notebook to which you want to save each course">
+              <input v-model="saveToNotebookName" type="text" id="saveCourseNotebookName" class="form-control mr-sm-2" placeholder="Enter name of the notebook in which you want to save each course">
             </div>
             <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
         </div>
 
         <div id="youTubeCard" v-if="activeDetails.category == 'Videos'">
             <div class="input-group-prepend">
-              <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2" v-bind:placeholder="searchTextFieldVal">
+              <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2" >
               <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
             </div>
             <div class="input-group-prepend">
-              <input v-model="saveToNotebookName" type="text" id="saveVideoNotebookName" class="form-control mr-sm-2" placeholder="Enter name of the notebook to which you want to save each video">
+              <input v-model="saveToNotebookName" type="text" id="saveVideoNotebookName" class="form-control mr-sm-2" placeholder="Enter name of the notebook in which you want to save each video">
             </div>
             <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
         </div>
