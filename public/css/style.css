@@ -156,6 +156,13 @@ p {
     margin-bottom: 10px;
 }
 
+.savingTo {
+    font-family: 'Aldrich', sans-serif;
+    font-size: 40px;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 5px steelblue;
+}
+
 #searchResults ul {
     list-style: none;
 }

@@ -66,7 +66,7 @@ module.exports = function(app) {
   app.post("/save-course", function(req, res) {
     db.Course.create(req.body.courseData)
     .then(function(dbCourse) {
-      return db.Notebook.findOneAndUpdate({name: "Reeshida"}, { $push: { course: dbCourse._id } }, { new: true });
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { course: dbCourse._id } }, { new: true });
     })
     .then(function(dbNotebook) {
       res.json(dbNotebook)

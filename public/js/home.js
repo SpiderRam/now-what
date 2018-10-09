@@ -62,6 +62,7 @@ var index = new Vue({
     inputValue: "",
     activeDetails: {},
     newNotebookName: "",
+    saveToNotebookName: "",
     targets: [
         {
             category: "Notebooks",
@@ -107,6 +108,7 @@ var index = new Vue({
         this.jobResults = [];
         this.eventResults = [];
         this.activeDetails = {};
+        this.saveToNotebookName = "";
     },
     modalToggle: function() {
         $("#login-modal").modal("toggle");
@@ -120,7 +122,7 @@ var index = new Vue({
                 link: "https://www.udemy.com" + result.url,
                 image: result.image_125_H
             },
-            user: sessionStorage.userId
+            notebook: this.saveToNotebookName
         };
 
         console.log(courseObject);
