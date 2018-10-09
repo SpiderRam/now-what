@@ -107,7 +107,7 @@
         
         <div id="udemyCard" v-if="activeDetails.category == 'Courses'">
             <div class="input-group-prepend">
-                <input v-model="searchInput" type="text" id="udemySearchForm" class="form-control mr-sm-2">
+                <input v-model="searchInput" type="text" id="udemySearchForm" class="form-control mr-sm-2" v-bind:placeholder="searchTextFieldVal">
                 <button @click="handleSearch" class="searchSubmit" type="submit" >Search</button>
             </div>
             <div class="input-group-prepend">
@@ -118,7 +118,7 @@
 
         <div id="youTubeCard" v-if="activeDetails.category == 'Videos'">
             <div class="input-group-prepend">
-              <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2">
+              <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2" v-bind:placeholder="searchTextFieldVal">
               <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
             </div>
             <div class="input-group-prepend">

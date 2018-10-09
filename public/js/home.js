@@ -63,6 +63,8 @@ var index = new Vue({
     activeDetails: {},
     newNotebookName: "",
     saveToNotebookName: "",
+    blankTextFieldVal: "",
+    searchTextFieldVal: "Search",
     targets: [
         {
             category: "Notebooks",
@@ -100,6 +102,7 @@ var index = new Vue({
         // console.log(JSON.parse(response));
         self[self.resultKey] = JSON.parse(response);
         console.log(self[self.resultKey]);
+        this.searchTextFieldVal = "Search";
       });
     },
     resetResults: function() {
