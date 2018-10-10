@@ -125,7 +125,21 @@ module.exports = function(app) {
       .catch(function(err) {
         res.json(err);
       });
-  
+  });
+
+  app.get("/render-notebook-contents/:notebookId", function(req, res) {
+    db.Notebook.findById(req.params.notebookId)
+      .populate("course")
+      .populate("video")
+      .populate("event")
+      .populate("job")
+      .populate("article")
+      .then(function(dbNotebook) {
+        res.json(dbNotebook);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
   });
 
   app.post("/add-notebook/:userId", function(req, res) {

@@ -54,7 +54,7 @@
     padding: 20px 10px;;
     border-radius: 50%;
     font-family: 'Aldrich', sans-serif;
-    color: steelblue;
+    color: dodgerblue;
     text-shadow: 1px 1px 2px navy;
     border: 1px solid navy;
 }
@@ -172,20 +172,37 @@ p {
 }
 
 #notebookCard li {
-    display: inline-flex;
+    margin-bottom: 10px;
+    border-bottom: 1px solid navy;
 }
 
 #notebookCard li p {
+    display: inline-flex;
     color: midnightblue;
-    text-decoration: underline;
+    text-shadow: 2px 2px 5px steelblue;
     align-self: center;
     font-size: 30px;
     margin-left: 20px;   
 }
 
+#notebookCard li p:hover {
+    text-shadow: 2px 2px 5px dodgerblue;
+
+}
+
 .notebookIcon {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
+}
+
+.deleteNotebookButton {
+    float: right;
+    color: midnightblue;
+    opacity: 0.5;
+    border: 1px solid midnightblue;
+    padding: .375rem .75rem;
+    border-radius: .25rem;
+    margin-top: 10px;
 }
 
 #searchResults li {

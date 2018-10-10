@@ -62,10 +62,8 @@ var index = new Vue({
     activeDetails: {},
     newNotebookName: "",
     saveToNotebookName: "",
-    notebooksList: [],
+    // notebooksList: [],
     activeNotebook: {},
-    blankTextFieldVal: "",
-    searchTextFieldVal: "Search",
     targets: [
         {
             category: "Notebooks",
@@ -103,6 +101,7 @@ var index = new Vue({
         // console.log(JSON.parse(response));
         self[self.resultKey] = JSON.parse(response);
         console.log(self[self.resultKey]);
+        self.searchInput = "";
       });
     },
     resetResults: function() {
@@ -161,7 +160,6 @@ var index = new Vue({
     renderNotebookList: function(notebooksList) {
         var self = this;
         self[self.resultKey] = self.notebooksList;
-        console.log(self.notebooksList);
     },
     addNotebook: function() {
         var self = this;
@@ -180,6 +178,8 @@ var index = new Vue({
             url:"/render-notebook-contents/" 
         }).then(function(response) {
             console.log("Retrieving notebook contents");
+            self[self.resultKey] = self.notebookContents;
+            self.renderNotebookContents();
         });
     },
     renderNotebookContents: function() {
@@ -188,6 +188,9 @@ var index = new Vue({
     }
   },
   computed: {
+      showNotebookList () {
+        return this.activeDetails.category === 'Notebooks'
+      },
       resultKey: function() {
         if (this.activeDetails.category === "Events") {
             return "eventResults";
