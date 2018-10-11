@@ -156,12 +156,14 @@ var index = new Vue({
         });
     },
     getEvents: function() {
+        self = this;
         console.log("Getting events...");
         $.ajax({
             type: "GET",
             url: "/meetup"
           }).then(function(response) {
-            console.log(response);
+              self.eventResults = response;
+            console.log(self.eventResults);
           });
     },
     getNotebookList: function() {
@@ -249,6 +251,9 @@ var index = new Vue({
           if (val.category ===  "Notebooks") {
               this.getNotebookList();
           }
+          else if (val.category ===  "Events") {
+            this.getEvents();
+        }
       }
   }
 });

@@ -94,16 +94,14 @@ module.exports = function(app) {
   app.get("/meetup", function(req, res){
    
     request ({
-      url: "https://api.meetup.com/find/upcoming_events?&photo-host=public&topic_category=34&page=5&radius=50&key=" + process.env.MEET_UP_KEY
+      url: "https://api.meetup.com/find/upcoming_events?&photo-host=public&topic_category=34&page=10&radius=50&key=" + process.env.MEET_UP_KEY
     },function(err, raw, body){
       var cleanMeetup = [];
        for(var i=0; i<JSON.parse(body).events.length; i++){
          var singleMeetup = {
            title: JSON.parse(body).events[i].name,
-           link: JSON.parse(body).events[i].link,
-           picture: "https://pbs.twimg.com/profile_images/875701356849504256/x8t7RxeV_400x400.jpg"
-
-         }
+           link: JSON.parse(body).events[i].link
+         };
 
          cleanMeetup.push(singleMeetup);
 

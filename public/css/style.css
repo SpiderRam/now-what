@@ -157,6 +157,12 @@ p {
     margin-bottom: 10px;
 }
 
+#addNotebookLabel {
+    font-family: 'Aldrich', sans-serif;
+    text-shadow: 2px 2px 5px steelblue;
+    font-size: 20px;
+}
+
 .savingTo {
     font-family: 'Aldrich', sans-serif;
     font-size: 40px;
