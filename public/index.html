@@ -129,7 +129,7 @@
             <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
           </div>
           <div class="input-group-prepend">
-            <input v-model="saveToNotebookName" type="text" id="saveCourseNotebookName" class="form-control mr-sm-2"
+            <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
               placeholder="Enter name of the notebook in which you want to save each course">
           </div>
           <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
@@ -141,19 +141,43 @@
             <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
           </div>
           <div class="input-group-prepend">
-            <input v-model="saveToNotebookName" type="text" id="saveVideoNotebookName" class="form-control mr-sm-2"
+            <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
               placeholder="Enter name of the notebook in which you want to save each video">
           </div>
           <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
         </div>
 
         <div id="meetupCard" v-if="activeDetails.category == 'Events'">
+          <div class="input-group-prepend">
+            <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
+              placeholder="Enter name of the notebook in which you want to save each event">
+          </div>
+          <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
+        </div>
+
+        <div id="jobsCard" v-if="activeDetails.category == 'Jobs'">
+          <div class="inputForm">
+            <div>
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="City, State" v-model="citySearchInput">
+                </div>
+                <!-- <div class="col">
+                  <input type="text" class="form-control" placeholder="State" v-model="stateSearchInput">
+                </div> -->
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Keyword search" v-model="jobKeywordInput">
+                </div>
+                <button id="jobSearchSubmit" type="button" class="btn btn-primary btn-sm" @click="getJobs">Search</button>
+              </div>
+            </div>
             <div class="input-group-prepend">
-              <input v-model="saveToNotebookName" type="text" id="saveEventNotebookName" class="form-control mr-sm-2"
-                placeholder="Enter name of the notebook in which you want to save each event">
+              <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
+                placeholder="Enter name of the notebook in which you want to save each job">
             </div>
             <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
           </div>
+        </div>
 
         <div id="searchResults">
           <template v-for="result in udemyResults.results">
@@ -185,6 +209,18 @@
               </li>
             </ul>
           </template>
+          <template v-for="result in jobResults">
+              <ul>
+                <li>
+                  <img src="images/indeed.png"/>
+                  <a target="_blank" v-bind:href="result.link">{{
+                    result.title }}</a>
+                  <p>{{ result.company }} | {{ result.location }}</p>
+                  <p>{{ result.summary }}</p>
+                  <button class="saveResultButton" @click="saveJob(result)" >Save</button>
+                </li>
+              </ul>
+            </template>
         </div>
       </div>
     </div>

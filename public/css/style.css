@@ -65,11 +65,6 @@
     border: 1px solid white;
 }
 
-nav {
-    background-image: url("../images/trianglify.png");
-    margin-bottom: 30px;
-}
-
 .searchSubmit {
     color: midnightblue;
     background-color: transparent;
@@ -79,6 +74,20 @@ nav {
 }
 
 .searchSubmit:hover {
+    background-image: url("../images/button-blue.png");
+    color: white;
+    border: 1px solid white;
+}
+
+#jobSearchSubmit {
+    color: midnightblue;
+    background-color: transparent;
+    border: 1px solid midnightblue;
+    border-radius: .25rem;
+    margin-bottom: 15px;
+}
+
+#jobSearchSubmit:hover {
     background-image: url("../images/button-blue.png");
     color: white;
     border: 1px solid white;
@@ -153,7 +162,7 @@ p {
     margin-bottom: 0px;
 }
 
-.input-group-prepend {
+.input-group-prepend, .col {
     margin-bottom: 15px;
 }
 
@@ -234,6 +243,7 @@ p {
 
 .contentSectionTitle {
     font-family: 'Aldrich', sans-serif;
-    text-shadow: 2px 2px 5px steelblue;
+    text-shadow: 2px 2px 5px dodgerblue;
     font-size: 25px;
+    margin-top: 25px;
 }

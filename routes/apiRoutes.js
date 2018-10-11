@@ -31,7 +31,7 @@ module.exports = function(app) {
       console.log(data);
         res.json(data);
     });
-});
+  });
 
   app.get("/udemy/:udemyQuery", function(req, res){
     var udemyQuery = req.params.udemyQuery;
@@ -43,21 +43,6 @@ module.exports = function(app) {
           "Authorization":process.env.UDEMY_API_KEY,
           "Content-Type": "application/json;charset=utf-8"
         }
-    },function(err, raw, body){
-      res.json(body);
-    });
-  });
-
-  app.post("/udemy", function(req, res) {
-    console.log(req.body);
-  });
-
-  app.get("/youtube/:youTubeQuery", function(req, res){
-    var youTubeQuery = req.params.youTubeQuery;
-    console.log(youTubeQuery);
-    request ({
-      url: "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + youTubeQuery + "&type=video&key=" + process.env.YOU_TUBE_API,
-        
     },function(err, raw, body){
       res.json(body);
     });
@@ -75,6 +60,17 @@ module.exports = function(app) {
       res.json(err);
     });
 
+  });
+
+  app.get("/youtube/:youTubeQuery", function(req, res){
+    var youTubeQuery = req.params.youTubeQuery;
+    console.log(youTubeQuery);
+    request ({
+      url: "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + youTubeQuery + "&type=video&key=" + process.env.YOU_TUBE_API,
+        
+    },function(err, raw, body){
+      res.json(body);
+    });
   });
 
   app.post("/save-video", function(req, res) {
@@ -126,10 +122,10 @@ module.exports = function(app) {
   });
   
   app.get("/indeed", function(req, res){
-    var jobsArr = [];
+    console.log(req.body.city);
     const queryOptions = {
-      query: 'Web Developer',
-      city: 'Richmond, VA',
+      query: req.body.keyword,
+      city: req.body.city,
       radius: '50',
       level: 'entry_level',
       jobType: 'fulltime',
@@ -137,11 +133,35 @@ module.exports = function(app) {
       sort: 'date',
       limit: '20'
     };
-    var jobsArr = [];
+    // const queryOptions = {
+    //   query: "Web Developer",
+    //   city: "Richmond, VA",
+    //   radius: '50',
+    //   level: 'entry_level',
+    //   jobType: 'fulltime',
+    //   maxAge: '7',
+    //   sort: 'date',
+    //   limit: '20'
+    // };
     indeed.query(queryOptions).then(data => {
         res.json(data);
     });
   });
+
+  app.post("/add-notebook/:userId", function(req, res) {
+    var userId = req.params.userId;
+    console.log(req.body);
+    db.Notebook.create(req.body)
+        .then(function(dbNotebook) {
+            console.log(dbNotebook.name)
+            return db.User.findOneAndUpdate({_id: userId}, { $push: { notebook: dbNotebook._id } }, { new: true });
+        }).then(function(dbNotebook) {
+            res.json(dbNotebook);
+        }).catch(function(err) {
+            res.json(err);
+    });
+  });
+
 
   app.get("/render-notebooks/:userId", function(req, res) {
     db.User.findById(req.params.userId)
@@ -171,19 +191,4 @@ module.exports = function(app) {
       });
   });
 
-  app.post("/add-notebook/:userId", function(req, res) {
-    var userId = req.params.userId;
-    console.log(req.body);
-    db.Notebook.create(req.body)
-        .then(function(dbNotebook) {
-            console.log(dbNotebook.name)
-            return db.User.findOneAndUpdate({_id: userId}, { $push: { notebook: dbNotebook._id } }, { new: true });
-        }).then(function(dbNotebook) {
-            res.json(dbNotebook);
-        }).catch(function(err) {
-            res.json(err);
-    });
-  });
-
-  
 };

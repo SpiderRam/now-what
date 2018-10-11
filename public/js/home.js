@@ -58,6 +58,9 @@ var index = new Vue({
     eventResults: [],
     udemyLinks: [],
     searchInput: "",
+    citySearchInput: "",
+    stateSearchInput: "",
+    jobKeywordInput: "",
     inputValue: "",
     activeDetails: {},
     newNotebookName: "",
@@ -183,6 +186,23 @@ var index = new Vue({
             console.log(JSON.stringify(response));
         });
     },
+    getJobs: function() {
+        self = this;
+        console.log("Getting jobs...");
+        console.log(self.citySearchInput, self.jobKeywordInput);
+        $.ajax({
+            type: "GET",
+            url: "/indeed",
+            data: {
+                city: self.citySearchInput,
+                keyword: self.jobKeywordInput
+            }
+            // url: "/indeed/city/" + self.citySearchInput + "/keyword/" + self.jobKeywordInput
+          }).then(function(response) {
+              self.jobResults = response;
+            console.log(self.jobResults);
+          });
+    },
     getNotebookList: function() {
         var self = this;
         $.ajax({
@@ -265,11 +285,11 @@ var index = new Vue({
   },
   watch: {
       activeDetails: function(val, oldVal) {
-          if (val.category ===  "Notebooks") {
-              this.getNotebookList();
-          }
-          else if (val.category ===  "Events") {
-            this.getEvents();
+        if (val.category ===  "Notebooks") {
+            this.getNotebookList();
+        }
+        else if (val.category ===  "Events") {
+        this.getEvents();
         }
       }
   }
