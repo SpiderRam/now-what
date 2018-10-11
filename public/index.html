@@ -106,22 +106,20 @@
             <ul>
               <li v-for="result in notebookResults">
                 <img class="notebookIcon" src="./images/icon-home.png" />
-                <p v-bind:id="result._id" @click="activeNotebook = result">
-                  {{ result.name }}</p>
+                <a v-bind:href="'/notebook/' + result._id" v-bind:id="result._id" @click="getNotebookContents, activeNotebook = result">
+                  {{ result.name }}</a>
                 <button class="deleteNotebookButton">Delete</button>
               </li>
             </ul>
           </template>
         </div>
         <div v-else-if="activeDetails.category === 'Notebooks' && !!activeNotebook.name">
-          <div v-for="result in [{name: 'yo', content: 'gababa'}]">
-            <!-- <img class="notebookIcon" src="./images/icon-home.png"/> -->
-            <h4>
-              {{ result.name }}
-            </h4>
-            <p>
-              {{ result.content }}
-            </p>
+          <div >
+            <ul>
+              <li v-for="content in notebookContents">
+                <p>{{ content.link }}</p>
+              </li>
+            </ul>
           </div>
         </div>
 

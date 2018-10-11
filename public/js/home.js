@@ -62,7 +62,7 @@ var index = new Vue({
     activeDetails: {},
     newNotebookName: "",
     saveToNotebookName: "",
-    // notebooksList: [],
+    notebookContents: [],
     activeNotebook: {},
     targets: [
         {
@@ -173,12 +173,15 @@ var index = new Vue({
     },
     getNotebookContents: function() {
         var self = this;
+        console.log(self.activeNotebook);
         $.ajax({
             type:"GET",
-            url:"/render-notebook-contents/" 
+            url:"/render-notebook-contents/" + self.activeNotebook.name
         }).then(function(response) {
             console.log("Retrieving notebook contents");
-            self[self.resultKey] = self.notebookContents;
+            // self[self.resultKey] = self.notebookContents;
+            self.notebookContents = response;
+            console.log(self.notebookContents);
             self.renderNotebookContents();
         });
     },
@@ -188,7 +191,7 @@ var index = new Vue({
     }
   },
   computed: {
-      showNotebookList () {
+      showNotebookLis: function() {
         return this.activeDetails.category === 'Notebooks'
       },
       resultKey: function() {

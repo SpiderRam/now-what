@@ -136,8 +136,9 @@ nav {
     text-align: center;
 }
 
-#backButton {
+#backButton, #homeButton {
     float: left;
+    color: black;
 }
 
 #notebookNameTextField {
@@ -195,7 +196,7 @@ p {
     height: 60px;
 }
 
-.deleteNotebookButton {
+.deleteNotebookButton, .deleteContentButton {
     float: right;
     color: midnightblue;
     opacity: 0.5;

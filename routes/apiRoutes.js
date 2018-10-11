@@ -127,8 +127,9 @@ module.exports = function(app) {
       });
   });
 
-  app.get("/render-notebook-contents/:notebookId", function(req, res) {
-    db.Notebook.findById(req.params.notebookId)
+  app.get("/render-notebook-contents/:notebookName", function(req, res) {
+    console.log(req.params.notebookName);
+    db.Notebook.findById(req.params.notebookName)
       .populate("course")
       .populate("video")
       .populate("event")
@@ -136,6 +137,7 @@ module.exports = function(app) {
       .populate("article")
       .then(function(dbNotebook) {
         res.json(dbNotebook);
+        console.log(dbNotebook);
       })
       .catch(function(err) {
         res.json(err);
