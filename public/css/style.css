@@ -224,6 +224,17 @@ p {
     margin-left: 10px;
 }
 
+.employerNameAndLocation {
+    
+}
+
+.jobTitle {
+    font-family: 'Aldrich', sans-serif;
+    text-shadow: 2px 2px 5px dodgerblue;
+    font-size: 25px;
+    margin-top: 25px;
+}
+
 .saveResultButton {
     float: right;
     color: midnightblue;

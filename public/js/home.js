@@ -189,7 +189,6 @@ var index = new Vue({
     getJobs: function() {
         self = this;
         console.log("Getting jobs...");
-        console.log(self.citySearchInput, self.jobKeywordInput);
         $.ajax({
             type: "GET",
             url: "/indeed",
@@ -202,6 +201,28 @@ var index = new Vue({
               self.jobResults = response;
             console.log(self.jobResults);
           });
+    },
+    saveJob: function(result) {
+        var self = this;
+
+        var jobObject = {
+            jobData: {
+                title: result.title,
+                link: result.url,
+                image: "../images/indeed.png",
+                summary: result.summary,
+                company: result.company,
+                location: result.location
+            },
+            notebook: self.saveToNotebookName
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-job",
+            data: jobObject
+        }).then(function(response) {
+            console.log(JSON.stringify(response));
+        });
     },
     getNotebookList: function() {
         var self = this;

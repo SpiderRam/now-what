@@ -213,11 +213,11 @@
               <ul>
                 <li>
                   <img src="images/indeed.png"/>
-                  <a target="_blank" v-bind:href="result.link">{{
+                  <a target="_blank" v-bind:href="result.url" class="jobTitle">{{
                     result.title }}</a>
-                  <p>{{ result.company }} | {{ result.location }}</p>
-                  <p>{{ result.summary }}</p>
                   <button class="saveResultButton" @click="saveJob(result)" >Save</button>
+                  <h4 class="employerNameAndLocation">{{ result.company }} | {{ result.location }}</h4>
+                  <p class="jobSummary">{{ result.summary }}</p>
                 </li>
               </ul>
             </template>

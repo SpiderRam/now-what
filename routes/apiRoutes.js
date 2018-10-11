@@ -122,20 +122,10 @@ module.exports = function(app) {
   });
   
   app.get("/indeed", function(req, res){
-    console.log(req.body.city);
-    const queryOptions = {
-      query: req.body.keyword,
-      city: req.body.city,
-      radius: '50',
-      level: 'entry_level',
-      jobType: 'fulltime',
-      maxAge: '7',
-      sort: 'date',
-      limit: '20'
-    };
+    // console.log(req.body.city);
     // const queryOptions = {
-    //   query: "Web Developer",
-    //   city: "Richmond, VA",
+    //   query: req.body.keyword,
+    //   city: req.body.city,
     //   radius: '50',
     //   level: 'entry_level',
     //   jobType: 'fulltime',
@@ -143,9 +133,34 @@ module.exports = function(app) {
     //   sort: 'date',
     //   limit: '20'
     // };
+    const queryOptions = {
+      query: "Web Developer",
+      city: "Richmond, VA",
+      radius: '50',
+      level: 'entry_level',
+      jobType: 'fulltime',
+      maxAge: '7',
+      sort: 'date',
+      limit: '20'
+    };
     indeed.query(queryOptions).then(data => {
         res.json(data);
     });
+  });
+
+  app.post("/save-job", function(req, res) {
+    console.log(req.body);
+    db.Job.create(req.body.jobData)
+    .then(function(dbJob) {
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { job: dbJob._id } }, { new: true });
+    })
+    .then(function(dbNotebook) {
+      res.json(dbNotebook);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+
   });
 
   app.post("/add-notebook/:userId", function(req, res) {
