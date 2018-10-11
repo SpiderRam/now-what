@@ -109,6 +109,21 @@ module.exports = function(app) {
       res.json(cleanMeetup);
     });
   });
+
+  app.post("/save-event", function(req, res) {
+    console.log(req.body);
+    db.Event.create(req.body.eventData)
+    .then(function(dbEvent) {
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { event: dbEvent._id } }, { new: true });
+    })
+    .then(function(dbNotebook) {
+      res.json(dbNotebook);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+
+  });
   
   app.get("/indeed", function(req, res){
     var jobsArr = [];

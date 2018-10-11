@@ -148,10 +148,6 @@
         </div>
 
         <div id="meetupCard" v-if="activeDetails.category == 'Events'">
-            <!-- <div class="input-group-prepend">
-              <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2">
-              <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
-            </div> -->
             <div class="input-group-prepend">
               <input v-model="saveToNotebookName" type="text" id="saveEventNotebookName" class="form-control mr-sm-2"
                 placeholder="Enter name of the notebook in which you want to save each event">
@@ -185,7 +181,7 @@
                 <img src="images/meetup.png"/>
                 <a target="_blank" v-bind:href="result.link">{{
                   result.title }}</a>
-                <button class="saveResultButton" >Save</button>
+                <button class="saveResultButton" @click="saveEvent(result)" >Save</button>
               </li>
             </ul>
           </template>

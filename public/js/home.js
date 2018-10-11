@@ -132,7 +132,6 @@ var index = new Vue({
             data: courseObject
         }).then(function(response) {
             console.log(JSON.stringify(response));
-            
         });
     },
     saveVideo: function(result) {
@@ -152,7 +151,6 @@ var index = new Vue({
             data: videoObject
         }).then(function(response) {
             console.log(JSON.stringify(response));
-            
         });
     },
     getEvents: function() {
@@ -165,6 +163,25 @@ var index = new Vue({
               self.eventResults = response;
             console.log(self.eventResults);
           });
+    },
+    saveEvent: function(result) {
+        var self = this;
+
+        var eventObject = {
+            eventData: {
+                title: result.title,
+                link: result.link,
+                image: "../images/meetup.png"
+            },
+            notebook: self.saveToNotebookName
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-event",
+            data: eventObject
+        }).then(function(response) {
+            console.log(JSON.stringify(response));
+        });
     },
     getNotebookList: function() {
         var self = this;
