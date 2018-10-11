@@ -190,16 +190,17 @@ var index = new Vue({
         self = this;
         console.log("Getting jobs...");
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: "/indeed",
             data: {
                 city: self.citySearchInput,
                 keyword: self.jobKeywordInput
             }
-            // url: "/indeed/city/" + self.citySearchInput + "/keyword/" + self.jobKeywordInput
           }).then(function(response) {
               self.jobResults = response;
             console.log(self.jobResults);
+            self.citySearchInput = "";
+            self.jobKeywordInput = "";
           });
     },
     saveJob: function(result) {
@@ -247,6 +248,14 @@ var index = new Vue({
         }).then(function(response){
             self.getNotebookList();
         }); 
+    },
+    deleteContent: function() {
+        $.ajax({
+            type: "DELETE",
+            url: "/delete-content/"
+        }).then(function(response) {
+            console.log(response);
+        });
     }
   },
   computed: {

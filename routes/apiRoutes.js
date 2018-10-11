@@ -121,21 +121,11 @@ module.exports = function(app) {
 
   });
   
-  app.get("/indeed", function(req, res){
-    // console.log(req.body.city);
-    // const queryOptions = {
-    //   query: req.body.keyword,
-    //   city: req.body.city,
-    //   radius: '50',
-    //   level: 'entry_level',
-    //   jobType: 'fulltime',
-    //   maxAge: '7',
-    //   sort: 'date',
-    //   limit: '20'
-    // };
+  app.post("/indeed", function(req, res){
+    console.log(req.body.city);
     const queryOptions = {
-      query: "Web Developer",
-      city: "Richmond, VA",
+      query: req.body.keyword,
+      city: req.body.city,
       radius: '50',
       level: 'entry_level',
       jobType: 'fulltime',
@@ -143,6 +133,7 @@ module.exports = function(app) {
       sort: 'date',
       limit: '20'
     };
+    
     indeed.query(queryOptions).then(data => {
         res.json(data);
     });
