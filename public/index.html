@@ -163,7 +163,7 @@
                 <img v-bind:src="result.snippet.thumbnails.default.url" />
                 <a target="_blank" v-bind:href="'https://www.youtube.com/watch?v=' + result.id.videoId">{{
                   result.snippet.title }}</a>
-                <button class="saveResultButton">Save</button>
+                <button class="saveResultButton" @click="saveVideo(result)">Save</button>
               </li>
             </ul>
           </template>

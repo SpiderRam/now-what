@@ -124,15 +124,32 @@ var index = new Vue({
                 link: "https://www.udemy.com" + result.url,
                 image: result.image_125_H
             },
-            notebook: this.saveToNotebookName
+            notebook: self.saveToNotebookName
         };
-
-        console.log(courseObject);
-
         $.ajax({
             type: "POST",
             url: "/save-course",
             data: courseObject
+        }).then(function(response) {
+            console.log(JSON.stringify(response));
+            
+        });
+    },
+    saveVideo: function(result) {
+        var self = this;
+
+        var videoObject = {
+            videoData: {
+                title: result.snippet.title,
+                link: 'https://www.youtube.com/watch?v=' + result.id.videoId,
+                image: result.snippet.thumbnails.default.url
+            },
+            notebook: self.saveToNotebookName
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-video",
+            data: videoObject
         }).then(function(response) {
             console.log(JSON.stringify(response));
             
@@ -170,28 +187,10 @@ var index = new Vue({
         }).then(function(response){
             self.getNotebookList();
         }); 
-    },
-    getNotebookContents: function() {
-        var self = this;
-        console.log(self.activeNotebook);
-        $.ajax({
-            type:"GET",
-            url:"/render-notebook-contents/" + self.activeNotebook.name
-        }).then(function(response) {
-            console.log("Retrieving notebook contents");
-            // self[self.resultKey] = self.notebookContents;
-            self.notebookContents = response;
-            console.log(self.notebookContents);
-            self.renderNotebookContents();
-        });
-    },
-    renderNotebookContents: function() {
-        var self = this;
-        console.log("Rendering notebook contents");
     }
   },
   computed: {
-      showNotebookLis: function() {
+      showNotebookList: function() {
         return this.activeDetails.category === 'Notebooks'
       },
       resultKey: function() {

@@ -77,6 +77,20 @@ module.exports = function(app) {
 
   });
 
+  app.post("/save-video", function(req, res) {
+    db.Video.create(req.body.videoData)
+    .then(function(dbVideo) {
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { video: dbVideo._id } }, { new: true });
+    })
+    .then(function(dbNotebook) {
+      res.json(dbNotebook)
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+
+  });
+
   app.get("/meetup", function(req, res){
    
     request ({

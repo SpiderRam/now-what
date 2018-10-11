@@ -23,7 +23,6 @@
         <div id="title">Now What?</div>
         <p id="subtitle" class="lead">Your hub for skill building, jobs, and research in your quest to enter the world
           of web development.</p>
-        <button id="loginButton">Log In</button>
       </div>
     </div>
 
@@ -52,7 +51,7 @@
             </ul>
           </div>
           <template v-if="notebookVideos.length">
-            <p>Videos:</p>            
+            <p class="contentSectionTitle">Videos:</p>            
               <ul>
               <li v-for="video in notebookVideos">
                 <img  v-bind:src="video.image" />
@@ -62,7 +61,7 @@
             </ul>
           </template>
           <template v-if="notebookArticles.length">
-            <p>Articles:</p>            
+            <p class="contentSectionTitle">Articles:</p>            
               <ul>
               <li v-for="article in notebookArticles">
                 <img  v-bind:src="article.image" />
@@ -72,7 +71,7 @@
             </ul>
           </template>
           <template v-if="notebookEvents.length">
-            <p>Events:</p>            
+            <p class="contentSectionTitle">Events:</p>            
               <ul>
               <li v-for="event in notebookEvents">
                 <img  v-bind:src="event.image" />
@@ -82,7 +81,7 @@
             </ul>
           </template>
           <template v-if="notebookJobs.length">
-            <p>Jobs:</p>            
+            <p class="contentSectionTitle">Jobs:</p>            
               <ul>
               <li v-for="job in notebookJobs">
                 <img  v-bind:src="job.image" />

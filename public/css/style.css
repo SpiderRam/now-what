@@ -196,6 +196,7 @@ p {
     background-image: url("../images/button-blue.png");
     color: white;
     border: 1px solid white;
+    opacity: 1.0;
 }
 
 #searchResults li, #notebookCard li {
