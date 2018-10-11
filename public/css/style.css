@@ -177,20 +177,6 @@ p {
     border-bottom: 1px solid navy;
 }
 
-#notebookCard li p {
-    display: inline-flex;
-    color: midnightblue;
-    text-shadow: 2px 2px 5px steelblue;
-    align-self: center;
-    font-size: 30px;
-    margin-left: 20px;   
-}
-
-#notebookCard li p:hover {
-    text-shadow: 2px 2px 5px dodgerblue;
-
-}
-
 .notebookIcon {
     width: 60px;
     height: 60px;
@@ -206,12 +192,18 @@ p {
     margin-top: 10px;
 }
 
-#searchResults li {
+.deleteNotebookButton:hover, .deleteContentButton:hover {
+    background-image: url("../images/button-blue.png");
+    color: white;
+    border: 1px solid white;
+}
+
+#searchResults li, #notebookCard li {
     padding-bottom: 5px;
     border-bottom: 2px solid navy;
 }
 
-#searchResults li a {
+#searchResults li a, #notebookCard li a {
     color: black;
     margin-left: 10px;
 }
@@ -231,4 +223,10 @@ p {
     opacity: 1;
     color: white;
     border: 1px solid white;
+}
+
+.contentSectionTitle {
+    font-family: 'Aldrich', sans-serif;
+    text-shadow: 2px 2px 5px steelblue;
+    font-size: 25px;
 }
