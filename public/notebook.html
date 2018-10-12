@@ -45,48 +45,48 @@
             <ul>
               <li v-for="course in notebookCourses">
                 <img  v-bind:src="course.image" />
-                <a v-bind:href="course.link">{{ course.title }}</a>
-                <button class="deleteContentButton">Delete</button>
+                <a target="_blank" v-bind:href="course.link">{{ course.title }}</a>
+                <button class="deleteContentButton" id="course._id" @click="deleteCourse(course)">Delete</button>
               </li>
             </ul>
           </div>
           <template v-if="notebookVideos.length">
-            <p class="contentSectionTitle">Videos:</p>            
+            <p class="contentSectionTitle">Videos:</p>
               <ul>
               <li v-for="video in notebookVideos">
                 <img  v-bind:src="video.image" />
-                <a v-bind:href="video.link">{{ video.title }}</a>
-                <button class="deleteContentButton">Delete</button>
+                <a target="_blank" v-bind:href="video.link">{{ video.title }}</a>
+                <button class="deleteContentButton" @click="deleteVideo(video)">Delete</button>
               </li>
             </ul>
           </template>
           <template v-if="notebookArticles.length">
-            <p class="contentSectionTitle">Articles:</p>            
+            <p class="contentSectionTitle">Articles:</p>
               <ul>
               <li v-for="article in notebookArticles">
                 <img  v-bind:src="article.image" />
-                <a v-bind:href="article.link">{{ article.title }}</a>
+                <a target="_blank" v-bind:href="article.link">{{ article.title }}</a>
                 <button class="deleteContentButton">Delete</button>
               </li>
             </ul>
           </template>
           <template v-if="notebookEvents.length">
-            <p class="contentSectionTitle">Events:</p>            
+            <p class="contentSectionTitle">Events:</p>
               <ul>
               <li v-for="event in notebookEvents">
                 <img  v-bind:src="event.image" />
-                <a v-bind:href="event.link">{{ event.title }}</a>
-                <button class="deleteContentButton">Delete</button>
+                <a target="_blank" v-bind:href="event.link">{{ event.title }}</a>
+                <button class="deleteContentButton" @click="deleteEvent(event)">Delete</button>
               </li>
             </ul>
           </template>
           <template v-if="notebookJobs.length">
-            <p class="contentSectionTitle">Jobs:</p>            
+            <p class="contentSectionTitle">Jobs:</p>
               <ul>
               <li v-for="job in notebookJobs">
                 <img  v-bind:src="job.image" />
-                <a v-bind:href="job.link">{{ job.title }}</a>
-                <button class="deleteContentButton">Delete</button>
+                <a target="_blank" v-bind:href="job.link">{{ job.title }}</a>
+                <button class="deleteContentButton" @click="deleteJob(job)">Delete</button>
               </li>
             </ul>
           </template>

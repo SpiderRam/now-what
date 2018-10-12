@@ -20,19 +20,49 @@ new Vue({
                 type:"GET",
                 url:"/render-notebook-contents/" + window.location.pathname.split("/")[2]
             }).then(function(response) {
-                console.log("Retrieving notebook contents");
                 self.notebookName = response.name;
                 self.notebookCourses = response.course;
                 self.notebookEvents = response.event;
                 self.notebookJobs = response.job;
                 self.notebookVideos = response.video;
                 self.notebookArticles = response.article;
-                console.log(self.notebookVideos);
             });
         },
-        renderNotebookContents: function() {
+        deleteCourse: function(course) {
             var self = this;
-            console.log("Rendering notebook contents");
+            $.ajax({
+                type: "DELETE",
+                url: "/delete-course/" + course._id
+            }).then(function(response) {
+                self.getNotebookContents();
+            });
+        },
+        deleteVideo: function(video) {
+            var self = this;
+            $.ajax({
+                type: "DELETE",
+                url: "/delete-video/" + video._id
+            }).then(function(response) {
+                self.getNotebookContents();
+            });
+        },
+        deleteEvent: function(event) {
+            var self = this;
+            $.ajax({
+                type: "DELETE",
+                url: "/delete-event/" + event._id
+            }).then(function(response) {
+                self.getNotebookContents();
+            });
+        },
+        deleteJob: function(job) {
+            var self = this;
+            $.ajax({
+                type: "DELETE",
+                url: "/delete-job/" + job._id
+            }).then(function(response) {
+                self.getNotebookContents();
+            });
         }
     }
 });

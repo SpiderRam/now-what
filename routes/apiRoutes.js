@@ -59,7 +59,13 @@ module.exports = function(app) {
     .catch(function(err) {
       res.json(err);
     });
+  });
 
+  app.delete("/delete-course/:courseId", function (req, res) {
+    db.Course.findByIdAndRemove(req.params.courseId, (err, course) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send();
+    });
   });
 
   app.get("/youtube/:youTubeQuery", function(req, res){
@@ -84,11 +90,16 @@ module.exports = function(app) {
     .catch(function(err) {
       res.json(err);
     });
+  });
 
+  app.delete("/delete-video/:videoId", function (req, res) {
+    db.Video.findByIdAndRemove(req.params.videoId, (err, video) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send();
+    });
   });
 
   app.get("/meetup", function(req, res){
-   
     request ({
       url: "https://api.meetup.com/find/upcoming_events?&photo-host=public&topic_category=34&page=10&radius=50&key=" + process.env.MEET_UP_KEY
     },function(err, raw, body){
@@ -98,9 +109,7 @@ module.exports = function(app) {
            title: JSON.parse(body).events[i].name,
            link: JSON.parse(body).events[i].link
          };
-
          cleanMeetup.push(singleMeetup);
-
        }
       res.json(cleanMeetup);
     });
@@ -118,7 +127,13 @@ module.exports = function(app) {
     .catch(function(err) {
       res.json(err);
     });
+  });
 
+  app.delete("/delete-event/:eventId", function (req, res) {
+    db.Event.findByIdAndRemove(req.params.eventId, (err, event) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send();
+    });
   });
   
   app.post("/indeed", function(req, res){
@@ -133,14 +148,12 @@ module.exports = function(app) {
       sort: 'date',
       limit: '20'
     };
-    
     indeed.query(queryOptions).then(data => {
         res.json(data);
     });
   });
 
   app.post("/save-job", function(req, res) {
-    console.log(req.body);
     db.Job.create(req.body.jobData)
     .then(function(dbJob) {
       return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { job: dbJob._id } }, { new: true });
@@ -151,12 +164,17 @@ module.exports = function(app) {
     .catch(function(err) {
       res.json(err);
     });
+  });
 
+  app.delete("/delete-job/:jobId", function (req, res) {
+    db.Job.findByIdAndRemove(req.params.jobId, (err, job) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send();
+    });
   });
 
   app.post("/add-notebook/:userId", function(req, res) {
     var userId = req.params.userId;
-    console.log(req.body);
     db.Notebook.create(req.body)
         .then(function(dbNotebook) {
             console.log(dbNotebook.name)
