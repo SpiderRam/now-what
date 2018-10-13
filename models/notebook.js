@@ -44,19 +44,20 @@ var NotebookSchema = new Schema({
   ]
 });
 
-NotebookSchema.post("remove", function(dbNotebook) {
+NotebookSchema.pre("remove", function(dbNotebook) {
+console.log(dbNotebook);
   var promises = [
-    ...dbNotebook.event.map(id => db.Event.remove(id)),
-    ...dbNotebook.course.map(id => db.Course.remove(id)),
-    ...dbNotebook.video.map(id => db.Video.remove(id)),
-    ...dbNotebook.job.map(id => db.Job.remove(id)),
-    ...dbNotebook.article.map(id => db.Article.remove(id))
+    ...dbNotebook.event.map(id => db.Event.findByIdAndRemove(id)),
+    ...dbNotebook.course.map(id => db.Course.findByIdAndRemove(id)),
+    ...dbNotebook.video.map(id => db.Video.findByIdAndRemove(id)),
+    ...dbNotebook.job.map(id => db.Job.findByIdAndRemove(id)),
+    ...dbNotebook.article.map(id => db.Article.findByIdAndRemove(id))
   ];
 
   Promise.all(promises)
     .then(function() {
         console.log("Cascaded Notebook associations!");
-    })
+    });
 });
 
 var Notebook = mongoose.model("Notebook", NotebookSchema);

@@ -172,7 +172,10 @@ var index = new Vue({
             type: "GET",
             url: "/meetup"
           }).then(function(response) {
-              self.eventResults = response;
+              self.eventResults = response.map(function(event){
+                  event.saved = false;
+                  return event;
+              });
             console.log(self.eventResults);
           });
     },
@@ -193,6 +196,7 @@ var index = new Vue({
             url: "/save-event",
             data: eventObject
         }).then(function(response) {
+            result.saved = true;
             console.log(JSON.stringify(response));
         });
     },
