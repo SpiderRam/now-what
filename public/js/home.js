@@ -1,6 +1,5 @@
 var userId;
 var usernameText;
-var notebooksList;
 
 var modal = new Vue({
     el: "#login-modal",
@@ -59,12 +58,15 @@ var index = new Vue({
     eventResults: [],
     udemyLinks: [],
     searchInput: "",
+    citySearchInput: "",
+    stateSearchInput: "",
+    jobKeywordInput: "",
     inputValue: "",
     activeDetails: {},
     newNotebookName: "",
     saveToNotebookName: "",
-    blankTextFieldVal: "",
-    searchTextFieldVal: "Search",
+    notebookContents: [],
+    activeNotebook: {},
     targets: [
         {
             category: "Notebooks",
@@ -102,7 +104,7 @@ var index = new Vue({
         // console.log(JSON.parse(response));
         self[self.resultKey] = JSON.parse(response);
         console.log(self[self.resultKey]);
-        this.searchTextFieldVal = "Search";
+        self.searchInput = "";
       });
     },
     resetResults: function() {
@@ -125,28 +127,103 @@ var index = new Vue({
                 link: "https://www.udemy.com" + result.url,
                 image: result.image_125_H
             },
-            notebook: this.saveToNotebookName
+            notebook: self.saveToNotebookName
         };
-
-        console.log(courseObject);
-
         $.ajax({
             type: "POST",
             url: "/save-course",
             data: courseObject
         }).then(function(response) {
             console.log(JSON.stringify(response));
-            
+        });
+    },
+    saveVideo: function(result) {
+        var self = this;
+
+        var videoObject = {
+            videoData: {
+                title: result.snippet.title,
+                link: 'https://www.youtube.com/watch?v=' + result.id.videoId,
+                image: result.snippet.thumbnails.default.url
+            },
+            notebook: self.saveToNotebookName
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-video",
+            data: videoObject
+        }).then(function(response) {
+            console.log(JSON.stringify(response));
         });
     },
     getEvents: function() {
+        self = this;
         console.log("Getting events...");
         $.ajax({
             type: "GET",
             url: "/meetup"
           }).then(function(response) {
-            console.log(response);
+              self.eventResults = response;
+            console.log(self.eventResults);
           });
+    },
+    saveEvent: function(result) {
+        var self = this;
+
+        var eventObject = {
+            eventData: {
+                title: result.title,
+                link: result.link,
+                image: "../images/meetup.png"
+            },
+            notebook: self.saveToNotebookName
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-event",
+            data: eventObject
+        }).then(function(response) {
+            console.log(JSON.stringify(response));
+        });
+    },
+    getJobs: function() {
+        self = this;
+        console.log("Getting jobs...");
+        $.ajax({
+            type: "POST",
+            url: "/indeed",
+            data: {
+                city: self.citySearchInput,
+                keyword: self.jobKeywordInput
+            }
+          }).then(function(response) {
+              self.jobResults = response;
+            console.log(self.jobResults);
+            self.citySearchInput = "";
+            self.jobKeywordInput = "";
+          });
+    },
+    saveJob: function(result) {
+        var self = this;
+
+        var jobObject = {
+            jobData: {
+                title: result.title,
+                link: result.url,
+                image: "../images/indeed.png",
+                summary: result.summary,
+                company: result.company,
+                location: result.location
+            },
+            notebook: self.saveToNotebookName
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-job",
+            data: jobObject
+        }).then(function(response) {
+            console.log(JSON.stringify(response));
+        });
     },
     getNotebookList: function() {
         var self = this;
@@ -154,9 +231,13 @@ var index = new Vue({
             type:"GET",
             url:"/render-notebooks/" + sessionStorage.userId
         }).then(function(response) {
-            notebooksList = response;
-            self.renderNotebookList(notebooksList);
+            self.notebooksList = response;
+            self.renderNotebookList(self.notebooksList);
         });
+    },
+    renderNotebookList: function(notebooksList) {
+        var self = this;
+        self[self.resultKey] = self.notebooksList;
     },
     addNotebook: function() {
         var self = this;
@@ -168,12 +249,19 @@ var index = new Vue({
             self.getNotebookList();
         }); 
     },
-    renderNotebookList: function(notebooksList) {
-        var self = this;
-        self[self.resultKey] = notebooksList;
+    deleteContent: function() {
+        $.ajax({
+            type: "DELETE",
+            url: "/delete-content/"
+        }).then(function(response) {
+            console.log(response);
+        });
     }
   },
   computed: {
+      showNotebookList: function() {
+        return this.activeDetails.category === 'Notebooks'
+      },
       resultKey: function() {
         if (this.activeDetails.category === "Events") {
             return "eventResults";
@@ -227,9 +315,12 @@ var index = new Vue({
   },
   watch: {
       activeDetails: function(val, oldVal) {
-          if (val.category ===  "Notebooks") {
-              this.getNotebookList();
-          }
+        if (val.category ===  "Notebooks") {
+            this.getNotebookList();
+        }
+        else if (val.category ===  "Events") {
+        this.getEvents();
+        }
       }
   }
 });

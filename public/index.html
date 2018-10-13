@@ -25,27 +25,34 @@
         </div>
         <div class="modal-body">
           <h3>Sign up (new users)</h3>
-					
-					<label for="createEmail">Email address</label>
-					<input type="email" class="form-control" id="createEmail" aria-describedby="emailHelp" placeholder="Site is not secure, fake it" v-model="newUserObject.email">
-			
-					<label for="createUsername">Username</label>
-					<input type="text" class="form-control" id="createUsername" aria-describedby="emailHelp" placeholder="Choose a username" v-model="newUserObject.username">
-			
-					<label for="createPassword">Password</label>
-					<input type="text" class="form-control" id="createPassword" aria-describedby="emailHelp" placeholder="Enter password" v-model="newUserObject.password">
-			
-          <button type="button" id="signUp" class="btn btn-primary" v-on:click="addNewUser" data-dismiss="modal">Sign up</button>	
-          
+
+          <label for="createEmail">Email address</label>
+          <input type="email" class="form-control" id="createEmail" aria-describedby="emailHelp" placeholder="Site is not secure, fake it"
+            v-model="newUserObject.email">
+
+          <label for="createUsername">Username</label>
+          <input type="text" class="form-control" id="createUsername" aria-describedby="emailHelp" placeholder="Choose a username"
+            v-model="newUserObject.username">
+
+          <label for="createPassword">Password</label>
+          <input type="text" class="form-control" id="createPassword" aria-describedby="emailHelp" placeholder="Enter password"
+            v-model="newUserObject.password">
+
+          <button type="button" id="signUp" class="btn btn-primary" v-on:click="addNewUser" data-dismiss="modal">Sign
+            up</button>
+
           <h3>Log In (existing users)</h3>
 
-					<label for="enterEmail">Email address</label>
-					<input type="email" class="form-control" id="enterEmail" aria-describedby="emailHelp" placeholder="Site is not secure, fake it" v-model="returningUserObject.email">
-			
-					<label for="enterPassword">Password</label>
-					<input type="text" class="form-control" id="enterPassword" aria-describedby="emailHelp" placeholder="Enter Password" v-model="returningUserObject.password">
-	
-					<button type="button" id="signIn" class="btn btn-primary" v-on:click="returningUser" data-dismiss="modal">Sign in</button>	
+          <label for="enterEmail">Email address</label>
+          <input type="email" class="form-control" id="enterEmail" aria-describedby="emailHelp" placeholder="Site is not secure, fake it"
+            v-model="returningUserObject.email">
+
+          <label for="enterPassword">Password</label>
+          <input type="text" class="form-control" id="enterPassword" aria-describedby="emailHelp" placeholder="Enter Password"
+            v-model="returningUserObject.password">
+
+          <button type="button" id="signIn" class="btn btn-primary" v-on:click="returningUser" data-dismiss="modal">Sign
+            in</button>
         </div>
         <div class="modal-footer">
           <button id="modal-button" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -65,7 +72,7 @@
       </div>
     </div>
 
-    
+
 
     <div v-if="!activeDetails.category" class="gridWrapper" style="display: flex">
       <div class="grid">
@@ -79,59 +86,104 @@
     </div>
 
     <div class="card" v-else>
-      <div class="card-header" >
-          <div v-if="!!activeDetails.category" class="btn" @click="resetResults" id="backButton">
-              ⬅︎ Back
-          </div>
+      <div class="card-header">
+        <div class="btn" @click="resetResults" id="backButton">
+          ⬅︎ Back
+        </div>
         <img :src="activeDetails.image" style="width: 50px" style="height: 50px">
-        {{ activeDetails.category }} 
+        {{ activeDetails.category }}
       </div>
-      
+
       <div class="card-body">
 
-        <div id="notebookCard" v-if="activeDetails.category == 'Notebooks'">
+        <div id="notebookCard" v-if="activeDetails.category === 'Notebooks' && !activeNotebook.name">
           <div class="input-group-prepend">
-            <label for="notebookNameTextField">Add New Notebook:</label>
+            <label for="notebookNameTextField" id="addNotebookLabel">Add New Notebook:</label>
             <input v-model="newNotebookName" type="text" id="notebookNameTextField" class="form-control mr-sm-2">
             <button @click="addNotebook" class="searchSubmit" type="submit">Add</button>
           </div>
-          <template v-for="result in notebookResults">
+          <template>
             <ul>
-              <li>
-                <img class="notebookIcon" src="./images/icon-home.png"/>
-                <p>{{ result.name }}</p>
+              <li v-for="result in notebookResults">
+                <img class="notebookIcon" src="./images/icon-home.png" />
+                <a class="notebookResultName" v-bind:href="'/notebook/' + result._id" v-bind:id="result._id" @click="getNotebookContents, activeNotebook = result">
+                  {{ result.name }}</a>
+                <button class="deleteNotebookButton">Delete</button>
               </li>
             </ul>
           </template>
         </div>
-        
+        <div v-else-if="activeDetails.category === 'Notebooks' && !!activeNotebook.name">
+          <div >
+            <ul>
+              <li v-for="content in notebookContents">
+                <p>{{ content.link }}</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+
         <div id="udemyCard" v-if="activeDetails.category == 'Courses'">
-            <div class="input-group-prepend">
-                <input v-model="searchInput" type="text" id="udemySearchForm" class="form-control mr-sm-2" v-bind:placeholder="searchTextFieldVal">
-                <button @click="handleSearch" class="searchSubmit" type="submit" >Search</button>
-            </div>
-            <div class="input-group-prepend">
-              <input v-model="saveToNotebookName" type="text" id="saveCourseNotebookName" class="form-control mr-sm-2" placeholder="Enter name of the notebook to which you want to save each course">
-            </div>
-            <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
+          <div class="input-group-prepend">
+            <input v-model="searchInput" type="text" id="udemySearchForm" class="form-control mr-sm-2">
+            <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
+          </div>
+          <div class="input-group-prepend">
+            <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
+              placeholder="Enter name of the notebook in which you want to save each course">
+          </div>
+          <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
         </div>
 
         <div id="youTubeCard" v-if="activeDetails.category == 'Videos'">
-            <div class="input-group-prepend">
-              <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2" v-bind:placeholder="searchTextFieldVal">
-              <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
+          <div class="input-group-prepend">
+            <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2">
+            <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
+          </div>
+          <div class="input-group-prepend">
+            <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
+              placeholder="Enter name of the notebook in which you want to save each video">
+          </div>
+          <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
+        </div>
+
+        <div id="meetupCard" v-if="activeDetails.category == 'Events'">
+          <div class="input-group-prepend">
+            <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
+              placeholder="Enter name of the notebook in which you want to save each event">
+          </div>
+          <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
+        </div>
+
+        <div id="jobsCard" v-if="activeDetails.category == 'Jobs'">
+          <div class="inputForm">
+            <div>
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="City, State" v-model="citySearchInput">
+                </div>
+                <!-- <div class="col">
+                  <input type="text" class="form-control" placeholder="State" v-model="stateSearchInput">
+                </div> -->
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Keyword search" v-model="jobKeywordInput">
+                </div>
+                <button id="jobSearchSubmit" type="button" class="btn btn-primary btn-sm" @click="getJobs">Search</button>
+              </div>
             </div>
             <div class="input-group-prepend">
-              <input v-model="saveToNotebookName" type="text" id="saveVideoNotebookName" class="form-control mr-sm-2" placeholder="Enter name of the notebook to which you want to save each video">
+              <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
+                placeholder="Enter name of the notebook in which you want to save each job">
             </div>
             <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
+          </div>
         </div>
 
         <div id="searchResults">
           <template v-for="result in udemyResults.results">
             <ul>
               <li>
-                <img v-bind:src="result.image_125_H"/>
+                <img v-bind:src="result.image_125_H" />
                 <a target="_blank" v-bind:href="'https://www.udemy.com' + result.url">{{ result.title }}</a>
                 <button @click="saveUdemyCourse(result)" class="saveResultButton" :id="result.id">Save</button>
               </li>
@@ -140,12 +192,35 @@
           <template v-for="result in youtubeResults.items">
             <ul>
               <li>
-                <img v-bind:src="result.snippet.thumbnails.default.url"/>
-                <a target="_blank" v-bind:href="'https://www.youtube.com/watch?v=' + result.id.videoId">{{ result.snippet.title }}</a>
-                <button class="saveResultButton">Save</button>
+                <img v-bind:src="result.snippet.thumbnails.default.url" />
+                <a target="_blank" v-bind:href="'https://www.youtube.com/watch?v=' + result.id.videoId">{{
+                  result.snippet.title }}</a>
+                <button class="saveResultButton" @click="saveVideo(result)">Save</button>
               </li>
             </ul>
           </template>
+          <template v-for="result in eventResults">
+            <ul>
+              <li>
+                <img src="images/meetup.png"/>
+                <a target="_blank" v-bind:href="result.link">{{
+                  result.title }}</a>
+                <button class="saveResultButton" @click="saveEvent(result)" >Save</button>
+              </li>
+            </ul>
+          </template>
+          <template v-for="result in jobResults">
+              <ul>
+                <li>
+                  <img src="images/indeed.png"/>
+                  <a target="_blank" v-bind:href="result.url" class="jobTitle">{{
+                    result.title }}</a>
+                  <button class="saveResultButton" @click="saveJob(result)" >Save</button>
+                  <h4 class="employerNameAndLocation">{{ result.company }} | {{ result.location }}</h4>
+                  <p class="jobSummary">{{ result.summary }}</p>
+                </li>
+              </ul>
+            </template>
         </div>
       </div>
     </div>

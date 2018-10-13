@@ -51,10 +51,10 @@
 #loginButton {
     display: inline-block;
     margin-left: 10px;
-    padding: .375rem .75rem;
-    border-radius: .25rem;
+    padding: 20px 10px;;
+    border-radius: 50%;
     font-family: 'Aldrich', sans-serif;
-    color: steelblue;
+    color: dodgerblue;
     text-shadow: 1px 1px 2px navy;
     border: 1px solid navy;
 }
@@ -63,11 +63,6 @@
     background-color: transparent;
     color: white;
     border: 1px solid white;
-}
-
-nav {
-    background-image: url("../images/trianglify.png");
-    margin-bottom: 30px;
 }
 
 .searchSubmit {
@@ -79,6 +74,20 @@ nav {
 }
 
 .searchSubmit:hover {
+    background-image: url("../images/button-blue.png");
+    color: white;
+    border: 1px solid white;
+}
+
+#jobSearchSubmit {
+    color: midnightblue;
+    background-color: transparent;
+    border: 1px solid midnightblue;
+    border-radius: .25rem;
+    margin-bottom: 15px;
+}
+
+#jobSearchSubmit:hover {
     background-image: url("../images/button-blue.png");
     color: white;
     border: 1px solid white;
@@ -136,8 +145,9 @@ nav {
     text-align: center;
 }
 
-#backButton {
+#backButton, #homeButton {
     float: left;
+    color: black;
 }
 
 #notebookNameTextField {
@@ -152,8 +162,14 @@ p {
     margin-bottom: 0px;
 }
 
-.input-group-prepend {
-    margin-bottom: 10px;
+.input-group-prepend, .col {
+    margin-bottom: 15px;
+}
+
+#addNotebookLabel {
+    font-family: 'Aldrich', sans-serif;
+    text-shadow: 2px 2px 5px steelblue;
+    font-size: 20px;
 }
 
 .savingTo {
@@ -172,30 +188,51 @@ p {
 }
 
 #notebookCard li {
-    display: inline-flex;
-}
-
-#notebookCard li p {
-    color: midnightblue;
-    text-decoration: underline;
-    align-self: center;
-    font-size: 30px;
-    margin-left: 20px;   
+    margin-bottom: 10px;
+    border-bottom: 1px solid navy;
 }
 
 .notebookIcon {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
 }
 
-#searchResults li {
+.deleteNotebookButton, .deleteContentButton {
+    float: right;
+    color: midnightblue;
+    opacity: 0.5;
+    border: 1px solid midnightblue;
+    padding: .375rem .75rem;
+    border-radius: .25rem;
+    margin-top: 10px;
+}
+
+.deleteNotebookButton:hover, .deleteContentButton:hover {
+    background-image: url("../images/button-blue.png");
+    color: white;
+    border: 1px solid white;
+    opacity: 1.0;
+}
+
+#searchResults li, #notebookCard li {
     padding-bottom: 5px;
     border-bottom: 2px solid navy;
 }
 
-#searchResults li a {
+#searchResults li a, #notebookCard li a {
     color: black;
     margin-left: 10px;
+}
+
+.employerNameAndLocation {
+    
+}
+
+.jobTitle {
+    font-family: 'Aldrich', sans-serif;
+    text-shadow: 2px 2px 5px dodgerblue;
+    font-size: 25px;
+    margin-top: 25px;
 }
 
 .saveResultButton {
@@ -213,4 +250,11 @@ p {
     opacity: 1;
     color: white;
     border: 1px solid white;
+}
+
+.contentSectionTitle {
+    font-family: 'Aldrich', sans-serif;
+    text-shadow: 2px 2px 5px dodgerblue;
+    font-size: 25px;
+    margin-top: 25px;
 }

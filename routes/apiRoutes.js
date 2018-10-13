@@ -31,7 +31,7 @@ module.exports = function(app) {
       console.log(data);
         res.json(data);
     });
-});
+  });
 
   app.get("/udemy/:udemyQuery", function(req, res){
     var udemyQuery = req.params.udemyQuery;
@@ -48,8 +48,24 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/udemy", function(req, res) {
-    console.log(req.body);
+  app.post("/save-course", function(req, res) {
+    db.Course.create(req.body.courseData)
+    .then(function(dbCourse) {
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { course: dbCourse._id } }, { new: true });
+    })
+    .then(function(dbNotebook) {
+      res.json(dbNotebook)
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+  });
+
+  app.delete("/delete-course/:courseId", function (req, res) {
+    db.Course.findByIdAndRemove(req.params.courseId, (err, course) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send();
+    });
   });
 
   app.get("/youtube/:youTubeQuery", function(req, res){
@@ -63,10 +79,10 @@ module.exports = function(app) {
     });
   });
 
-  app.post("/save-course", function(req, res) {
-    db.Course.create(req.body.courseData)
-    .then(function(dbCourse) {
-      return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { course: dbCourse._id } }, { new: true });
+  app.post("/save-video", function(req, res) {
+    db.Video.create(req.body.videoData)
+    .then(function(dbVideo) {
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { video: dbVideo._id } }, { new: true });
     })
     .then(function(dbNotebook) {
       res.json(dbNotebook)
@@ -74,35 +90,57 @@ module.exports = function(app) {
     .catch(function(err) {
       res.json(err);
     });
+  });
 
+  app.delete("/delete-video/:videoId", function (req, res) {
+    db.Video.findByIdAndRemove(req.params.videoId, (err, video) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send();
+    });
   });
 
   app.get("/meetup", function(req, res){
-   
     request ({
-      url: "https://api.meetup.com/find/upcoming_events?&photo-host=public&topic_category=34&page=5&radius=50&key=" + process.env.MEET_UP_KEY
+      url: "https://api.meetup.com/find/upcoming_events?&photo-host=public&topic_category=34&page=10&radius=50&key=" + process.env.MEET_UP_KEY
     },function(err, raw, body){
       var cleanMeetup = [];
        for(var i=0; i<JSON.parse(body).events.length; i++){
          var singleMeetup = {
            title: JSON.parse(body).events[i].name,
-           link: JSON.parse(body).events[i].link,
-           picture: "https://pbs.twimg.com/profile_images/875701356849504256/x8t7RxeV_400x400.jpg"
-
-         }
-
+           link: JSON.parse(body).events[i].link
+         };
          cleanMeetup.push(singleMeetup);
-
        }
       res.json(cleanMeetup);
     });
   });
+
+  app.post("/save-event", function(req, res) {
+    console.log(req.body);
+    db.Event.create(req.body.eventData)
+    .then(function(dbEvent) {
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { event: dbEvent._id } }, { new: true });
+    })
+    .then(function(dbNotebook) {
+      res.json(dbNotebook);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+  });
+
+  app.delete("/delete-event/:eventId", function (req, res) {
+    db.Event.findByIdAndRemove(req.params.eventId, (err, event) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send();
+    });
+  });
   
-  app.get("/indeed", function(req, res){
-    var jobsArr = [];
+  app.post("/indeed", function(req, res){
+    console.log(req.body.city);
     const queryOptions = {
-      query: 'Web Developer',
-      city: 'Richmond, VA',
+      query: req.body.keyword,
+      city: req.body.city,
       radius: '50',
       level: 'entry_level',
       jobType: 'fulltime',
@@ -110,27 +148,33 @@ module.exports = function(app) {
       sort: 'date',
       limit: '20'
     };
-    var jobsArr = [];
     indeed.query(queryOptions).then(data => {
         res.json(data);
     });
   });
 
-  app.get("/render-notebooks/:userId", function(req, res) {
-    db.User.findById(req.params.userId)
-      .populate("notebook")
-      .then(function(dbUser) {
-        res.json(dbUser.notebook);
-      })
-      .catch(function(err) {
-        res.json(err);
-      });
-  
+  app.post("/save-job", function(req, res) {
+    db.Job.create(req.body.jobData)
+    .then(function(dbJob) {
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { job: dbJob._id } }, { new: true });
+    })
+    .then(function(dbNotebook) {
+      res.json(dbNotebook);
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+  });
+
+  app.delete("/delete-job/:jobId", function (req, res) {
+    db.Job.findByIdAndRemove(req.params.jobId, (err, job) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send();
+    });
   });
 
   app.post("/add-notebook/:userId", function(req, res) {
     var userId = req.params.userId;
-    console.log(req.body);
     db.Notebook.create(req.body)
         .then(function(dbNotebook) {
             console.log(dbNotebook.name)
@@ -142,5 +186,56 @@ module.exports = function(app) {
     });
   });
 
-  
+
+  app.get("/render-notebooks/:userId", function(req, res) {
+    db.User.findById(req.params.userId)
+      .populate("notebook")
+      .then(function(dbUser) {
+        res.json(dbUser.notebook);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  });
+
+  app.get("/render-notebook-contents/:notebookName", function(req, res) {
+    console.log(req.params.notebookName);
+    db.Notebook.findById(req.params.notebookName)
+      .populate("course")
+      .populate("video")
+      .populate("event")
+      .populate("job")
+      .populate("article")
+      .then(function(dbNotebook) {
+        res.json(dbNotebook);
+        console.log(dbNotebook);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  });
+
+  // app.get("/delete-notebook/", function(req, res) {
+  //   db.Event.find({'notebook': this._id})
+  //     .then((events) => {
+  //       Promise.all(events.forEach((event) => event.remove()))
+  //     .then(next());
+  //   });
+  //   db.Course.find({'notebook': this._id})
+  //     .then((courses) => {
+  //       Promise.all(courses.forEach((course) => course.remove()))
+  //     .then(next());
+  //   });
+  //   db.Video.find({'notebook': this._id})
+  //     .then((videos) => {
+  //       Promise.all(videos.forEach((video) => video.remove()))
+  //     .then(next());
+  //   });
+  //   db.Job.find({'notebook': this._id})
+  //   .then((jobs) => {
+  //     Promise.all(jobs.forEach((job) => job.remove()))
+  //   .then(next());
+  //   });
+  // });
+
 };

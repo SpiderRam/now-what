@@ -15,6 +15,18 @@ var JobSchema = new Schema({
         type: String,
         required: false              
     },
+    summary: {
+        type: String,
+        required: false
+    },
+    company: {
+        type: String,
+        required: false
+    },
+    location: {
+        type: String,
+        required: false
+    },
     notes: [
         {
             type: Schema.Types.ObjectId,
