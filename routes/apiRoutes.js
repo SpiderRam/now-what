@@ -1,9 +1,16 @@
 const db = require("../models");
+var request = require("request");
 
 module.exports = function(app) {
 
-  var request = require("request");
+ 
   var indeed = require('indeed-scraper');
+ 
+  var cheerio = require("cheerio");
+
+
+  
+
 
   app.post("/add-new-user", function(req, res) {
     console.log(req.body);
@@ -173,6 +180,31 @@ module.exports = function(app) {
     });
   });
 
+  app.get("/articles", function (req, res) {
+    request("https://www.geekwire.com/?s=coding", function (error, response, html) {
+      var $ = cheerio.load(html);
+      var articles = [];
+      $(".entry-title").each(function (i, element) {
+        var title = $(element).children("a").text();
+        var link = $(element).children("a").attr("href");
+        console.log(title && link);
+        if (title && link) {
+          $(".entry-summary.hidden-xs").each(function (i, element) {
+            console.log("scraping hidden");
+            var summary = $(element).html();
+            articles.push({
+              title: title,
+              link: link,
+              summary: summary
+            });
+          })
+          res.json(articles);
+        }        
+      });
+      res.send("scraped!");
+    });
+  })
+  
   app.post("/add-notebook/:userId", function(req, res) {
     var userId = req.params.userId;
     db.Notebook.create(req.body)
