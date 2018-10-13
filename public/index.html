@@ -70,6 +70,7 @@
           of web development.</p>
         <button id="loginButton" v-on:click="modalToggle">Log In</button>
       </div>
+      <button id="logoutButton" @click="logout">Log Out</button>
     </div>
 
 
@@ -108,7 +109,7 @@
                 <img class="notebookIcon" src="./images/icon-home.png" />
                 <a class="notebookResultName" v-bind:href="'/notebook/' + result._id" v-bind:id="result._id" @click="getNotebookContents, activeNotebook = result">
                   {{ result.name }}</a>
-                <button class="deleteNotebookButton">Delete</button>
+                <button class="deleteNotebookButton" @click="deleteNotebook(result)">Delete</button>
               </li>
             </ul>
           </template>
