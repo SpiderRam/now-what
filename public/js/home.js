@@ -107,6 +107,10 @@ var index = new Vue({
         type: "GET",
         url: self.searchURL
       }).then(function(response) {
+        // self.eventResults = response.map(function(event){
+        //     event.saved = false;
+        //     return event;
+        // });
         // console.log(JSON.parse(response));
         self[self.resultKey] = JSON.parse(response);
         console.log(self[self.resultKey]);
@@ -143,6 +147,7 @@ var index = new Vue({
             data: courseObject
         }).then(function(response) {
             console.log(JSON.stringify(response));
+            result.saved = true;
         });
     },
     saveVideo: function(result) {
@@ -163,6 +168,7 @@ var index = new Vue({
             data: videoObject
         }).then(function(response) {
             console.log(JSON.stringify(response));
+            result.saved = true;
         });
     },
     getEvents: function() {
@@ -211,7 +217,11 @@ var index = new Vue({
                 keyword: self.jobKeywordInput
             }
           }).then(function(response) {
-              self.jobResults = response;
+            self.jobResults = response.map(function(job){
+                job.saved = false;
+                return job;
+            });
+            self.jobResults = response;
             console.log(self.jobResults);
             self.citySearchInput = "";
             self.jobKeywordInput = "";
@@ -237,6 +247,7 @@ var index = new Vue({
             url: "/save-job",
             data: jobObject
         }).then(function(response) {
+            result.saved = true;
             console.log(JSON.stringify(response));
         });
     },
