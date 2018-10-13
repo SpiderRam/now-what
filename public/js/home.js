@@ -24,6 +24,7 @@ var modal = new Vue({
             }).then(function(response){
                 sessionStorage.usernameText = response.username;
                 sessionStorage.userId = response.id;
+                console.log( sessionStorage.usernameText, sessionStorage.userId);
             }); 
         },
         returningUser: function() {
@@ -95,6 +96,11 @@ var index = new Vue({
     ]
   },
   methods: {
+    logout: function() {
+        sessionStorage.userId = "";
+        sessionStorage.usernameText = "";
+        console.log( sessionStorage.usernameText, sessionStorage.userId);
+    },
     handleSearch: function() {
      var self = this;
       $.ajax({
@@ -127,7 +133,9 @@ var index = new Vue({
                 link: "https://www.udemy.com" + result.url,
                 image: result.image_125_H
             },
-            notebook: self.saveToNotebookName
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
+
         };
         $.ajax({
             type: "POST",
@@ -146,7 +154,8 @@ var index = new Vue({
                 link: 'https://www.youtube.com/watch?v=' + result.id.videoId,
                 image: result.snippet.thumbnails.default.url
             },
-            notebook: self.saveToNotebookName
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
         };
         $.ajax({
             type: "POST",
@@ -176,7 +185,8 @@ var index = new Vue({
                 link: result.link,
                 image: "../images/meetup.png"
             },
-            notebook: self.saveToNotebookName
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
         };
         $.ajax({
             type: "POST",
@@ -215,7 +225,8 @@ var index = new Vue({
                 company: result.company,
                 location: result.location
             },
-            notebook: self.saveToNotebookName
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
         };
         $.ajax({
             type: "POST",
@@ -245,7 +256,10 @@ var index = new Vue({
         $.ajax({
             type:"POST",
             url:"/add-notebook/" + sessionStorage.userId,
-            data: {name: this.newNotebookName}
+            data: {
+                name: this.newNotebookName,
+                user: sessionStorage.userId
+            }
         }).then(function(response){
             self.getNotebookList();
             self.newNotebookName = "";

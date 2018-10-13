@@ -51,7 +51,7 @@ module.exports = function(app) {
   app.post("/save-course", function(req, res) {
     db.Course.create(req.body.courseData)
     .then(function(dbCourse) {
-      return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { course: dbCourse._id } }, { new: true });
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook, user: req.body.user}, { $push: { course: dbCourse._id } }, { new: true });
     })
     .then(function(dbNotebook) {
       res.json(dbNotebook)
@@ -82,7 +82,7 @@ module.exports = function(app) {
   app.post("/save-video", function(req, res) {
     db.Video.create(req.body.videoData)
     .then(function(dbVideo) {
-      return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { video: dbVideo._id } }, { new: true });
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook, user: req.body.user}, { $push: { video: dbVideo._id } }, { new: true });
     })
     .then(function(dbNotebook) {
       res.json(dbNotebook)
@@ -119,7 +119,7 @@ module.exports = function(app) {
     console.log(req.body);
     db.Event.create(req.body.eventData)
     .then(function(dbEvent) {
-      return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { event: dbEvent._id } }, { new: true });
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook, user: req.body.user}, { $push: { event: dbEvent._id } }, { new: true });
     })
     .then(function(dbNotebook) {
       res.json(dbNotebook);
@@ -156,7 +156,7 @@ module.exports = function(app) {
   app.post("/save-job", function(req, res) {
     db.Job.create(req.body.jobData)
     .then(function(dbJob) {
-      return db.Notebook.findOneAndUpdate({name: req.body.notebook}, { $push: { job: dbJob._id } }, { new: true });
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook, user: req.body.user}, { $push: { job: dbJob._id } }, { new: true });
     })
     .then(function(dbNotebook) {
       res.json(dbNotebook);
@@ -177,7 +177,7 @@ module.exports = function(app) {
     var userId = req.params.userId;
     db.Notebook.create(req.body)
         .then(function(dbNotebook) {
-            console.log(dbNotebook.name)
+            console.log(dbNotebook.name, dbNotebook.user);
             return db.User.findOneAndUpdate({_id: userId}, { $push: { notebook: dbNotebook._id } }, { new: true });
         }).then(function(dbNotebook) {
             res.json(dbNotebook);

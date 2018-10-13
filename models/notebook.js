@@ -7,6 +7,10 @@ var NotebookSchema = new Schema({
         type: String,
         required: true              
     },
+    user: {
+        type: String,
+        required: true
+    },
     event:[
         {
             type: Schema.Types.ObjectId,
