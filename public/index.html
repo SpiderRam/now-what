@@ -206,7 +206,7 @@
                 <img src="images/meetup.png"/>
                 <a target="_blank" v-bind:href="result.link">{{
                   result.title }}</a>
-                <button class="saveResultButton" @click="saveEvent(result)" >Save</button>
+                <button class="saveResultButton" @click="saveEvent(result)">{{ result.saved ? "Saved" : "Save" }}</button>
               </li>
             </ul>
           </template>
@@ -216,7 +216,7 @@
                   <img src="images/indeed.png"/>
                   <a target="_blank" v-bind:href="result.url" class="jobTitle">{{
                     result.title }}</a>
-                  <button class="saveResultButton" @click="saveJob(result)" >Save</button>
+                  <button class="saveResultButton" @click="saveJob(result)" >{{ result.saved ? "Saved" : "Save" }}</button>
                   <h4 class="employerNameAndLocation">{{ result.company }} | {{ result.location }}</h4>
                   <p class="jobSummary">{{ result.summary }}</p>
                 </li>
