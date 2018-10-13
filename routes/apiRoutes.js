@@ -184,24 +184,21 @@ module.exports = function(app) {
     request("https://www.geekwire.com/?s=coding", function (error, response, html) {
       var $ = cheerio.load(html);
       var articles = [];
-      $(".entry-title").each(function (i, element) {
-        var title = $(element).children("a").text();
-        var link = $(element).children("a").attr("href");
-        console.log(title && link);
+      $("article.teaser").each(function (i, element) {
+
+        var title = $(element).find(".entry-title").text();
+        var link = $(element).find(".entry-title > a").attr("href");
+        var summary = $(element).find(".entry-summary > p").text();
+        console.log("Link:", link, "Title:", title, "Summary:", summary);
         if (title && link) {
-          $(".entry-summary.hidden-xs").each(function (i, element) {
-            console.log("scraping hidden");
-            var summary = $(element).html();
-            articles.push({
-              title: title,
-              link: link,
-              summary: summary
-            });
-          })
-          res.json(articles);
+          articles.push({
+            title: title,
+            link: link,
+            summary: summary
+          }); 
         }        
       });
-      res.send("scraped!");
+      res.json(articles);
     });
   })
   
