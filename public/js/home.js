@@ -233,6 +233,7 @@ var index = new Vue({
         }).then(function(response) {
             self.notebooksList = response;
             self.renderNotebookList(self.notebooksList);
+            console.log(self.notebooksList);
         });
     },
     renderNotebookList: function(notebooksList) {
@@ -247,14 +248,18 @@ var index = new Vue({
             data: {name: this.newNotebookName}
         }).then(function(response){
             self.getNotebookList();
+            self.newNotebookName = "";
+
         }); 
     },
-    deleteContent: function() {
+    deleteNotebook: function(result) {
+        var self = this;
         $.ajax({
             type: "DELETE",
-            url: "/delete-content/"
+            url: "/delete-notebook/" + result._id
         }).then(function(response) {
-            console.log(response);
+           console.log("deleting notebook...");
+           self.getNotebookList();
         });
     }
   },
