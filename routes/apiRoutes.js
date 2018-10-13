@@ -215,4 +215,27 @@ module.exports = function(app) {
       });
   });
 
+  // app.get("/delete-notebook/", function(req, res) {
+  //   db.Event.find({'notebook': this._id})
+  //     .then((events) => {
+  //       Promise.all(events.forEach((event) => event.remove()))
+  //     .then(next());
+  //   });
+  //   db.Course.find({'notebook': this._id})
+  //     .then((courses) => {
+  //       Promise.all(courses.forEach((course) => course.remove()))
+  //     .then(next());
+  //   });
+  //   db.Video.find({'notebook': this._id})
+  //     .then((videos) => {
+  //       Promise.all(videos.forEach((video) => video.remove()))
+  //     .then(next());
+  //   });
+  //   db.Job.find({'notebook': this._id})
+  //   .then((jobs) => {
+  //     Promise.all(jobs.forEach((job) => job.remove()))
+  //   .then(next());
+  //   });
+  // });
+
 };
