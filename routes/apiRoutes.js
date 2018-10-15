@@ -185,22 +185,43 @@ module.exports = function(app) {
       var $ = cheerio.load(html);
       var articles = [];
       $("article.teaser").each(function (i, element) {
-
         var title = $(element).find(".entry-title").text();
         var link = $(element).find(".entry-title > a").attr("href");
         var summary = $(element).find(".entry-summary > p").text();
-        console.log("Link:", link, "Title:", title, "Summary:", summary);
+        
         if (title && link) {
           articles.push({
             title: title,
             link: link,
             summary: summary
           }); 
-        }        
+        } 
+
       });
       res.json(articles);
     });
-  })
+  });
+
+  app.post("/save-article", function(req, res) {
+    db.Article.create(req.body.articleData)
+    .then(function(dbArticle) {
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook, user: req.body.user}, { $push: { article: dbArticle._id } }, { new: true });
+    })
+    .then(function(dbNotebook) {
+      res.json(dbNotebook);
+      console.log("Article saved");
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+  });
+
+  app.delete("/delete-article/:articleId", function (req, res) {
+    db.Article.findByIdAndRemove(req.params.articleId, (err, article) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send();
+    });
+  });
   
   app.post("/add-notebook/:userId", function(req, res) {
     var userId = req.params.userId;

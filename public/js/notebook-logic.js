@@ -63,6 +63,15 @@ new Vue({
             }).then(function(response) {
                 self.getNotebookContents();
             });
+        },
+        deleteArticle: function(article) {
+            var self = this;
+            $.ajax({
+                type: "DELETE",
+                url: "/delete-article/" + article._id
+            }).then(function(response) {
+                self.getNotebookContents();
+            });
         }
     }
 });
