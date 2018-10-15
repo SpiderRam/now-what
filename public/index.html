@@ -66,9 +66,9 @@
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
         <div id="title">Now What?</div>
-        <p id="subtitle" class="lead">Your hub for skill building, jobs, and research in your quest to enter the world
+        <p id="subtitle" class="lead">The hub for skill building, jobs, and research in your quest to enter the world
           of web development.</p>
-        <button id="loginButton" v-on:click="modalToggle">Log In</button>
+        <button :class="{pulse: pulseAnimation}" id="loginButton" v-on:click="modalToggle">Log In</button>
       </div>
       <button id="logoutButton" @click="logout">Log Out</button>
     </div>

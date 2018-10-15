@@ -21,7 +21,7 @@
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
         <div id="title">Now What?</div>
-        <p id="subtitle" class="lead">Your hub for skill building, jobs, and research in your quest to enter the world
+        <p id="subtitle" class="lead">The hub for skill building, jobs, and research in your quest to enter the world
           of web development.</p>
       </div>
     </div>
@@ -66,7 +66,7 @@
               <li class="clearfix" v-for="article in notebookArticles">
                 <img  src="/images/article-render.png" />
                 <a target="_blank" v-bind:href="article.link">{{ article.title }}</a>
-                <button class="deleteContentButton">Delete</button>
+                <button class="deleteContentButton" @click="deleteArticle(article)">Delete</button>
               </li>
             </ul>
           </template>

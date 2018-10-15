@@ -215,6 +215,13 @@ module.exports = function(app) {
       res.json(err);
     });
   });
+
+  app.delete("/delete-article/:articleId", function (req, res) {
+    db.Article.findByIdAndRemove(req.params.articleId, (err, article) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send();
+    });
+  });
   
   app.post("/add-notebook/:userId", function(req, res) {
     var userId = req.params.userId;

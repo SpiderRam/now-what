@@ -49,6 +49,20 @@
     text-shadow: 2px 2px 5px steelblue;
 }
 
+@keyframes pulse {
+    0%   {text-shadow: 1px 1px 2px dodgerblue;}
+    25%  {text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;}
+    50%  {text-shadow: 1px 1px 2px dodgerblue;}
+    75%  {text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;}
+    100% {text-shadow: 1px 1px 2px dodgerblue;}
+}
+
+.pulse {
+    animation-name: pulse;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
 #loginButton {
     display: inline-block;
     margin-left: 10px;

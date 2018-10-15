@@ -69,6 +69,7 @@ var index = new Vue({
     saveToNotebookName: "",
     notebookContents: [],
     activeNotebook: {},
+    pulseAnimation: false,
     targets: [
         {
             category: "Notebooks",
@@ -385,11 +386,18 @@ var index = new Vue({
             this.getNotebookList();
         }
         else if (val.category ===  "Events") {
-        this.getEvents();
+            this.getEvents();
         }
         else if (val.category ===  "Articles") {
             this.getArticles();
             }
+      },
+      buttonPulse: function() {
+          console.log("Found no user logged in.");
+          if (!sessionStorage.userId) {
+            this.pulseAnimation = true;
+          }
+          
       }
   }
 });
