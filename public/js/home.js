@@ -57,6 +57,7 @@ var index = new Vue({
     youtubeResults: [],
     jobResults: [],
     eventResults: [],
+    articleResults: [],
     udemyLinks: [],
     searchInput: "",
     citySearchInput: "",
@@ -68,6 +69,7 @@ var index = new Vue({
     saveToNotebookName: "",
     notebookContents: [],
     activeNotebook: {},
+    pulseAnimation: false,
     targets: [
         {
             category: "Notebooks",
@@ -122,6 +124,7 @@ var index = new Vue({
         this.youtubeResults = [];
         this.jobResults = [];
         this.eventResults = [];
+        this.articleResults = [];
         this.activeDetails = {};
         this.saveToNotebookName = "";
     },
@@ -251,6 +254,36 @@ var index = new Vue({
             console.log(JSON.stringify(response));
         });
     },
+    getArticles: function() {
+        var self = this;
+        $.ajax({
+            type:"GET",
+            url:"/articles/"
+        }).then(function(response) {
+            self.articleResults = response;
+        });
+    },
+    saveArticle: function(result) {
+        var self = this;
+
+        var articleObject = {
+            articleData: {
+                title: result.title,
+                link: result.link,
+                summary: result.summary
+            },
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-article",
+            data: articleObject
+        }).then(function(response) {
+            result.saved = true;
+            console.log(JSON.stringify(response));
+        });
+    },
     getNotebookList: function() {
         var self = this;
         $.ajax({
@@ -353,8 +386,18 @@ var index = new Vue({
             this.getNotebookList();
         }
         else if (val.category ===  "Events") {
-        this.getEvents();
+            this.getEvents();
         }
+        else if (val.category ===  "Articles") {
+            this.getArticles();
+            }
+      },
+      buttonPulse: function() {
+          console.log("Found no user logged in.");
+          if (!sessionStorage.userId) {
+            this.pulseAnimation = true;
+          }
+          
       }
   }
 });
