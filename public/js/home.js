@@ -57,6 +57,7 @@ var index = new Vue({
     youtubeResults: [],
     jobResults: [],
     eventResults: [],
+    articleResults: [],
     udemyLinks: [],
     searchInput: "",
     citySearchInput: "",
@@ -122,6 +123,7 @@ var index = new Vue({
         this.youtubeResults = [];
         this.jobResults = [];
         this.eventResults = [];
+        this.articleResults = [];
         this.activeDetails = {};
         this.saveToNotebookName = "";
     },
@@ -251,6 +253,36 @@ var index = new Vue({
             console.log(JSON.stringify(response));
         });
     },
+    getArticles: function() {
+        var self = this;
+        $.ajax({
+            type:"GET",
+            url:"/articles/"
+        }).then(function(response) {
+            self.articleResults = response;
+        });
+    },
+    saveArticle: function(result) {
+        var self = this;
+
+        var articleObject = {
+            articleData: {
+                title: result.title,
+                link: result.link,
+                summary: result.summary
+            },
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-article",
+            data: articleObject
+        }).then(function(response) {
+            result.saved = true;
+            console.log(JSON.stringify(response));
+        });
+    },
     getNotebookList: function() {
         var self = this;
         $.ajax({
@@ -355,6 +387,9 @@ var index = new Vue({
         else if (val.category ===  "Events") {
         this.getEvents();
         }
+        else if (val.category ===  "Articles") {
+            this.getArticles();
+            }
       }
   }
 });

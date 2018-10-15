@@ -210,8 +210,13 @@ p {
     height: 60px;
 }
 
+.clearfix {
+    overflow: auto;
+}
+
 .deleteNotebookButton, .deleteContentButton {
     float: right;
+    overflow: auto;
     color: midnightblue;
     opacity: 0.5;
     border: 1px solid midnightblue;
@@ -237,11 +242,7 @@ p {
     margin-left: 10px;
 }
 
-.employerNameAndLocation {
-    
-}
-
-.jobTitle {
+.jobTitle, .articleTitle {
     font-family: 'Aldrich', sans-serif;
     text-shadow: 2px 2px 5px dodgerblue;
     font-size: 25px;

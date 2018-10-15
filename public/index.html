@@ -180,10 +180,18 @@
           </div>
         </div>
 
+        <div id="meetupCard" v-if="activeDetails.category == 'Articles'">
+          <div class="input-group-prepend">
+            <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
+              placeholder="Enter name of the notebook in which you want to save each article">
+          </div>
+          <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
+        </div>
+
         <div id="searchResults">
           <template v-for="result in udemyResults.results">
             <ul>
-              <li>
+              <li class="clearfix" >
                 <img v-bind:src="result.image_125_H" />
                 <a target="_blank" v-bind:href="'https://www.udemy.com' + result.url">{{ result.title }}</a>
                 <button @click="saveUdemyCourse(result)" class="saveResultButton" :id="result.id">Save</button>
@@ -192,7 +200,7 @@
           </template>
           <template v-for="result in youtubeResults.items">
             <ul>
-              <li>
+              <li class="clearfix" >
                 <img v-bind:src="result.snippet.thumbnails.default.url" />
                 <a target="_blank" v-bind:href="'https://www.youtube.com/watch?v=' + result.id.videoId">{{
                   result.snippet.title }}</a>
@@ -202,7 +210,7 @@
           </template>
           <template v-for="result in eventResults">
             <ul>
-              <li>
+              <li class="clearfix" >
                 <img src="images/meetup.png"/>
                 <a target="_blank" v-bind:href="result.link">{{
                   result.title }}</a>
@@ -211,17 +219,28 @@
             </ul>
           </template>
           <template v-for="result in jobResults">
-              <ul>
-                <li>
-                  <img src="images/indeed.png"/>
-                  <a target="_blank" v-bind:href="result.url" class="jobTitle">{{
-                    result.title }}</a>
-                  <button class="saveResultButton" @click="saveJob(result)" >{{ result.saved ? "Saved" : "Save" }}</button>
-                  <h4 class="employerNameAndLocation">{{ result.company }} | {{ result.location }}</h4>
-                  <p class="jobSummary">{{ result.summary }}</p>
-                </li>
-              </ul>
-            </template>
+            <ul>
+              <li class="clearfix" >
+                <img src="images/indeed.png"/>
+                <a target="_blank" v-bind:href="result.url" class="jobTitle">{{
+                  result.title }}</a>
+                <button class="saveResultButton" @click="saveJob(result)" >{{ result.saved ? "Saved" : "Save" }}</button>
+                <h4 class="employerNameAndLocation">{{ result.company }} | {{ result.location }}</h4>
+                <p class="jobSummary">{{ result.summary }}</p>
+              </li>
+            </ul>
+          </template>
+          <template v-for="result in articleResults">
+            <ul>
+              <li class="clearfix" >
+                <img src="images/article-render.png"/>
+                <a target="_blank" v-bind:href="result.link" class="articleTitle">{{
+                  result.title }}</a>
+                  <button class="saveResultButton" @click="saveArticle(result)">{{ result.saved ? "Saved" : "Save" }}</button>
+                  <p>{{ result.summary }} by clicking link above.</p>
+              </li>
+            </ul>
+          </template>
         </div>
       </div>
     </div>
