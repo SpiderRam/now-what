@@ -27,6 +27,8 @@
 
 #vueContainer {
     padding-bottom: 100px;
+    
+
 }
 
 .jumbotron {
@@ -47,20 +49,6 @@
     display: inline-block;
     color: white;
     text-shadow: 2px 2px 5px steelblue;
-}
-
-@keyframes pulse {
-    0%   {text-shadow: 1px 1px 2px dodgerblue;}
-    25%  {text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;}
-    50%  {text-shadow: 1px 1px 2px dodgerblue;}
-    75%  {text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;}
-    100% {text-shadow: 1px 1px 2px dodgerblue;}
-}
-
-.pulse {
-    animation-name: pulse;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
 }
 
 #loginButton {
@@ -143,6 +131,7 @@
     color: midnightblue;
     border: 1px solid navy;
     padding-right: 10px;
+    /* text-align: center; */
 }
 
 .grid-item:hover {
@@ -228,13 +217,8 @@ p {
     height: 60px;
 }
 
-.clearfix {
-    overflow: auto;
-}
-
 .deleteNotebookButton, .deleteContentButton {
     float: right;
-    overflow: auto;
     color: midnightblue;
     opacity: 0.5;
     border: 1px solid midnightblue;
@@ -273,7 +257,11 @@ p {
     margin-left: 10px;
 }
 
-.jobTitle, .articleTitle {
+.employerNameAndLocation {
+    
+}
+
+.jobTitle {
     font-family: 'Aldrich', sans-serif;
     text-shadow: 2px 2px 5px dodgerblue;
     font-size: 25px;
@@ -377,12 +365,28 @@ p {
     @media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2){
     /* Styles */
     }
+    @media only screen and (max-width: 850px){
+        .grid{
+            /* display:block; */
+            width: 100%;
+        }
+    }
+
     
     /* iPhone 6, 7, 8 ----------- */
-    @media only screen and (min-device-width: 375px) and (max-device-height: 667px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2){
+    @media only screen and (max-width: 650px){
     /* Styles */
+    .grid{
+        width:100%;
+        display:block;
+    }
+    .grid-item{
+        text-align: center;
+        display: block;
+    }
     }
     
+
     @media only screen and (min-device-width: 375px) and (max-device-height: 667px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2){
     /* Styles */
     }
