@@ -211,11 +211,11 @@ p {
     list-style: none;
 }
 
-#notebookCard ul {
+#notebookCard ul, #notebookContentCard ul {
     list-style: none;
 }
 
-#notebookCard li {
+#notebookCard li, #notebookContentCard li {
     margin-bottom: 10px;
     border-bottom: 1px solid navy;
 }
@@ -263,12 +263,12 @@ p {
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
 }
 
-#searchResults li, #notebookCard li {
+#searchResults li, #notebookCard li, #notebookContentCard li {
     padding-bottom: 5px;
     border-bottom: 2px solid navy;
 }
 
-#searchResults li a, #notebookCard li a {
+#searchResults li a, #notebookCard li a, #notebookContentCard li a {
     color: black;
     margin-left: 10px;
 }

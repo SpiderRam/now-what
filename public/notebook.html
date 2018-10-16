@@ -31,7 +31,7 @@
           </div>
           <div class="modal-body">
             <div class="input-group">
-              <textarea class="form-control" id="noteText" v-model="noteBody"></textarea>
+              <textarea class="form-control" id="noteText" v-model="noteBody" v-on:keyup.enter="saveNote"></textarea>
             </div>
           </div>
           <div class="modal-footer">
@@ -62,13 +62,13 @@
       </div>
       <div class="card-body">
 
-        <div id="notebookCard">
+        <div id="notebookContentCard">
 
           <template v-if="notebookNotes.length">
             <p class="contentSectionTitle">Notes:</p>
               <ul>
               <li class="clearfix"  v-for="note in notebookNotes">
-                <img  src="/images/icon-note-render.png" />
+                <img src="/images/icon-note-render.png" />
                 <div id="noteTextRendered">{{ note.text }}</div>
                 <button class="deleteContentButton" @click="deleteNote(note)">Delete</button>
               </li>

@@ -126,7 +126,7 @@
 
         <div id="udemyCard" v-if="activeDetails.category == 'Courses'">
           <div class="input-group-prepend">
-            <input v-model="searchInput" type="text" id="udemySearchForm" class="form-control mr-sm-2">
+            <input v-model="searchInput" type="text" id="udemySearchForm" class="form-control mr-sm-2" v-on:keyup.enter="getCourses">
             <button @click="getCourses" class="searchSubmit" type="submit">Search</button>
           </div>
           <div class="input-group-prepend">
@@ -138,7 +138,7 @@
 
         <div id="youTubeCard" v-if="activeDetails.category == 'Videos'">
           <div class="input-group-prepend">
-            <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2">
+            <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2" v-on:keyup.enter="getVideos">
             <button @click="getVideos" class="searchSubmit" type="submit">Search</button>
           </div>
           <div class="input-group-prepend">
@@ -157,7 +157,7 @@
         </div>
 
         <div id="jobsCard" v-if="activeDetails.category == 'Jobs'">
-          <div class="inputForm">
+          <div class="inputForm" v-on:keyup.enter="getJobs">
             <div>
               <div class="row">
                 <div class="col">
