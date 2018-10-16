@@ -127,7 +127,7 @@
         <div id="udemyCard" v-if="activeDetails.category == 'Courses'">
           <div class="input-group-prepend">
             <input v-model="searchInput" type="text" id="udemySearchForm" class="form-control mr-sm-2">
-            <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
+            <button @click="getCourses" class="searchSubmit" type="submit">Search</button>
           </div>
           <div class="input-group-prepend">
             <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
@@ -189,12 +189,12 @@
         </div>
 
         <div id="searchResults">
-          <template v-for="result in udemyResults.results">
+          <template v-for="result in udemyResults">
             <ul>
               <li class="clearfix" >
                 <img v-bind:src="result.image_125_H" />
                 <a target="_blank" v-bind:href="'https://www.udemy.com' + result.url">{{ result.title }}</a>
-                <button @click="saveUdemyCourse(result)" class="saveResultButton" :id="result.id">Save</button>
+                <button @click="saveUdemyCourse(result)" class="saveResultButton" :id="result.id">{{result.saved ? "Saved" : "Save"}}</button>
               </li>
             </ul>
           </template>

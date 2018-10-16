@@ -52,6 +52,8 @@ module.exports = function(app) {
         }
     },function(err, raw, body){
       res.json(body);
+      console.log("Getting courses");
+      console.log(body);
     });
   });
 

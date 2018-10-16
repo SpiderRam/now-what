@@ -69,7 +69,6 @@ var index = new Vue({
     saveToNotebookName: "",
     notebookContents: [],
     activeNotebook: {},
-    pulseAnimation: false,
     isLoggedIn: false,
     targets: [
         {
@@ -115,22 +114,22 @@ var index = new Vue({
         sessionStorage.usernameText = "";
         console.log( sessionStorage.usernameText, sessionStorage.userId);
     },
-    handleSearch: function() {
-     var self = this;
-      $.ajax({
-        type: "GET",
-        url: self.searchURL
-      }).then(function(response) {
-        // self.eventResults = response.map(function(event){
-        //     event.saved = false;
-        //     return event;
-        // });
-        // console.log(JSON.parse(response));
-        self[self.resultKey] = JSON.parse(response);
-        console.log(self[self.resultKey]);
-        self.searchInput = "";
-      });
-    },
+    // handleSearch: function() {
+    //  var self = this;
+    //   $.ajax({
+    //     type: "GET",
+    //     url: self.searchURL
+    //   }).then(function(response) {
+    //     // self.eventResults = response.map(function(event){
+    //     //     event.saved = false;
+    //     //     return event;
+    //     // });
+    //     // console.log(JSON.parse(response));
+    //     self[self.resultKey] = JSON.parse(response);
+    //     console.log(self[self.resultKey]);
+    //     self.searchInput = "";
+    //   });
+    // },
     resetResults: function() {
         this.udemyResults = [];
         this.youtubeResults = [];
@@ -142,6 +141,22 @@ var index = new Vue({
     },
     modalToggle: function() {
         $("#login-modal").modal("toggle");
+    },
+    getCourses: function() {
+        var self = this;
+        console.log("Getting courses...");
+        $.ajax({
+            type: "GET",
+            url: "/udemy/" + self.searchInput
+          }).then(function(response) {
+              response = JSON.parse(response);
+              console.log(response);
+              self.udemyResults = response.results.map(function(course){
+                  course.saved = false;
+                  return course;
+              });
+            console.log(self.udemyResults);
+          });
     },
     saveUdemyCourse: function(result) {
         var self = this;
