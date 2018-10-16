@@ -10,6 +10,8 @@ const app = express();
 require("dotenv").config();
 
 
+
+
 // const queryOptions = {
 //   query: 'Web Developer',
 //   city: 'Richmond, VA',
