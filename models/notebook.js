@@ -41,7 +41,13 @@ var NotebookSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "Article"
     }
-  ]
+  ],
+  note: [
+    {
+        type: Schema.Types.ObjectId,
+        ref: "Note"
+    }
+]
 });
 
 NotebookSchema.pre("remove", function(dbNotebook) {

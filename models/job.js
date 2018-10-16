@@ -27,12 +27,6 @@ var JobSchema = new Schema({
         type: String,
         required: false
     },
-    notes: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "Note"
-        }
-    ],
     saved: {
         type: Boolean,
         default: false
