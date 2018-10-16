@@ -242,7 +242,6 @@ var index = new Vue({
                 job.saved = false;
                 return job;
             });
-            self.jobResults = response;
             self.citySearchInput = "";
             self.jobKeywordInput = "";
           });
@@ -276,7 +275,10 @@ var index = new Vue({
             type:"GET",
             url:"/articles/"
         }).then(function(response) {
-            self.articleResults = response;
+            self.articleResults = response.map(function(article){
+                article.saved = false;
+                return article;
+            });
         });
     },
     saveArticle: function(result) {
