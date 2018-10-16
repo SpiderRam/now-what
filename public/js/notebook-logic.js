@@ -1,12 +1,37 @@
+// var modal = new Vue({
+//     el: "#login-modal",
+//     data: {
+//         noteBody: ""
+//     },
+//     methods: {
+//         saveNote: function() {
+//             var self = this;
+//             var noteObject = {
+//                 text: noteBody
+//             };
+//             $.ajax({
+//                 type: "POST",
+//                 url: "/save-note",
+//                 data: noteObject
+//             }).then(function(response) {
+//                 result.saved = true;
+//                 console.log(JSON.stringify(response));
+//             });
+//         },
+//     }
+// });
+
 new Vue({
     el: "#vueContainer",
     data: {
+        noteBody: "",
         notebookName: "",
         notebookVideos: [],
         notebookEvents: [],
         notebookCourses: [],
         notebookJobs: [],
-        notebookArticles: []
+        notebookArticles: [],
+        notebookNotes: []
     },
 
     created: function() {
@@ -14,6 +39,27 @@ new Vue({
     },
 
     methods: {
+        saveNote: function() {
+            var self = this;
+            var noteObject = {
+                noteBody: {
+                    text: self.noteBody
+                },
+                notebook: self.notebookName,
+                user: sessionStorage.userId
+            };
+            $.ajax({
+                type: "POST",
+                url: "/save-note",
+                data: noteObject
+            }).then(function(response) {
+                self.getNotebookContents();
+                console.log(JSON.stringify(response));
+            });
+        },
+        modalToggle: function() {
+            $("#login-modal").modal("toggle");
+        },
         getNotebookContents: function() {
             var self = this;
             $.ajax({
@@ -26,6 +72,8 @@ new Vue({
                 self.notebookJobs = response.job;
                 self.notebookVideos = response.video;
                 self.notebookArticles = response.article;
+                self.notebookNotes = response.note;
+                console.log(self.notebookNotes);
             });
         },
         deleteCourse: function(course) {
@@ -69,6 +117,15 @@ new Vue({
             $.ajax({
                 type: "DELETE",
                 url: "/delete-article/" + article._id
+            }).then(function(response) {
+                self.getNotebookContents();
+            });
+        },
+        deleteNote: function(note) {
+            var self = this;
+            $.ajax({
+                type: "DELETE",
+                url: "/delete-note/" + note._id
             }).then(function(response) {
                 self.getNotebookContents();
             });

@@ -70,6 +70,7 @@ var index = new Vue({
     notebookContents: [],
     activeNotebook: {},
     pulseAnimation: false,
+    isLoggedIn: false,
     targets: [
         {
             category: "Notebooks",
@@ -97,6 +98,17 @@ var index = new Vue({
         }
     ]
   },
+  created: function() {
+    var self = this;
+    setInterval(function() {
+        if (sessionStorage.userId) {
+            self.isLoggedIn = true;
+        }
+        else {
+            self.isLoggedIn = false;
+        }
+    }, 500);
+    },
   methods: {
     logout: function() {
         sessionStorage.userId = "";

@@ -222,6 +222,21 @@ module.exports = function(app) {
         return res.status(200).send();
     });
   });
+
+  app.post("/save-note", function(req, res) {
+    console.log(req.body);
+    db.Note.create(req.body.noteBody)
+    .then(function(dbNote) {
+      return db.Notebook.findOneAndUpdate({name: req.body.notebook, user: req.body.user}, { $push: { note: dbNote._id } }, { new: true });
+    })
+    .then(function(dbNotebook) {
+      res.json(dbNotebook);
+      console.log("Note saved");
+    })
+    .catch(function(err) {
+      res.json(err);
+    });
+  });
   
   app.post("/add-notebook/:userId", function(req, res) {
     var userId = req.params.userId;
@@ -256,6 +271,7 @@ module.exports = function(app) {
       .populate("event")
       .populate("job")
       .populate("article")
+      .populate("note")
       .then(function(dbNotebook) {
         res.json(dbNotebook);
         console.log(dbNotebook);

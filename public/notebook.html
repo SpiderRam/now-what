@@ -16,8 +16,31 @@
 </head>
 
 <body>
+
   <div id="vueContainer">
 
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="login-modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add a note:</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group">
+              <textarea class="form-control" id="noteText" v-model="noteBody"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="saveNoteButton" type="button"  data-dismiss="modal" @click="saveNote">Save Note</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
         <div id="title">Now What?</div>
@@ -35,6 +58,7 @@
         </a>
         <img src="/images/icon-home.png" style="width: 50px" style="height: 50px">
         {{ notebookName }} Contents
+        <button @click="modalToggle" id="addNoteButton">Add Note</button>
       </div>
       <div class="card-body">
 
@@ -87,6 +111,16 @@
                 <img  v-bind:src="job.image" />
                 <a target="_blank" v-bind:href="job.link">{{ job.title }}</a>
                 <button class="deleteContentButton" @click="deleteJob(job)">Delete</button>
+              </li>
+            </ul>
+          </template>
+          <template v-if="notebookNotes.length">
+            <p class="contentSectionTitle">Notes:</p>
+              <ul>
+              <li class="clearfix"  v-for="note in notebookNotes">
+                <img  src="/images/icon-note-render.png" />
+                <div id="noteTextRendered">{{ note.text }}</div>
+                <button class="deleteContentButton" @click="deleteNote(note)">Delete</button>
               </li>
             </ul>
           </template>
