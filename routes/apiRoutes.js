@@ -84,7 +84,16 @@ module.exports = function(app) {
       url: "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + youTubeQuery + "&type=video&key=" + process.env.YOU_TUBE_API,
         
     },function(err, raw, body){
-      res.json(body);
+      var cleanYouTube = []
+       for(var i=0; i<JSON.parse(body).items.length; i++){
+         var singleYoutube = {
+           link: JSON.parse(body).items[i].id.videoId,
+           picture: JSON.parse(body).items[i].snippet.thumbnails.default.url,
+           title: JSON.parse(body).items[i].snippet.title
+         };
+          cleanYouTube.push(singleYoutube);
+        }
+      res.json(cleanYouTube);
     });
   });
 

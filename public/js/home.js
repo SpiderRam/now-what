@@ -114,22 +114,6 @@ var index = new Vue({
         sessionStorage.usernameText = "";
         console.log( sessionStorage.usernameText, sessionStorage.userId);
     },
-    // handleSearch: function() {
-    //  var self = this;
-    //   $.ajax({
-    //     type: "GET",
-    //     url: self.searchURL
-    //   }).then(function(response) {
-    //     // self.eventResults = response.map(function(event){
-    //     //     event.saved = false;
-    //     //     return event;
-    //     // });
-    //     // console.log(JSON.parse(response));
-    //     self[self.resultKey] = JSON.parse(response);
-    //     console.log(self[self.resultKey]);
-    //     self.searchInput = "";
-    //   });
-    // },
     resetResults: function() {
         this.udemyResults = [];
         this.youtubeResults = [];
@@ -150,12 +134,10 @@ var index = new Vue({
             url: "/udemy/" + self.searchInput
           }).then(function(response) {
               response = JSON.parse(response);
-              console.log(response);
               self.udemyResults = response.results.map(function(course){
                   course.saved = false;
                   return course;
               });
-            console.log(self.udemyResults);
           });
     },
     saveUdemyCourse: function(result) {
@@ -176,18 +158,30 @@ var index = new Vue({
             url: "/save-course",
             data: courseObject
         }).then(function(response) {
-            console.log(JSON.stringify(response));
             result.saved = true;
         });
+    },
+    getVideos: function() {
+        var self = this;
+        console.log("Getting videos...");
+        $.ajax({
+            type: "GET",
+            url: "/youtube/" + self.searchInput
+          }).then(function(response) {
+              self.youtubeResults = response.map(function(video){
+                  video.saved = false;
+                  return video;
+              });
+          });
     },
     saveVideo: function(result) {
         var self = this;
 
         var videoObject = {
             videoData: {
-                title: result.snippet.title,
-                link: 'https://www.youtube.com/watch?v=' + result.id.videoId,
-                image: result.snippet.thumbnails.default.url
+                title: result.title,
+                link: 'https://www.youtube.com/watch?v=' + result.link,
+                image: result.picture
             },
             notebook: self.saveToNotebookName,
             user: sessionStorage.userId
@@ -197,7 +191,6 @@ var index = new Vue({
             url: "/save-video",
             data: videoObject
         }).then(function(response) {
-            console.log(JSON.stringify(response));
             result.saved = true;
         });
     },
@@ -212,7 +205,6 @@ var index = new Vue({
                   event.saved = false;
                   return event;
               });
-            console.log(self.eventResults);
           });
     },
     saveEvent: function(result) {
@@ -233,7 +225,6 @@ var index = new Vue({
             data: eventObject
         }).then(function(response) {
             result.saved = true;
-            console.log(JSON.stringify(response));
         });
     },
     getJobs: function() {
@@ -252,7 +243,6 @@ var index = new Vue({
                 return job;
             });
             self.jobResults = response;
-            console.log(self.jobResults);
             self.citySearchInput = "";
             self.jobKeywordInput = "";
           });
@@ -278,7 +268,6 @@ var index = new Vue({
             data: jobObject
         }).then(function(response) {
             result.saved = true;
-            console.log(JSON.stringify(response));
         });
     },
     getArticles: function() {
@@ -308,7 +297,6 @@ var index = new Vue({
             data: articleObject
         }).then(function(response) {
             result.saved = true;
-            console.log(JSON.stringify(response));
         });
     },
     getNotebookList: function() {
@@ -319,7 +307,6 @@ var index = new Vue({
         }).then(function(response) {
             self.notebooksList = response;
             self.renderNotebookList(self.notebooksList);
-            console.log(self.notebooksList);
         });
     },
     renderNotebookList: function(notebooksList) {
@@ -402,7 +389,6 @@ var index = new Vue({
         }
         else if (this.activeDetails.category === "Notebooks") {
             console.log("Render Notebooks");
-            // this.activeDetails = target;
             this.getNotebookList();
         }
       },
@@ -423,8 +409,7 @@ var index = new Vue({
           console.log("Found no user logged in.");
           if (!sessionStorage.userId) {
             this.pulseAnimation = true;
-          }
-          
+          }   
       }
   }
 });

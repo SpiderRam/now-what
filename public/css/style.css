@@ -149,6 +149,7 @@
 
 .grid-item:hover {
     box-shadow: 5px 10px 18px dodgerblue;
+    border: 2px solid navy;
 }
 
 .grid-item p {

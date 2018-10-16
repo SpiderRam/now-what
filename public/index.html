@@ -139,7 +139,7 @@
         <div id="youTubeCard" v-if="activeDetails.category == 'Videos'">
           <div class="input-group-prepend">
             <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2">
-            <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
+            <button @click="getVideos" class="searchSubmit" type="submit">Search</button>
           </div>
           <div class="input-group-prepend">
             <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
@@ -163,9 +163,6 @@
                 <div class="col">
                   <input type="text" class="form-control" placeholder="City, State" v-model="citySearchInput">
                 </div>
-                <!-- <div class="col">
-                  <input type="text" class="form-control" placeholder="State" v-model="stateSearchInput">
-                </div> -->
                 <div class="col">
                   <input type="text" class="form-control" placeholder="Keyword search" v-model="jobKeywordInput">
                 </div>
@@ -198,13 +195,13 @@
               </li>
             </ul>
           </template>
-          <template v-for="result in youtubeResults.items">
+          <template v-for="result in youtubeResults">
             <ul>
               <li class="clearfix" >
-                <img v-bind:src="result.snippet.thumbnails.default.url" />
-                <a target="_blank" v-bind:href="'https://www.youtube.com/watch?v=' + result.id.videoId">{{
-                  result.snippet.title }}</a>
-                <button class="saveResultButton" @click="saveVideo(result)">Save</button>
+                <img v-bind:src="result.picture" />
+                <a target="_blank" v-bind:href="'https://www.youtube.com/watch?v=' + result.link">{{
+                  result.title }}</a>
+                <button class="saveResultButton" @click="saveVideo(result)">{{result.saved ? "Saved" : "Save"}}</button>
               </li>
             </ul>
           </template>
