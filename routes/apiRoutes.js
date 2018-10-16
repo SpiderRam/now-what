@@ -237,6 +237,13 @@ module.exports = function(app) {
       res.json(err);
     });
   });
+
+  app.delete("/delete-note/:noteId", function (req, res) {
+    db.Note.findByIdAndRemove(req.params.noteId, (err, note) => {
+        if (err) return res.status(500).send(err);
+        return res.status(200).send();
+    });
+  });
   
   app.post("/add-notebook/:userId", function(req, res) {
     var userId = req.params.userId;

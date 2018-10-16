@@ -1,26 +1,3 @@
-// var modal = new Vue({
-//     el: "#login-modal",
-//     data: {
-//         noteBody: ""
-//     },
-//     methods: {
-//         saveNote: function() {
-//             var self = this;
-//             var noteObject = {
-//                 text: noteBody
-//             };
-//             $.ajax({
-//                 type: "POST",
-//                 url: "/save-note",
-//                 data: noteObject
-//             }).then(function(response) {
-//                 result.saved = true;
-//                 console.log(JSON.stringify(response));
-//             });
-//         },
-//     }
-// });
-
 new Vue({
     el: "#vueContainer",
     data: {
@@ -53,8 +30,8 @@ new Vue({
                 url: "/save-note",
                 data: noteObject
             }).then(function(response) {
+                self.noteBody = "";
                 self.getNotebookContents();
-                console.log(JSON.stringify(response));
             });
         },
         modalToggle: function() {

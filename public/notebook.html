@@ -64,6 +64,16 @@
 
         <div id="notebookCard">
 
+          <template v-if="notebookNotes.length">
+            <p class="contentSectionTitle">Notes:</p>
+              <ul>
+              <li class="clearfix"  v-for="note in notebookNotes">
+                <img  src="/images/icon-note-render.png" />
+                <div id="noteTextRendered">{{ note.text }}</div>
+                <button class="deleteContentButton" @click="deleteNote(note)">Delete</button>
+              </li>
+            </ul>
+          </template>
           <div v-if="notebookCourses.length">
             <p class="contentSectionTitle">Courses:</p>
             <ul>
@@ -114,16 +124,7 @@
               </li>
             </ul>
           </template>
-          <template v-if="notebookNotes.length">
-            <p class="contentSectionTitle">Notes:</p>
-              <ul>
-              <li class="clearfix"  v-for="note in notebookNotes">
-                <img  src="/images/icon-note-render.png" />
-                <div id="noteTextRendered">{{ note.text }}</div>
-                <button class="deleteContentButton" @click="deleteNote(note)">Delete</button>
-              </li>
-            </ul>
-          </template>
+          
 
       </div>
     </div>
