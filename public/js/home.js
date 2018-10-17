@@ -55,6 +55,9 @@ var index = new Vue({
     addCustom: false,
     customTitleInput: "",
     customURL: "",
+    customJobSummary: "",
+    customEmployer: "",
+    customJobLocation: "",
     notebookResults: [],
     udemyResults: [],
     youtubeResults: [],
@@ -337,6 +340,31 @@ var index = new Vue({
             data: jobObject
         }).then(function(response) {
             result.saved = true;
+        });
+    },
+    saveCustomJob: function() {
+        var self = this;
+
+        var jobObject = {
+            jobData: {
+                title: self.customTitleInput,
+                link: self.customURL,
+                image: "../images/icon-custom-job.png",
+                summary: self.customJobSummary,
+                company: self.customEmployer,
+                location: self.customJobLocation
+            },
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-job",
+            data: jobObject
+        }).then(function() {
+            self.addCustom = false;
+            self.customTitleInput = "";
+            self.customURL = "";
         });
     },
     getArticles: function() {
