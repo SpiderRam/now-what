@@ -52,6 +52,9 @@ var index = new Vue({
     selectedCategory: "Events",
     categories: ["Events", "Jobs", "Courses", "Videos"],
     seen: true,
+    addCustom: false,
+    customTitleInput: "",
+    customURL: "",
     notebookResults: [],
     udemyResults: [],
     youtubeResults: [],
@@ -159,6 +162,28 @@ var index = new Vue({
             data: courseObject
         }).then(function(response) {
             result.saved = true;
+        });
+    },
+    saveCustomCourse: function() {
+        var self = this;
+
+        var courseObject = {
+            courseData: {
+                title: self.customTitleInput,
+                link: self.customURL,
+                image: "../images/icon-custom-course.png"
+            },
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
+
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-course",
+            data: courseObject
+        }).then(function(response) {
+            // result.saved = true;
+            self.addCustom = false;
         });
     },
     getVideos: function() {

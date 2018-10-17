@@ -107,7 +107,7 @@
     border: 1px solid white;
 }
 
-#jobSearchSubmit {
+#jobSearchSubmit, #customCourseSubmit {
     color: midnightblue;
     background-color: transparent;
     border: 1px solid midnightblue;
@@ -115,7 +115,7 @@
     margin-bottom: 15px;
 }
 
-#jobSearchSubmit:hover {
+#jobSearchSubmit:hover, #customCourseSubmit:hover {
     background-image: url("../images/button-blue.png");
     color: white;
     border: 1px solid white;
@@ -190,6 +190,10 @@ p {
     margin-bottom: 0px;
 }
 
+.inputForm {
+    margin-top: 10px;
+}
+
 .input-group-prepend, .col {
     margin-bottom: 15px;
 }
@@ -243,14 +247,14 @@ p {
     margin-top: 10px;
 }
 
-.deleteNotebookButton:hover, .deleteContentButton:hover, #addNoteButton:hover {
+.deleteNotebookButton:hover, .deleteContentButton:hover, .headerButton:hover {
     background-image: url("../images/button-blue.png");
     color: white;
     border: 1px solid white;
     opacity: 1.0;
 }
 
-#addNoteButton {
+.headerButton {
     float: right;
     overflow: auto;
     color: midnightblue;
