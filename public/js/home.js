@@ -181,9 +181,10 @@ var index = new Vue({
             type: "POST",
             url: "/save-course",
             data: courseObject
-        }).then(function(response) {
-            // result.saved = true;
+        }).then(function() {
             self.addCustom = false;
+            self.customTitleInput = "";
+            self.customURL = "";
         });
     },
     getVideos: function() {
@@ -215,8 +216,30 @@ var index = new Vue({
             type: "POST",
             url: "/save-video",
             data: videoObject
-        }).then(function(response) {
+        }).then(function() {
             result.saved = true;
+        });
+    },
+    saveCustomVideo: function() {
+        var self = this;
+
+        var videoObject = {
+            videoData: {
+                title: self.customTitleInput,
+                link: self.customURL,
+                image: "../images/icon-custom-video.png"
+            },
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-video",
+            data: videoObject
+        }).then(function(response) {
+            self.addCustom = false;
+            self.customTitleInput = "";
+            self.customURL = "";
         });
     },
     getEvents: function() {

@@ -145,21 +145,37 @@
                   <input type="text" class="form-control" placeholder="URL" v-model="customURL">
                 </div>
                 <button id="customCourseSubmit" type="button" class="btn btn-primary btn-sm" @click="saveCustomCourse">Save</button>
-                <button id="customCourseSubmit" type="button" class="btn btn-primary btn-sm" @click="{addCustom = false}">Cancel</button>
+                <button id="customCourseSubmit" type="button" class="btn btn-primary btn-sm" @click="{addCustom = false}">Close</button>
               </div>
+            </div>
           </div>
         </div>
 
         <div id="youTubeCard" v-if="activeDetails.category == 'Videos'">
           <div class="input-group-prepend">
-            <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2" v-on:keyup.enter="getVideos">
-            <button @click="getVideos" class="searchSubmit" type="submit">Search</button>
-          </div>
-          <div class="input-group-prepend">
             <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
               placeholder="Enter name of the notebook in which you want to save each video">
           </div>
+          <div class="input-group-prepend">
+            <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2" v-on:keyup.enter="getVideos">
+            <button @click="getVideos" class="searchSubmit" type="submit">Search</button>
+          </div>
+          <button id="addCustomVideoButton" type="button" class="btn btn-primary btn-lg btn-block" @click="{addCustom = true}">Or add your own</button>
           <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
+          <div class="inputForm" v-if="addCustom">
+            <div>
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Title" v-model="customTitleInput">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="URL" v-model="customURL">
+                </div>
+                <button id="customVideoSubmit" type="button" class="btn btn-primary btn-sm" @click="saveCustomVideo">Save</button>
+                <button type="button" id="customVideoSubmit" class="btn btn-primary btn-sm" @click="{addCustom = false}">Close</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div id="meetupCard" v-if="activeDetails.category == 'Events'">

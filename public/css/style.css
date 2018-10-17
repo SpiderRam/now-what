@@ -107,7 +107,7 @@
     border: 1px solid white;
 }
 
-#jobSearchSubmit, #customCourseSubmit {
+#jobSearchSubmit, #customCourseSubmit, #customVideoSubmit {
     color: midnightblue;
     background-color: transparent;
     border: 1px solid midnightblue;
@@ -115,7 +115,7 @@
     margin-bottom: 15px;
 }
 
-#jobSearchSubmit:hover, #customCourseSubmit:hover {
+#jobSearchSubmit:hover, #customCourseSubmit:hover, #customVideoSubmit:hover {
     background-image: url("../images/button-blue.png");
     color: white;
     border: 1px solid white;
