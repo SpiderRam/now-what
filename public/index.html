@@ -183,7 +183,22 @@
             <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
               placeholder="Enter name of the notebook in which you want to save each event">
           </div>
+          <button id="addCustomVideoButton" type="button" class="btn btn-primary btn-lg btn-block" @click="{addCustom = true}">Or add your own</button>
           <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
+          <div class="inputForm" v-if="addCustom">
+            <div>
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Title" v-model="customTitleInput">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="URL" v-model="customURL">
+                </div>
+                <button id="customEventSubmit" type="button" class="btn btn-primary btn-sm" @click="saveCustomEvent">Save</button>
+                <button type="button" id="customEventSubmit" class="btn btn-primary btn-sm" @click="{addCustom = false}">Close</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div id="jobsCard" v-if="activeDetails.category == 'Jobs'">

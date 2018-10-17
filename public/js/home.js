@@ -275,6 +275,28 @@ var index = new Vue({
             result.saved = true;
         });
     },
+    saveCustomEvent: function() {
+        var self = this;
+
+        var eventObject = {
+            eventData: {
+                title: self.customTitleInput,
+                link: self.customURL,
+                image: "../images/icon-custom-event.png"
+            },
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-event",
+            data: eventObject
+        }).then(function() {
+            self.addCustom = false;
+            self.customTitleInput = "";
+            self.customURL = "";
+        });
+    },
     getJobs: function() {
         self = this;
         console.log("Getting jobs...");
