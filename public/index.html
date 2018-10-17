@@ -221,30 +221,28 @@
             <button id="addCustomVideoButton" type="button" class="btn btn-primary btn-lg btn-block" @click="{addCustom = true}">Or add your own</button>
             <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
             <div class="inputForm" v-if="addCustom">
-              <div>
-                <div class="row">
-                  <div class="col">
-                    <input type="text" class="form-control" placeholder="Title" v-model="customTitleInput">
-                  </div>
-                  <div class="col">
-                    <input type="text" class="form-control" placeholder="URL" v-model="customURL">
-                  </div>
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Title" v-model="customTitleInput">
                 </div>
-                <div class="row">
-                  <div class="col">
-                    <input type="text" class="form-control" placeholder="Company" v-model="customEmployer">
-                  </div>
-                  <div class="col">
-                    <input type="text" class="form-control" placeholder="Location" v-model="customJobLocation">
-                  </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="URL" v-model="customURL">
                 </div>
-                <div class="row">
-                  <div class="col">
-                    <input type="text" class="form-control" placeholder="Summary" v-model="customJobSummary">
-                  </div>
-                  <button id="customJobSubmit" type="button" class="btn btn-primary btn-sm" @click="saveCustomJob">Save</button>
-                  <button type="button" id="customJobSubmit" class="btn btn-primary btn-sm" @click="{addCustom = false}">Close</button>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Company" v-model="customEmployer">
                 </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Location" v-model="customJobLocation">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Summary" v-model="customJobSummary">
+                </div>
+                <button id="customJobSubmit" type="button" class="btn btn-primary btn-sm" @click="saveCustomJob">Save</button>
+                <button type="button" id="customJobSubmit" class="btn btn-primary btn-sm" @click="{addCustom = false}">Close</button>
               </div>
             </div>
           </div>
@@ -255,7 +253,25 @@
             <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
               placeholder="Enter name of the notebook in which you want to save each article">
           </div>
+          <button id="addCustomArticleButton" type="button" class="btn btn-primary btn-lg btn-block" @click="{addCustom = true}">Add your own</button>
           <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
+          <div class="inputForm" v-if="addCustom">
+            <div class="row">
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Title" v-model="customTitleInput">
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="URL" v-model="customURL">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Summary" v-model="customArticleSummary">
+              </div>
+              <button id="customArticleSubmit" type="button" class="btn btn-primary btn-sm" @click="saveCustomArticle">Save</button>
+              <button type="button" id="customArticleSubmit" class="btn btn-primary btn-sm" @click="{addCustom = false}">Close</button>
+            </div>
+          </div>
         </div>
 
         <div id="searchResults">

@@ -58,6 +58,7 @@ var index = new Vue({
     customJobSummary: "",
     customEmployer: "",
     customJobLocation: "",
+    customArticleSummary: "",
     notebookResults: [],
     udemyResults: [],
     youtubeResults: [],
@@ -365,6 +366,9 @@ var index = new Vue({
             self.addCustom = false;
             self.customTitleInput = "";
             self.customURL = "";
+            self.customJobSummary = "";
+            self.customEmployer = "";
+            self.customJobLocation = "";
         });
     },
     getArticles: function() {
@@ -397,6 +401,30 @@ var index = new Vue({
             data: articleObject
         }).then(function(response) {
             result.saved = true;
+        });
+    },
+    saveCustomArticle: function() {
+        var self = this;
+        console.log("line 408");
+        var articleObject = {
+            articleData: {
+                title: self.customTitleInput,
+                link: self.customURL,
+                summary: self.customArticleSummary
+            },
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-article",
+            data: articleObject
+        }).then(function() {
+            console.log("line 423");
+            self.addCustom = false;
+            self.customTitleInput = "";
+            self.customURL = "";
+            self.customArticleSummary = "";
         });
     },
     getNotebookList: function() {
