@@ -122,6 +122,7 @@ var index = new Vue({
         console.log( sessionStorage.usernameText, sessionStorage.userId);
     },
     resetResults: function() {
+        console.log("Reset results");
         this.udemyResults = [];
         this.youtubeResults = [];
         this.jobResults = [];
@@ -136,6 +137,7 @@ var index = new Vue({
     getCourses: function() {
         var self = this;
         console.log("Getting courses...");
+        console.log(self.searchInput);
         $.ajax({
             type: "GET",
             url: "/udemy/" + self.searchInput

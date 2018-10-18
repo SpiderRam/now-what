@@ -31,6 +31,7 @@ var cheerio = require("cheerio");
 
   app.get("/udemy/:udemyQuery", function(req, res){
     var udemyQuery = req.params.udemyQuery;
+
     request ({
       url: "https://www.udemy.com/api-2.0/courses/?search=" + udemyQuery + "&page=2&page_size=12",
         headers: {
