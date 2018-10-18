@@ -52,6 +52,13 @@ var index = new Vue({
     selectedCategory: "Events",
     categories: ["Events", "Jobs", "Courses", "Videos"],
     seen: true,
+    addCustom: false,
+    customTitleInput: "",
+    customURL: "",
+    customJobSummary: "",
+    customEmployer: "",
+    customJobLocation: "",
+    customArticleSummary: "",
     notebookResults: [],
     udemyResults: [],
     youtubeResults: [],
@@ -69,7 +76,6 @@ var index = new Vue({
     saveToNotebookName: "",
     notebookContents: [],
     activeNotebook: {},
-    pulseAnimation: false,
     isLoggedIn: false,
     targets: [
         {
@@ -115,23 +121,8 @@ var index = new Vue({
         sessionStorage.usernameText = "";
         console.log( sessionStorage.usernameText, sessionStorage.userId);
     },
-    handleSearch: function() {
-     var self = this;
-      $.ajax({
-        type: "GET",
-        url: self.searchURL
-      }).then(function(response) {
-        // self.eventResults = response.map(function(event){
-        //     event.saved = false;
-        //     return event;
-        // });
-        // console.log(JSON.parse(response));
-        self[self.resultKey] = JSON.parse(response);
-        console.log(self[self.resultKey]);
-        self.searchInput = "";
-      });
-    },
     resetResults: function() {
+        console.log("Reset results");
         this.udemyResults = [];
         this.youtubeResults = [];
         this.jobResults = [];
@@ -142,6 +133,21 @@ var index = new Vue({
     },
     modalToggle: function() {
         $("#login-modal").modal("toggle");
+    },
+    getCourses: function() {
+        var self = this;
+        console.log("Getting courses...");
+        console.log(self.searchInput);
+        $.ajax({
+            type: "GET",
+            url: "/udemy/" + self.searchInput
+          }).then(function(response) {
+              response = JSON.parse(response);
+              self.udemyResults = response.results.map(function(course){
+                  course.saved = false;
+                  return course;
+              });
+          });
     },
     saveUdemyCourse: function(result) {
         var self = this;
@@ -161,18 +167,73 @@ var index = new Vue({
             url: "/save-course",
             data: courseObject
         }).then(function(response) {
-            console.log(JSON.stringify(response));
             result.saved = true;
         });
+    },
+    saveCustomCourse: function() {
+        var self = this;
+
+        var courseObject = {
+            courseData: {
+                title: self.customTitleInput,
+                link: self.customURL,
+                image: "../images/icon-custom-course.png"
+            },
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
+
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-course",
+            data: courseObject
+        }).then(function() {
+            self.addCustom = false;
+            self.customTitleInput = "";
+            self.customURL = "";
+        });
+    },
+    getVideos: function() {
+        var self = this;
+        console.log("Getting videos...");
+        $.ajax({
+            type: "GET",
+            url: "/youtube/" + self.searchInput
+          }).then(function(response) {
+              self.youtubeResults = response.map(function(video){
+                  video.saved = false;
+                  return video;
+              });
+          });
     },
     saveVideo: function(result) {
         var self = this;
 
         var videoObject = {
             videoData: {
-                title: result.snippet.title,
-                link: 'https://www.youtube.com/watch?v=' + result.id.videoId,
-                image: result.snippet.thumbnails.default.url
+                title: result.title,
+                link: 'https://www.youtube.com/watch?v=' + result.link,
+                image: result.picture
+            },
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-video",
+            data: videoObject
+        }).then(function() {
+            result.saved = true;
+        });
+    },
+    saveCustomVideo: function() {
+        var self = this;
+
+        var videoObject = {
+            videoData: {
+                title: self.customTitleInput,
+                link: self.customURL,
+                image: "../images/icon-custom-video.png"
             },
             notebook: self.saveToNotebookName,
             user: sessionStorage.userId
@@ -182,8 +243,9 @@ var index = new Vue({
             url: "/save-video",
             data: videoObject
         }).then(function(response) {
-            console.log(JSON.stringify(response));
-            result.saved = true;
+            self.addCustom = false;
+            self.customTitleInput = "";
+            self.customURL = "";
         });
     },
     getEvents: function() {
@@ -197,7 +259,6 @@ var index = new Vue({
                   event.saved = false;
                   return event;
               });
-            console.log(self.eventResults);
           });
     },
     saveEvent: function(result) {
@@ -218,7 +279,28 @@ var index = new Vue({
             data: eventObject
         }).then(function(response) {
             result.saved = true;
-            console.log(JSON.stringify(response));
+        });
+    },
+    saveCustomEvent: function() {
+        var self = this;
+
+        var eventObject = {
+            eventData: {
+                title: self.customTitleInput,
+                link: self.customURL,
+                image: "../images/icon-custom-event.png"
+            },
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-event",
+            data: eventObject
+        }).then(function() {
+            self.addCustom = false;
+            self.customTitleInput = "";
+            self.customURL = "";
         });
     },
     getJobs: function() {
@@ -236,8 +318,6 @@ var index = new Vue({
                 job.saved = false;
                 return job;
             });
-            self.jobResults = response;
-            console.log(self.jobResults);
             self.citySearchInput = "";
             self.jobKeywordInput = "";
           });
@@ -263,7 +343,34 @@ var index = new Vue({
             data: jobObject
         }).then(function(response) {
             result.saved = true;
-            console.log(JSON.stringify(response));
+        });
+    },
+    saveCustomJob: function() {
+        var self = this;
+
+        var jobObject = {
+            jobData: {
+                title: self.customTitleInput,
+                link: self.customURL,
+                image: "../images/icon-custom-job.png",
+                summary: self.customJobSummary,
+                company: self.customEmployer,
+                location: self.customJobLocation
+            },
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-job",
+            data: jobObject
+        }).then(function() {
+            self.addCustom = false;
+            self.customTitleInput = "";
+            self.customURL = "";
+            self.customJobSummary = "";
+            self.customEmployer = "";
+            self.customJobLocation = "";
         });
     },
     getArticles: function() {
@@ -272,7 +379,10 @@ var index = new Vue({
             type:"GET",
             url:"/articles/"
         }).then(function(response) {
-            self.articleResults = response;
+            self.articleResults = response.map(function(article){
+                article.saved = false;
+                return article;
+            });
         });
     },
     saveArticle: function(result) {
@@ -293,7 +403,30 @@ var index = new Vue({
             data: articleObject
         }).then(function(response) {
             result.saved = true;
-            console.log(JSON.stringify(response));
+        });
+    },
+    saveCustomArticle: function() {
+        var self = this;
+        console.log("line 408");
+        var articleObject = {
+            articleData: {
+                title: self.customTitleInput,
+                link: self.customURL,
+                summary: self.customArticleSummary
+            },
+            notebook: self.saveToNotebookName,
+            user: sessionStorage.userId
+        };
+        $.ajax({
+            type: "POST",
+            url: "/save-article",
+            data: articleObject
+        }).then(function() {
+            console.log("line 423");
+            self.addCustom = false;
+            self.customTitleInput = "";
+            self.customURL = "";
+            self.customArticleSummary = "";
         });
     },
     getNotebookList: function() {
@@ -304,7 +437,6 @@ var index = new Vue({
         }).then(function(response) {
             self.notebooksList = response;
             self.renderNotebookList(self.notebooksList);
-            console.log(self.notebooksList);
         });
     },
     renderNotebookList: function(notebooksList) {
@@ -387,7 +519,6 @@ var index = new Vue({
         }
         else if (this.activeDetails.category === "Notebooks") {
             console.log("Render Notebooks");
-            // this.activeDetails = target;
             this.getNotebookList();
         }
       },
@@ -408,8 +539,7 @@ var index = new Vue({
           console.log("Found no user logged in.");
           if (!sessionStorage.userId) {
             this.pulseAnimation = true;
-          }
-          
+          }   
       }
   }
 });

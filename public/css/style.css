@@ -51,10 +51,23 @@
     text-shadow: 2px 2px 5px steelblue;
 }
 
+@keyframes pulse {
+    0%   {text-shadow: 1px 1px 2px dodgerblue;}
+    25%  {text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;}
+    50%  {text-shadow: 1px 1px 2px dodgerblue;}
+    75%  {text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;}
+    100% {text-shadow: 1px 1px 2px dodgerblue;}
+}
+ .pulse {
+    animation-name: pulse;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
 #loginButton {
     display: inline-block;
     margin-left: 10px;
-    padding: 20px 10px;;
+    padding: 20px 10px;
     border-radius: 50%;
     font-family: 'Aldrich', sans-serif;
     color: dodgerblue;
@@ -94,7 +107,7 @@
     border: 1px solid white;
 }
 
-#jobSearchSubmit {
+#jobSearchSubmit, #customCourseSubmit, #customVideoSubmit, #customEventSubmit, #customJobSubmit, #customArticleSubmit {
     color: midnightblue;
     background-color: transparent;
     border: 1px solid midnightblue;
@@ -102,7 +115,7 @@
     margin-bottom: 15px;
 }
 
-#jobSearchSubmit:hover {
+#jobSearchSubmit:hover, #customCourseSubmit:hover, #customVideoSubmit:hover, #customEventSubmit:hover, #customJobSubmit:hover, #customArticleSubmit:hover {
     background-image: url("../images/button-blue.png");
     color: white;
     border: 1px solid white;
@@ -131,7 +144,6 @@
     color: midnightblue;
     border: 1px solid navy;
     padding-right: 10px;
-    /* text-align: center; */
 }
 
 .grid-item:hover {
@@ -178,6 +190,10 @@ p {
     margin-bottom: 0px;
 }
 
+.inputForm {
+    margin-top: 10px;
+}
+
 .input-group-prepend, .col {
     margin-bottom: 15px;
 }
@@ -199,11 +215,11 @@ p {
     list-style: none;
 }
 
-#notebookCard ul {
+#notebookCard ul, #notebookContentCard ul {
     list-style: none;
 }
 
-#notebookCard li {
+#notebookCard li, #notebookContentCard li {
     margin-bottom: 10px;
     border-bottom: 1px solid navy;
 }
@@ -217,6 +233,10 @@ p {
     height: 60px;
 }
 
+.clearfix {
+    overflow: auto;
+}
+
 .deleteNotebookButton, .deleteContentButton {
     float: right;
     color: midnightblue;
@@ -227,14 +247,14 @@ p {
     margin-top: 10px;
 }
 
-.deleteNotebookButton:hover, .deleteContentButton:hover, #addNoteButton:hover {
+.deleteNotebookButton:hover, .deleteContentButton:hover, .headerButton:hover {
     background-image: url("../images/button-blue.png");
     color: white;
     border: 1px solid white;
     opacity: 1.0;
 }
 
-#addNoteButton {
+.headerButton {
     float: right;
     overflow: auto;
     color: midnightblue;
@@ -247,18 +267,14 @@ p {
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
 }
 
-#searchResults li, #notebookCard li {
+#searchResults li, #notebookCard li, #notebookContentCard li {
     padding-bottom: 5px;
     border-bottom: 2px solid navy;
 }
 
-#searchResults li a, #notebookCard li a {
+#searchResults li a, #notebookCard li a, #notebookContentCard li a {
     color: black;
     margin-left: 10px;
-}
-
-.employerNameAndLocation {
-    
 }
 
 .jobTitle {

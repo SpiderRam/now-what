@@ -35,7 +35,7 @@
             v-model="newUserObject.username">
 
           <label for="createPassword">Password</label>
-          <input type="text" class="form-control" id="createPassword" aria-describedby="emailHelp" placeholder="Enter password"
+          <input type="password" class="form-control" id="createPassword" aria-describedby="emailHelp" placeholder="Enter password"
             v-model="newUserObject.password">
 
           <button type="button" id="signUp" class="btn btn-primary" v-on:click="addNewUser" data-dismiss="modal">Sign
@@ -48,7 +48,7 @@
             v-model="returningUserObject.email">
 
           <label for="enterPassword">Password</label>
-          <input type="text" class="form-control" id="enterPassword" aria-describedby="emailHelp" placeholder="Enter Password"
+          <input type="password" class="form-control" id="enterPassword" aria-describedby="emailHelp" placeholder="Enter Password"
             v-model="returningUserObject.password">
 
           <button type="button" id="signIn" class="btn btn-primary" v-on:click="returningUser" data-dismiss="modal">Sign
@@ -126,26 +126,56 @@
 
         <div id="udemyCard" v-if="activeDetails.category == 'Courses'">
           <div class="input-group-prepend">
-            <input v-model="searchInput" type="text" id="udemySearchForm" class="form-control mr-sm-2">
-            <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
-          </div>
-          <div class="input-group-prepend">
             <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
               placeholder="Enter name of the notebook in which you want to save each course">
           </div>
+          <div class="input-group-prepend">
+            <input v-model="searchInput" type="text" id="udemySearchForm" class="form-control mr-sm-2" v-on:keyup.enter="getCourses">
+            <button @click="getCourses" class="searchSubmit" type="submit">Search</button>
+          </div>
+          <button id="addCustomCourseButton" type="button" class="btn btn-primary btn-lg btn-block" @click="{addCustom = true}">Or add your own</button>
           <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
+          <div class="inputForm" v-if="addCustom">
+            <div>
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Title" v-model="customTitleInput">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="URL" v-model="customURL">
+                </div>
+                <button id="customCourseSubmit" type="button" class="btn btn-primary btn-sm" @click="saveCustomCourse">Save</button>
+                <button id="customCourseSubmit" type="button" class="btn btn-primary btn-sm" @click="{addCustom = false}">Close</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div id="youTubeCard" v-if="activeDetails.category == 'Videos'">
           <div class="input-group-prepend">
-            <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2">
-            <button @click="handleSearch" class="searchSubmit" type="submit">Search</button>
-          </div>
-          <div class="input-group-prepend">
             <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
               placeholder="Enter name of the notebook in which you want to save each video">
           </div>
+          <div class="input-group-prepend">
+            <input v-model="searchInput" type="text" id="searchForm" class="form-control mr-sm-2" v-on:keyup.enter="getVideos">
+            <button @click="getVideos" class="searchSubmit" type="submit">Search</button>
+          </div>
+          <button id="addCustomVideoButton" type="button" class="btn btn-primary btn-lg btn-block" @click="{addCustom = true}">Or add your own</button>
           <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
+          <div class="inputForm" v-if="addCustom">
+            <div>
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Title" v-model="customTitleInput">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="URL" v-model="customURL">
+                </div>
+                <button id="customVideoSubmit" type="button" class="btn btn-primary btn-sm" @click="saveCustomVideo">Save</button>
+                <button type="button" id="customVideoSubmit" class="btn btn-primary btn-sm" @click="{addCustom = false}">Close</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div id="meetupCard" v-if="activeDetails.category == 'Events'">
@@ -153,58 +183,114 @@
             <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
               placeholder="Enter name of the notebook in which you want to save each event">
           </div>
+          <button id="addCustomVideoButton" type="button" class="btn btn-primary btn-lg btn-block" @click="{addCustom = true}">Or add your own</button>
           <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
+          <div class="inputForm" v-if="addCustom">
+            <div>
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Title" v-model="customTitleInput">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="URL" v-model="customURL">
+                </div>
+                <button id="customEventSubmit" type="button" class="btn btn-primary btn-sm" @click="saveCustomEvent">Save</button>
+                <button type="button" id="customEventSubmit" class="btn btn-primary btn-sm" @click="{addCustom = false}">Close</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div id="jobsCard" v-if="activeDetails.category == 'Jobs'">
-          <div class="inputForm">
+          <div class="inputForm" v-on:keyup.enter="getJobs">
+            <div class="input-group-prepend">
+              <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
+                placeholder="Enter name of the notebook in which you want to save each job">
+            </div>
             <div>
               <div class="row">
                 <div class="col">
                   <input type="text" class="form-control" placeholder="City, State" v-model="citySearchInput">
                 </div>
-                <!-- <div class="col">
-                  <input type="text" class="form-control" placeholder="State" v-model="stateSearchInput">
-                </div> -->
                 <div class="col">
                   <input type="text" class="form-control" placeholder="Keyword search" v-model="jobKeywordInput">
                 </div>
                 <button id="jobSearchSubmit" type="button" class="btn btn-primary btn-sm" @click="getJobs">Search</button>
               </div>
             </div>
-            <div class="input-group-prepend">
-              <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
-                placeholder="Enter name of the notebook in which you want to save each job">
-            </div>
+            <button id="addCustomVideoButton" type="button" class="btn btn-primary btn-lg btn-block" @click="{addCustom = true}">Or add your own</button>
             <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
+            <div class="inputForm" v-if="addCustom">
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Title" v-model="customTitleInput">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="URL" v-model="customURL">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Company" v-model="customEmployer">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Location" v-model="customJobLocation">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="Summary" v-model="customJobSummary">
+                </div>
+                <button id="customJobSubmit" type="button" class="btn btn-primary btn-sm" @click="saveCustomJob">Save</button>
+                <button type="button" id="customJobSubmit" class="btn btn-primary btn-sm" @click="{addCustom = false}">Close</button>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div id="meetupCard" v-if="activeDetails.category == 'Articles'">
+        <div id="articleCard" v-if="activeDetails.category == 'Articles'">
           <div class="input-group-prepend">
             <input v-model="saveToNotebookName" type="text" class="form-control mr-sm-2"
               placeholder="Enter name of the notebook in which you want to save each article">
           </div>
+          <button id="addCustomArticleButton" type="button" class="btn btn-primary btn-lg btn-block" @click="{addCustom = true}">Add your own</button>
           <p v-if="saveToNotebookName" class="savingTo">Saving to: {{ saveToNotebookName }}</p>
+          <div class="inputForm" v-if="addCustom">
+            <div class="row">
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Title" v-model="customTitleInput">
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="URL" v-model="customURL">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <input type="text" class="form-control" placeholder="Summary" v-model="customArticleSummary">
+              </div>
+              <button id="customArticleSubmit" type="button" class="btn btn-primary btn-sm" @click="saveCustomArticle">Save</button>
+              <button type="button" id="customArticleSubmit" class="btn btn-primary btn-sm" @click="{addCustom = false}">Close</button>
+            </div>
+          </div>
         </div>
 
         <div id="searchResults">
-          <template v-for="result in udemyResults.results">
+          <template v-for="result in udemyResults">
             <ul>
               <li class="clearfix" >
                 <img v-bind:src="result.image_125_H" />
                 <a target="_blank" v-bind:href="'https://www.udemy.com' + result.url">{{ result.title }}</a>
-                <button @click="saveUdemyCourse(result)" class="saveResultButton" :id="result.id">Save</button>
+                <button @click="saveUdemyCourse(result)" class="saveResultButton" :id="result.id">{{result.saved ? "Saved" : "Save"}}</button>
               </li>
             </ul>
           </template>
-          <template v-for="result in youtubeResults.items">
+          <template v-for="result in youtubeResults">
             <ul>
               <li class="clearfix" >
-                <img v-bind:src="result.snippet.thumbnails.default.url" />
-                <a target="_blank" v-bind:href="'https://www.youtube.com/watch?v=' + result.id.videoId">{{
-                  result.snippet.title }}</a>
-                <button class="saveResultButton" @click="saveVideo(result)">Save</button>
+                <img v-bind:src="result.picture" />
+                <a target="_blank" v-bind:href="'https://www.youtube.com/watch?v=' + result.link">{{
+                  result.title }}</a>
+                <button class="saveResultButton" @click="saveVideo(result)">{{result.saved ? "Saved" : "Save"}}</button>
               </li>
             </ul>
           </template>

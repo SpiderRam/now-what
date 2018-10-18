@@ -3,46 +3,35 @@ var request = require("request");
 
 module.exports = function(app) {
 
- 
-  var indeed = require('indeed-scraper');
- 
-  var cheerio = require("cheerio");
-
-
-  
-
+var indeed = require('indeed-scraper');
+var cheerio = require("cheerio");
 
   app.post("/add-new-user", function(req, res) {
-    console.log(req.body);
     db.User.create(req.body)
-        .then(function(dbUser) {
-            console.log(dbUser._id);
-            return dbUser;
-        }).then(function(dbUser) {
-            const user = {
-              id: dbUser._id,
-              username: dbUser.username
-            };
-            console.log(user);
-            res.json(user);
-        }).catch(function(err) {
-            res.json(err);
+      .then(function(dbUser) {
+          return dbUser;
+      }).then(function(dbUser) {
+          const user = {
+            id: dbUser._id,
+            username: dbUser.username
+          };
+          res.json(user);
+      }).catch(function(err) {
+          res.json(err);
     });
   });
 
   app.post("/returning-user", function (req, res) {
-    console.log("Request: " + JSON.stringify(req.body));
     db.User.find( 
         { email: req.body.email, password: req.body.password }
     ).then(function(data) {
-      console.log(data);
         res.json(data);
     });
   });
 
   app.get("/udemy/:udemyQuery", function(req, res){
     var udemyQuery = req.params.udemyQuery;
-    console.log(udemyQuery);
+
     request ({
       url: "https://www.udemy.com/api-2.0/courses/?search=" + udemyQuery + "&page=2&page_size=12",
         headers: {
@@ -77,12 +66,20 @@ module.exports = function(app) {
 
   app.get("/youtube/:youTubeQuery", function(req, res){
     var youTubeQuery = req.params.youTubeQuery;
-    console.log(youTubeQuery);
     request ({
       url: "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" + youTubeQuery + "&type=video&key=" + process.env.YOU_TUBE_API,
         
     },function(err, raw, body){
-      res.json(body);
+      var cleanYouTube = []
+       for(var i=0; i<JSON.parse(body).items.length; i++){
+         var singleYoutube = {
+           link: JSON.parse(body).items[i].id.videoId,
+           picture: JSON.parse(body).items[i].snippet.thumbnails.default.url,
+           title: JSON.parse(body).items[i].snippet.title
+         };
+          cleanYouTube.push(singleYoutube);
+        }
+      res.json(cleanYouTube);
     });
   });
 
@@ -123,7 +120,6 @@ module.exports = function(app) {
   });
 
   app.post("/save-event", function(req, res) {
-    console.log(req.body);
     db.Event.create(req.body.eventData)
     .then(function(dbEvent) {
       return db.Notebook.findOneAndUpdate({name: req.body.notebook, user: req.body.user}, { $push: { event: dbEvent._id } }, { new: true });
@@ -144,7 +140,6 @@ module.exports = function(app) {
   });
   
   app.post("/indeed", function(req, res){
-    console.log(req.body.city);
     const queryOptions = {
       query: req.body.keyword,
       city: req.body.city,
@@ -209,7 +204,6 @@ module.exports = function(app) {
     })
     .then(function(dbNotebook) {
       res.json(dbNotebook);
-      console.log("Article saved");
     })
     .catch(function(err) {
       res.json(err);
@@ -224,14 +218,12 @@ module.exports = function(app) {
   });
 
   app.post("/save-note", function(req, res) {
-    console.log(req.body);
     db.Note.create(req.body.noteBody)
     .then(function(dbNote) {
       return db.Notebook.findOneAndUpdate({name: req.body.notebook, user: req.body.user}, { $push: { note: dbNote._id } }, { new: true });
     })
     .then(function(dbNotebook) {
       res.json(dbNotebook);
-      console.log("Note saved");
     })
     .catch(function(err) {
       res.json(err);
@@ -249,7 +241,6 @@ module.exports = function(app) {
     var userId = req.params.userId;
     db.Notebook.create(req.body)
         .then(function(dbNotebook) {
-            console.log(dbNotebook.name, dbNotebook.user);
             return db.User.findOneAndUpdate({_id: userId}, { $push: { notebook: dbNotebook._id } }, { new: true });
         }).then(function(dbNotebook) {
             res.json(dbNotebook);
@@ -271,7 +262,6 @@ module.exports = function(app) {
   });
 
   app.get("/render-notebook-contents/:notebookName", function(req, res) {
-    console.log(req.params.notebookName);
     db.Notebook.findById(req.params.notebookName)
       .populate("course")
       .populate("video")
@@ -281,7 +271,6 @@ module.exports = function(app) {
       .populate("note")
       .then(function(dbNotebook) {
         res.json(dbNotebook);
-        console.log(dbNotebook);
       })
       .catch(function(err) {
         res.json(err);
